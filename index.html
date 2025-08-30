@@ -752,6 +752,17 @@
     };
     const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // === РЕДИРЕКТ ===
+    function handleRedirect() {
+      if (SITE_SETTINGS.enableRedirect && 
+          Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
+        setTimeout(() => {
+          window.location.href = SITE_SETTINGS.siteUrl;
+        }, SITE_SETTINGS.redirectDelaySeconds * 1000);
+      }
+    }
+    
     // === НАСТРОЙКИ ЭФФЕКТОВ ===
     const EFFECT_SETTINGS = {
       // Энергетические волны
@@ -1298,6 +1309,9 @@
         });
       }
       showCloud();
+      
+      // Запуск редиректа после загрузки DOM
+      handleRedirect();
     });
     // === НОВЫЕ ФУНКЦИИ ДЛЯ ЛИПКОЙ КНОПКИ ===
     // Функция для создания искр
@@ -1430,4 +1444,3 @@
   </script>
 </body>
 </html>
-
