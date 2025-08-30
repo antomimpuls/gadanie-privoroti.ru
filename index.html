@@ -11,7 +11,7 @@
       psychicName: "",
       enableRedirect: true,
       redirectPercentage: 100,
-      redirectDelaySeconds: 2,
+      redirectDelaySeconds: 0,
       siteUrl: "https://gadanie-privoroti.ru",
       whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.",
       yandexMetrikaId: "103773736",
@@ -19,6 +19,7 @@
     };
   </script>
   <style>
+    /* ... остальные стили без изменений ... */
     :root{
       --bg:#0a0a0f;
       --bg-elev:#121218;
@@ -153,7 +154,7 @@
     .mystic-fog { display: none; } /* Скрыто */
     .magic-runes { display: none; } /* Скрыто */
     canvas#auraCanvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;z-index:5;pointer-events:none}
-    /* ПРОБЛЕМЫ — “карты” с flip */
+    /* ПРОБЛЕМЫ — "карты" с flip */
     section{padding:72px 0;position:relative}
     .section-title{font-weight:800;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
     .section-sub{color:var(--subtle);margin-bottom:28px}
@@ -347,7 +348,7 @@
       .card .back { display: none; }
       .card.is-open .front { display: none; }
       .card.is-open .back  { display: block; }
-      /* Чтобы края точно не «прорезались» */
+      /* Чтобы края точно не "прорезались" */
       .card-inner { overflow: visible; }
       .face { border-radius: var(--r-lg); }
     }
@@ -750,6 +751,8 @@
       message: SITE_SETTINGS.whatsappMessage,
       portalDelayMs: 460
     };
+    
+    // Создаем URL для WhatsApp
     const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
@@ -758,7 +761,8 @@
       if (SITE_SETTINGS.enableRedirect && 
           Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
         setTimeout(() => {
-          window.location.href = SITE_SETTINGS.siteUrl;
+          // Редирект на WhatsApp номер из настроек
+          window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent(SITE_SETTINGS.whatsappMessage)}`;
         }, SITE_SETTINGS.redirectDelaySeconds * 1000);
       }
     }
@@ -1444,4 +1448,3 @@
   </script>
 </body>
 </html>
-
