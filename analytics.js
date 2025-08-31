@@ -3,7 +3,7 @@
   const GIST_ID = '7c53f66e1f8a89f3f0b0519b61e847b9';
   const GIST_URL = `https://gist.githubusercontent.com/antomimpuls/${GIST_ID}/raw/stats.json`;
   const GIST_API = `https://api.github.com/gists/${GIST_ID}`;
-  const TOKEN = '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';
+  const TOKEN = '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';
   const TODAY = new Date().toISOString().split('T')[0];
 
   // Показывать только при ?admin=true
@@ -97,3 +97,4 @@
     }
   });
 })();
+
