@@ -5,18 +5,18 @@
   const GIST_API = `https://api.github.com/gists/${GIST_ID}`;
   const TODAY = new Date().toISOString().split('T')[0];
 
-  // Считаем просмотр, только если ещё не считали в этой сессии
+  // Считаем 1 просмотр на сессию
   if (!sessionStorage.getItem('viewRecorded')) {
     updateStats('views').catch(console.error);
     sessionStorage.setItem('viewRecorded', 'true');
   }
 
-  // Показываем бейдж только если ?admin=true
+  // Показываем интерфейс только при ?admin=true
   if (new URL(location.href).searchParams.get('admin') !== 'true') {
     return;
   }
 
-  // CSS
+  // Стили
   const style = document.createElement('style');
   style.innerHTML = `
     .analytics-badge {
@@ -73,7 +73,7 @@
   `;
   document.head.appendChild(style);
 
-  // HTML
+  // HTML бейджа
   const badge = document.createElement('div');
   badge.className = 'analytics-badge';
   badge.innerHTML = `
@@ -98,18 +98,21 @@
     badge.remove();
   });
 
-  // Логика
+  // === ЛОГИКА ===
+
+  // Получение статистики
   async function fetchStats() {
     try {
       const res = await fetch(GIST_URL + '?t=' + Date.now());
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (err) {
-      console.warn('Failed to fetch stats, returning default', err);
+      console.warn('Не удалось загрузить статистику, используем значения по умолчанию', err);
       return { [TODAY]: { views: 0, whatsapp: 0 } };
     }
   }
 
+  // Обновление статистики
   async function updateStats(type) {
     try {
       const data = await fetchStats();
@@ -131,10 +134,11 @@
         }),
       });
     } catch (err) {
-      console.error('Failed to update stats:', err);
+      console.error('Не удалось обновить статистику:', err);
     }
   }
 
+  // Обновление интерфейса
   async function updateUI() {
     const data = await fetchStats();
     const stats = data[TODAY] || { views: 0, whatsapp: 0 };
@@ -143,11 +147,13 @@
     document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
   }
 
-  // Обновляем UI при загрузке и каждые 5 секунд
+  // Первое обновление UI
   updateUI().catch(console.error);
+
+  // Автообновление каждые 5 сек
   setInterval(updateUI, 5000);
 
-  // Отслеживаем клики по WhatsApp с защитой от дублей
+  // Отслеживание кликов по WhatsApp
   let lastWhatsAppClick = 0;
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href*="wa.me"]');
