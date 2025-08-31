@@ -1,9 +1,12 @@
-// analytics.js — GitHub Gist + Actions
+// analytics.js — GitHub Gist + запись через токен
 (function () {
-  const GIST_URL = 'https://gist.githubusercontent.com/antomimpuls/7c53f66e1f8a89f3f0b0519b61e847b9/raw/stats.json';
+  const GIST_ID = '7c53f66e1f8a89f3f0b0519b61e847b9';
+  const GIST_URL = `https://gist.githubusercontent.com/antomimpuls/${GIST_ID}/raw/stats.json`;
+  const GIST_API = `https://api.github.com/gists/${GIST_ID}`;
+  const TOKEN = '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';
   const TODAY = new Date().toISOString().split('T')[0];
 
-  // Показывать только если ?admin=true
+  // Показывать только при ?admin=true
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
   // CSS
@@ -44,8 +47,34 @@
 
   // Утилиты
   async function fetchStats() {
-    const res = await fetch(GIST_URL + '?t=' + Date.now());
-    return await res.json();
+    try {
+      const res = await fetch(GIST_URL + '?t=' + Date.now());
+      return await res.json();
+    } catch {
+      return { [TODAY]: { views: 0, whatsapp: 0 } };
+    }
+  }
+
+  async function updateStats(type) {
+    const data = await fetchStats();
+    data[TODAY] = data[TODAY] || { views: 0, whatsapp: 0 };
+    data[TODAY][type] += 1;
+
+    await fetch(GIST_API, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `token ${TOKEN}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        files: {
+          'stats.json': {
+            content: JSON.stringify(data, null, 2)
+          }
+        }
+      })
+    });
   }
 
   async function updateUI() {
@@ -57,6 +86,14 @@
   }
 
   // Инициализация
+  updateStats('views');
   updateUI();
   setInterval(updateUI, 5000);
+
+  // Клик по WhatsApp
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a[href*="wa.me"]')) {
+      updateStats('whatsapp');
+    }
+  });
 })();
