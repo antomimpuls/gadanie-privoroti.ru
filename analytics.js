@@ -1,512 +1,246 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аналитика - Исправленный бейдж</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+// analytics.js - простая аналитика как в Taplink
+(function() {
+    'use strict';
+    
+    console.log('✅ Analytics loaded');
+    
+    // Ключ для хранения данных в localStorage
+    const STORAGE_KEY = 'tap_analytics_data';
+    
+    // Получить текущие данные из localStorage или вернуть объект по умолчанию
+    function getAnalyticsData() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : getDefaultDataStructure();
+        } catch (e) {
+            console.error('Ошибка при получении данных аналитики из localStorage:', e);
+            return getDefaultDataStructure();
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #333;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-        }
-        .badge-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .analytics-badge {
-            position: relative;
-            background: linear-gradient(135deg, #2d3748, #4a5568);
-            color: #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            width: 320px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border: 1px solid #4a5568;
-            font-family: system-ui, -apple-system, sans-serif;
-            font-size: 14px;
-            z-index: 1000;
-        }
-        .badge-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #4a5568;
-        }
-        .badge-title {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            color: #a0aec0;
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .close-btn:hover {
-            color: #fff;
-        }
-        .date-picker {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #4a5568;
-            background: #1a202c;
-            color: white;
-            margin-bottom: 16px;
-        }
-        .quick-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .quick-btn {
-            padding: 10px;
-            background: #4a5568;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .quick-btn:hover {
-            background: #2d3748;
-        }
-        .stats-display {
-            margin-bottom: 16px;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .stat-value {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .date-info {
-            font-size: 13px;
-            color: #a0aec0;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .last-update {
-            font-size: 12px;
-            color: #718096;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-        .footer {
-            font-size: 12px;
-            color: #718096;
-            text-align: center;
-        }
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-        .control-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 14px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .control-btn.whatsapp {
-            background: #25D366;
-        }
-        .control-btn.reset {
-            background: #e74c3c;
-        }
-        .debug-panel {
-            background: #f8f9fa;
-            border-left: 4px solid #3498db;
-            padding: 20px;
-            margin-top: 30px;
-            font-family: monospace;
-            font-size: 14px;
-            max-height: 250px;
-            overflow-y: auto;
-            border-radius: 8px;
-        }
-        .debug-title {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .log-entry {
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #eee;
-        }
-        .log-time {
-            color: #7f8c8d;
-            margin-right: 10px;
-        }
-        .instructions {
-            background: #e8f4fc;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-        .instructions h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            .control-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Аналитика просмотров</h1>
-            <p class="subtitle">Исправленный бейдж с счетчиком просмотров и WhatsApp кликов</p>
-        </header>
-        
-        <div class="instructions">
-            <h3>Инструкция по использованию:</h3>
-            <p>1. Бейдж статистики теперь всегда виден в центре страницы</p>
-            <p>2. Используйте кнопки "Симулировать просмотр" и "Симулировать WhatsApp" для увеличения счетчиков</p>
-            <p>3. Для обновления данных на бейдже нажмите "Обновить статистику"</p>
-            <p>4. Вы можете выбрать другую дату для просмотра статистики</p>
-        </div>
-        
-        <div class="badge-container">
-            <div class="analytics-badge">
-                <div class="badge-header">
-                    <div class="badge-title">📊 Аналитика</div>
-                    <button class="close-btn">×</button>
-                </div>
-                
-                <input type="date" id="stats-date-picker" class="date-picker">
-                
-                <div class="quick-buttons">
-                    <button id="btn-today" class="quick-btn">Сегодня</button>
-                    <button id="btn-yesterday" class="quick-btn">Вчера</button>
-                </div>
-                
-                <div class="stats-display">
-                    <div class="stat-row">
-                        <span>👀 Просмотры:</span>
-                        <span id="views-count" class="stat-value">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>📱 WhatsApp:</span>
-                        <span id="whatsapp-count" class="stat-value">0</span>
-                    </div>
-                </div>
-                
-                <div id="date-stats" class="date-info">31 августа (Сегодня)</div>
-                <div id="last-update" class="last-update">Последнее обновление: --:--:--</div>
-                
-                <div class="footer">
-                    🌍 Все устройства | Обновление каждые 3 сек
-                </div>
-            </div>
-        </div>
-        
-        <div class="controls">
-            <button id="simulate-view" class="control-btn">
-                <span>👀</span> Симуляция просмотра
-            </button>
-            <button id="simulate-whatsapp" class="control-btn whatsapp">
-                <span>📱</span> Симуляция WhatsApp
-            </button>
-            <button id="refresh-stats" class="control-btn">
-                <span>🔄</span> Обновить статистику
-            </button>
-            <button id="reset-stats" class="control-btn reset">
-                <span>🗑️</span> Сбросить данные
-            </button>
-        </div>
-        
-        <div class="debug-panel">
-            <div class="debug-title">Журнал отладки:</div>
-            <div id="debug-log"></div>
-        </div>
-    </div>
-
-    <script>
-        // Конфигурация
-        const CONFIG = {
-            STORAGE_KEY: 'global-stats-data',
-            UPDATE_INTERVAL: 3000
+    }
+    
+    // Вернуть объект структуры данных по умолчанию
+    function getDefaultDataStructure() {
+        return {
+            totalViews: 0,
+            dailyViews: {}, // { "Sat Dec 14 2024": 5, ... }
+            whatsappClicks: 0,
+            linkClicks: 0,
+            conversions: 0, // Клики по WhatsApp
+            lastVisit: null // ISO строка даты последнего визита
         };
-
-        // Вспомогательные функции
-        const Utils = {
-            formatDate: (date = new Date()) => date.toISOString().split('T')[0],
-            addDays: (date, days) => {
-                const result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
-            },
-            getYesterday: () => {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                return Utils.formatDate(yesterday);
-            },
-            log: (message, type = 'info') => {
-                const logElement = document.getElementById('debug-log');
-                const timestamp = new Date().toLocaleTimeString();
-                const logEntry = document.createElement('div');
-                logEntry.className = 'log-entry';
+    }
+    
+    // Сохранить данные в localStorage
+    function saveAnalyticsData(data) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.error('Ошибка при сохранении данных аналитики в localStorage:', e);
+        }
+    }
+    
+    // Отслеживание просмотра страницы
+    function trackPageView() {
+        const today = new Date().toDateString(); // e.g., "Sat Dec 14 2024"
+        const data = getAnalyticsData();
+        
+        data.totalViews++;
+        data.dailyViews[today] = (data.dailyViews[today] || 0) + 1;
+        data.lastVisit = new Date().toISOString(); // Сохраняем точное время
+        
+        saveAnalyticsData(data);
+        updateBadge(); // Обновляем админ-панель, если она активна
+        
+        console.log('📊 Page view tracked:', data.totalViews);
+    }
+    
+    // Отслеживание кликов по WhatsApp
+    function trackWhatsAppClicks() {
+        // Используем capture: true, чтобы поймать событие до того, как страница может уйти
+        document.addEventListener('click', function(e) {
+            // Проверяем, кликнули ли мы по ссылке, содержащей whatsapp или wa.me
+            const target = e.target.closest('a[href*="whatsapp"], a[href*="wa.me"]');
+            if (target) {
+                const data = getAnalyticsData();
+                data.whatsappClicks++;
+                data.conversions++; // conversions идентичны whatsappClicks в этой логике
+                saveAnalyticsData(data);
                 
-                let icon = '🔵';
-                if (type === 'error') {
-                    icon = '🔴';
-                    logEntry.style.color = '#e74c3c';
-                } else if (type === 'success') {
-                    icon = '🟢';
-                    logEntry.style.color = '#27ae60';
-                } else if (type === 'warning') {
-                    icon = '🟡';
-                    logEntry.style.color = '#f39c12';
-                }
-                
-                logEntry.innerHTML = `<span class="log-time">[${timestamp}]</span> ${icon} ${message}`;
-                
-                logElement.appendChild(logEntry);
-                logElement.scrollTop = logElement.scrollHeight;
+                console.log('📱 WhatsApp click tracked:', data.whatsappClicks);
+                updateBadge(); // Обновляем админ-панель, если она активна
             }
-        };
-
-        // Менеджер статистики
-        const StatsManager = {
-            async get() {
-                try {
-                    const data = localStorage.getItem(CONFIG.STORAGE_KEY);
-                    return data ? JSON.parse(data) : {};
-                } catch (error) {
-                    Utils.log(`Ошибка получения статистики: ${error.message}`, 'error');
-                    return {};
-                }
-            },
-            
-            async save(data) {
-                try {
-                    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data));
-                    Utils.log('Данные успешно сохранены в localStorage', 'success');
-                    return true;
-                } catch (error) {
-                    Utils.log(`Ошибка сохранения: ${error.message}`, 'error');
-                    return false;
-                }
-            },
-            
-            async increment(type) {
-                try {
-                    const today = Utils.formatDate();
-                    Utils.log(`Увеличиваем счетчик ${type} для даты ${today}`);
-                    
-                    const data = await this.get();
-                    
-                    if (!data[today]) {
-                        data[today] = { views: 0, whatsapp: 0 };
-                        Utils.log(`Создана новая запись для даты ${today}`);
-                    }
-                    
-                    data[today][type] = (data[today][type] || 0) + 1;
-                    
-                    const saveResult = await this.save(data);
-                    if (saveResult) {
-                        Utils.log(`Счетчик ${type} увеличен до ${data[today][type]}`, 'success');
-                    }
-                    
-                    // Обновляем UI
-                    this.updateUI(data);
-                    
-                    return saveResult;
-                } catch (error) {
-                    Utils.log(`Ошибка увеличения счетчика: ${error.message}`, 'error');
-                    return false;
-                }
-            },
-            
-            async updateUI(data = null) {
-                try {
-                    if (!data) {
-                        data = await this.get();
-                    }
-                    
-                    const datePicker = document.getElementById('stats-date-picker');
-                    const selectedDate = datePicker.value || Utils.formatDate();
-                    const stats = data[selectedDate] || { views: 0, whatsapp: 0 };
-                    
-                    // Обновление отображения
-                    document.getElementById('views-count').textContent = stats.views;
-                    document.getElementById('whatsapp-count').textContent = stats.whatsapp;
-                    
-                    // Форматирование даты для отображения
-                    const dateObj = new Date(selectedDate);
-                    let dateLabel = dateObj.toLocaleDateString('ru-RU', { 
-                        day: 'numeric', 
-                        month: 'long' 
-                    });
-                    
-                    if (selectedDate === Utils.formatDate()) {
-                        dateLabel += ' (Сегодня)';
-                    } else if (selectedDate === Utils.getYesterday()) {
-                        dateLabel += ' (Вчера)';
-                    }
-                    
-                    document.getElementById('date-stats').textContent = dateLabel;
-                    document.getElementById('last-update').textContent = 
-                        `Последнее обновление: ${new Date().toLocaleTimeString()}`;
-                        
-                } catch (error) {
-                    Utils.log(`Ошибка обновления UI: ${error.message}`, 'error');
-                }
-            },
-            
-            async reset() {
-                try {
-                    localStorage.removeItem(CONFIG.STORAGE_KEY);
-                    Utils.log('Все данные статистики сброшены', 'success');
-                    this.updateUI({});
-                    return true;
-                } catch (error) {
-                    Utils.log(`Ошибка сброса данных: ${error.message}`, 'error');
-                    return false;
-                }
+        }, true); // capture: true
+    }
+    
+    // Отслеживание кликов по другим ссылкам
+    function trackOtherLinkClicks() {
+        // Используем capture: true
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a');
+            // Проверяем, что это ссылка, и она НЕ ведет на whatsapp/wa.me
+            if (target && 
+                target.href && 
+                !target.href.includes('whatsapp') && 
+                !target.href.includes('wa.me')) {
+                
+                const data = getAnalyticsData();
+                data.linkClicks++;
+                saveAnalyticsData(data);
+                
+                console.log('🔗 Other link click tracked:', data.linkClicks);
+                updateBadge(); // Обновляем админ-панель, если она активна
             }
-        };
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', async function() {
-            Utils.log('Инициализация аналитики...');
+        }, true); // capture: true
+    }
+    
+    // Показать badge с статистикой (для админа)
+    function updateBadge() {
+        if (isAdmin()) {
+            const data = getAnalyticsData();
+            const today = new Date().toDateString();
+            const todayViews = data.dailyViews[today] || 0;
+            const conversionRate = calculateConversion(data);
             
-            // Установка текущей даты в picker
-            const datePicker = document.getElementById('stats-date-picker');
-            datePicker.value = Utils.formatDate();
+            let badge = document.getElementById('analytics-badge');
+            if (!badge) {
+                badge = createBadge();
+            }
             
-            // Загрузка начальной статистики
-            await StatsManager.updateUI();
+            badge.innerHTML = `
+                <div style="padding: 10px; background: rgba(255, 255, 255, 0.95); border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-family: Arial, sans-serif; font-size: 12px; color: #333;">
+                    <div style="font-weight: bold; margin-bottom: 8px; color: #2c3e50;">📊 Аналитика</div>
+                    <div style="margin-bottom: 4px;">👀 Всего: <strong>${data.totalViews}</strong></div>
+                    <div style="margin-bottom: 4px;">📅 Сегодня: <strong>${todayViews}</strong></div>
+                    <div style="margin-bottom: 4px;">📱 WhatsApp: <strong>${data.whatsappClicks}</strong></div>
+                    <div style="margin-bottom: 4px;">🔗 Ссылки: <strong>${data.linkClicks}</strong></div>
+                    <div>💰 Конверсия: <strong>${conversionRate}%</strong></div>
+                </div>
+            `;
+        }
+    }
+    
+    // Создать элемент badge
+    function createBadge() {
+        const badge = document.createElement('div');
+        badge.id = 'analytics-badge';
+        badge.style.position = 'fixed';
+        badge.style.top = '10px';
+        badge.style.right = '10px';
+        badge.style.zIndex = '10000';
+        badge.style.fontSize = '12px';
+        document.body.appendChild(badge);
+        return badge;
+    }
+    
+    // Проверить, является ли пользователь админом
+    function isAdmin() {
+        // Проверка параметра URL ?admin=true
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            // Автоматически устанавливаем флаг в localStorage для будущих посещений
+            try {
+                localStorage.setItem('tap_admin', 'true');
+            } catch (e) {
+                console.error('Не удалось сохранить флаг админа в localStorage:', e);
+            }
+            return true;
+        }
+        // Проверка флага в localStorage
+        try {
+            return localStorage.getItem('tap_admin') === 'true';
+        } catch (e) {
+            console.error('Ошибка при проверке флага админа в localStorage:', e);
+            return false;
+        }
+    }
+    
+    // Расчет конверсии (процент WhatsApp кликов от общих просмотров)
+    function calculateConversion(data) {
+        if (data.totalViews === 0) return (0).toFixed(1);
+        return ((data.whatsappClicks / data.totalViews) * 100).toFixed(1);
+    }
+    
+    // Функция экспорта данных (доступна глобально как window.exportAnalytics)
+    window.exportAnalytics = function() {
+        try {
+            const data = getAnalyticsData();
+            let csvContent = "Дата,Просмотры\n"; // Заголовки CSV
             
-            // Обработчики событий для кнопок
-            document.getElementById('simulate-view').addEventListener('click', async () => {
-                Utils.log('Симуляция просмотра...');
-                await StatsManager.increment('views');
+            // Сортируем даты
+            const sortedDates = Object.keys(data.dailyViews).sort((a, b) => new Date(a) - new Date(b));
+            
+            sortedDates.forEach(date => {
+                 // Форматируем дату для CSV как DD.MM.YYYY
+                const formattedDate = new Date(date).toLocaleDateString('ru-RU');
+                const views = data.dailyViews[date];
+                csvContent += `${formattedDate},${views}\n`;
             });
             
-            document.getElementById('simulate-whatsapp').addEventListener('click', async () => {
-                Utils.log('Симуляция клика WhatsApp...');
-                await StatsManager.increment('whatsapp');
-            });
+            // Добавляем общую статистику в конец CSV
+            csvContent += `\nОбщая статистика\n`;
+            csvContent += `Всего просмотров,${data.totalViews}\n`;
+            csvContent += `Клики WhatsApp,${data.whatsappClicks}\n`;
+            csvContent += `Клики по другим ссылкам,${data.linkClicks}\n`;
+            csvContent += `Конверсия (%),${calculateConversion(data)}\n`;
+            csvContent += `Последний визит,${data.lastVisit ? new Date(data.lastVisit).toLocaleString('ru-RU') : 'Нет данных'}\n`;
             
-            document.getElementById('refresh-stats').addEventListener('click', async () => {
-                Utils.log('Обновление статистики...');
-                await StatsManager.updateUI();
-            });
+            // Создаем и скачиваем CSV файл
+            const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `analytics-export-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a); // Необходимо для Firefox
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); // Освобождаем память
             
-            document.getElementById('reset-stats').addEventListener('click', async () => {
-                if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
-                    Utils.log('Сброс статистики...');
-                    await StatsManager.reset();
-                }
-            });
+            console.log('📤 Analytics data exported');
+        } catch (e) {
+            console.error('Ошибка при экспорте данных:', e);
+            alert('Произошла ошибка при экспорте данных.');
+        }
+    };
+    
+    // Инициализация аналитики
+    function init() {
+        trackPageView();
+        trackWhatsAppClicks();
+        trackOtherLinkClicks();
+        
+        // Для админа показываем статистику и кнопку экспорта
+        if (isAdmin()) {
+            updateBadge();
             
-            // Обработчики для бейджа
-            document.querySelector('.close-btn').addEventListener('click', () => {
-                Utils.log('Закрытие бейджа...', 'warning');
-                alert('В рабочей версии это закрыло бы бейдж, но в демо он останется видимым');
-            });
-            
-            datePicker.addEventListener('change', (e) => {
-                Utils.log(`Выбрана дата: ${e.target.value}`);
-                StatsManager.updateUI();
-            });
-            
-            document.getElementById('btn-today').addEventListener('click', () => {
-                datePicker.value = Utils.formatDate();
-                Utils.log('Выбрана сегодняшняя дата');
-                StatsManager.updateUI();
-            });
-            
-            document.getElementById('btn-yesterday').addEventListener('click', () => {
-                datePicker.value = Utils.getYesterday();
-                Utils.log('Выбрана вчерашняя дата');
-                StatsManager.updateUI();
-            });
-            
-            // Имитация первоначального просмотра
-            setTimeout(async () => {
-                await StatsManager.increment('views');
-                Utils.log('Аналитика готова к работе', 'success');
-            }, 1000);
-        });
-
-        // Для интеграции с вашим существующим кодом
-        window.GlobalStats = {
-            get: () => StatsManager.get(),
-            track: (type) => StatsManager.increment(type),
-            updateUI: () => StatsManager.updateUI()
-        };
-    </script>
-</body>
-</html>
+            // Добавляем кнопку экспорта
+            let exportBtn = document.getElementById('analytics-export-btn');
+            if (!exportBtn) {
+                exportBtn = document.createElement('button');
+                exportBtn.id = 'analytics-export-btn';
+                exportBtn.textContent = '📤 Экспорт';
+                exportBtn.style.position = 'fixed';
+                exportBtn.style.top = '180px'; // Ниже бейджа
+                exportBtn.style.right = '10px';
+                exportBtn.style.zIndex = '10000';
+                exportBtn.style.padding = '6px 12px';
+                exportBtn.style.background = '#007bff';
+                exportBtn.style.color = 'white';
+                exportBtn.style.border = 'none';
+                exportBtn.style.borderRadius = '4px';
+                exportBtn.style.cursor = 'pointer';
+                exportBtn.style.fontSize = '12px';
+                exportBtn.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+                exportBtn.onclick = window.exportAnalytics;
+                document.body.appendChild(exportBtn);
+            }
+        }
+    }
+    
+    // Запуск после полной загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+})();
