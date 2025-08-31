@@ -1,4 +1,4 @@
-// analytics.js - глобальный счётчик статистики
+// analytics.js - глобальный счётчик статистики (исправленная версия)
 (function() {
   'use strict';
 
@@ -20,8 +20,7 @@
       result.setDate(result.getDate() + days);
       return result;
     },
-    getYesterday: () => Utils.formatDate(Utils.addDays(new Date(), -1)),
-    getDaysAgo: (days) => Utils.formatDate(Utils.addDays(new Date(), -days))
+    getYesterday: () => Utils.formatDate(Utils.addDays(new Date(), -1))
   };
 
   // Работа с GitHub
@@ -36,11 +35,15 @@
     
     async getFile() {
       try {
+        console.log('Попытка получить файл:', this.getRawUrl());
         const response = await fetch(this.getRawUrl());
+        console.log('Ответ от GitHub:', response.status);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        const data = await response.json();
+        console.log('Полученные данные:', data);
+        return data;
       } catch (error) {
-        console.warn('Failed to fetch stats:', error);
+        console.warn('Ошибка получения статистики:', error);
         return {};
       }
     },
@@ -62,6 +65,7 @@
     
     async updateFile(content, message = 'Update stats') {
       try {
+        console.log('Попытка сохранить данные:', content);
         const sha = await this.getFileSha();
         const encodedContent = btoa(JSON.stringify(content, null, 2));
         
@@ -78,9 +82,10 @@
           })
         });
         
+        console.log('Ответ сохранения:', response.status);
         return response.ok;
       } catch (error) {
-        console.error('Failed to update file:', error);
+        console.error('Ошибка сохранения файла:', error);
         return false;
       }
     }
@@ -98,23 +103,34 @@
     
     async save(data) {
       try {
-        return await GitHubService.updateFile(data);
+        const result = await GitHubService.updateFile(data);
+        console.log('Результат сохранения:', result);
+        return result;
       } catch {
         return false;
       }
     },
     
     async increment(type) {
-      const today = Utils.formatDate();
-      const data = await this.get();
-      
-      if (!data[today]) {
-        data[today] = { views: 0, whatsapp: 0 };
+      try {
+        const today = Utils.formatDate();
+        console.log(`Увеличиваем ${type} для даты ${today}`);
+        const data = await this.get();
+        
+        if (!data[today]) {
+          data[today] = { views: 0, whatsapp: 0 };
+        }
+        
+        data[today][type] = (data[today][type] || 0) + 1;
+        console.log('Новые данные для сохранения:', data);
+        
+        const saveResult = await this.save(data);
+        console.log('Сохранение успешно:', saveResult);
+        return saveResult;
+      } catch (error) {
+        console.error('Ошибка увеличения счетчика:', error);
+        return false;
       }
-      
-      data[today][type] = (data[today][type] || 0) + 1;
-      
-      return this.save(data);
     }
   };
 
@@ -226,13 +242,13 @@
       if (!this.element) return;
       
       const stats = this.currentData[date] || { views: 0, whatsapp: 0 };
-      const dateDisplay = this.element.querySelector('#date-stats');
+      
+      // Обновление отображения
+      this.element.querySelector('#views-count').textContent = stats.views;
+      this.element.querySelector('#whatsapp-count').textContent = stats.whatsapp;
       
       // Форматирование даты для отображения
       const dateObj = new Date(date);
-      const today = new Date();
-      const yesterday = Utils.addDays(today, -1);
-      
       let dateLabel = dateObj.toLocaleDateString('ru-RU', { 
         day: 'numeric', 
         month: 'long' 
@@ -244,10 +260,7 @@
         dateLabel += ' (Вчера)';
       }
       
-      // Обновление отображения
-      this.element.querySelector('#views-count').textContent = stats.views;
-      this.element.querySelector('#whatsapp-count').textContent = stats.whatsapp;
-      dateDisplay.textContent = dateLabel;
+      this.element.querySelector('#date-stats').textContent = dateLabel;
     },
     
     show() {
@@ -278,8 +291,10 @@
     
     async init() {
       try {
+        console.log('Инициализация аналитики...');
         // Отслеживаем просмотр
-        await StatsManager.increment('views');
+        const viewResult = await StatsManager.increment('views');
+        console.log('Результат отслеживания просмотра:', viewResult);
         
         // Инициализируем UI если в режиме администратора
         if (this.isAdmin) {
@@ -290,7 +305,7 @@
         this.bindEventListeners();
         
       } catch (error) {
-        console.error('Analytics initialization failed:', error);
+        console.error('Ошибка инициализации аналитики:', error);
       }
     }
     
@@ -309,7 +324,7 @@
         const data = await StatsManager.get();
         StatsBadge.update(data);
       } catch (error) {
-        console.warn('Failed to update admin UI:', error);
+        console.warn('Ошибка обновления UI:', error);
       }
     }
     
@@ -321,8 +336,10 @@
         
         const href = link.href.toLowerCase();
         if (href.includes('whatsapp') || href.includes('wa.me')) {
+          console.log('Обнаружен клик по WhatsApp ссылке');
           event.preventDefault();
-          await StatsManager.increment('whatsapp');
+          const result = await StatsManager.increment('whatsapp');
+          console.log('Результат отслеживания WhatsApp:', result);
           window.open(link.href, '_blank');
         }
       }, true);
