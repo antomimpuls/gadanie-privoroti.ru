@@ -237,7 +237,7 @@
         </div>
         
         <div class="badge-container">
-            <div class="analytics-badge">
+            <div class="analytics-badge" id="analytics-badge">
                 <div class="badge-header">
                     <div class="badge-title">📊 Аналитика</div>
                     <button class="close-btn">×</button>
@@ -331,8 +331,10 @@
                 
                 logEntry.innerHTML = `<span class="log-time">[${timestamp}]</span> ${icon} ${message}`;
                 
-                logElement.appendChild(logEntry);
-                logElement.scrollTop = logElement.scrollHeight;
+                if (logElement) {
+                    logElement.appendChild(logEntry);
+                    logElement.scrollTop = logElement.scrollHeight;
+                }
             }
         };
 
@@ -399,8 +401,13 @@
                     const stats = data[selectedDate] || { views: 0, whatsapp: 0 };
                     
                     // Обновление отображения
-                    document.getElementById('views-count').textContent = stats.views;
-                    document.getElementById('whatsapp-count').textContent = stats.whatsapp;
+                    const viewsCount = document.getElementById('views-count');
+                    const whatsappCount = document.getElementById('whatsapp-count');
+                    const dateStats = document.getElementById('date-stats');
+                    const lastUpdate = document.getElementById('last-update');
+                    
+                    if (viewsCount) viewsCount.textContent = stats.views;
+                    if (whatsappCount) whatsappCount.textContent = stats.whatsapp;
                     
                     // Форматирование даты для отображения
                     const dateObj = new Date(selectedDate);
@@ -415,8 +422,8 @@
                         dateLabel += ' (Вчера)';
                     }
                     
-                    document.getElementById('date-stats').textContent = dateLabel;
-                    document.getElementById('last-update').textContent = 
+                    if (dateStats) dateStats.textContent = dateLabel;
+                    if (lastUpdate) lastUpdate.textContent = 
                         `Последнее обновление: ${new Date().toLocaleTimeString()}`;
                         
                 } catch (error) {
@@ -441,64 +448,108 @@
         document.addEventListener('DOMContentLoaded', async function() {
             Utils.log('Инициализация аналитики...');
             
+            // Проверяем, активирован ли режим администратора
+            const urlParams = new URLSearchParams(window.location.search);
+            const isAdmin = urlParams.has('admin') && urlParams.get('admin') === 'true';
+            
             // Установка текущей даты в picker
             const datePicker = document.getElementById('stats-date-picker');
-            datePicker.value = Utils.formatDate();
+            if (datePicker) {
+                datePicker.value = Utils.formatDate();
+            }
             
             // Загрузка начальной статистики
             await StatsManager.updateUI();
             
             // Обработчики событий для кнопок
-            document.getElementById('simulate-view').addEventListener('click', async () => {
-                Utils.log('Симуляция просмотра...');
-                await StatsManager.increment('views');
-            });
+            const simulateViewBtn = document.getElementById('simulate-view');
+            if (simulateViewBtn) {
+                simulateViewBtn.addEventListener('click', async () => {
+                    Utils.log('Симуляция просмотра...');
+                    await StatsManager.increment('views');
+                });
+            }
             
-            document.getElementById('simulate-whatsapp').addEventListener('click', async () => {
-                Utils.log('Симуляция клика WhatsApp...');
-                await StatsManager.increment('whatsapp');
-            });
+            const simulateWhatsappBtn = document.getElementById('simulate-whatsapp');
+            if (simulateWhatsappBtn) {
+                simulateWhatsappBtn.addEventListener('click', async () => {
+                    Utils.log('Симуляция клика WhatsApp...');
+                    await StatsManager.increment('whatsapp');
+                });
+            }
             
-            document.getElementById('refresh-stats').addEventListener('click', async () => {
-                Utils.log('Обновление статистики...');
-                await StatsManager.updateUI();
-            });
+            const refreshStatsBtn = document.getElementById('refresh-stats');
+            if (refreshStatsBtn) {
+                refreshStatsBtn.addEventListener('click', async () => {
+                    Utils.log('Обновление статистики...');
+                    await StatsManager.updateUI();
+                });
+            }
             
-            document.getElementById('reset-stats').addEventListener('click', async () => {
-                if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
-                    Utils.log('Сброс статистики...');
-                    await StatsManager.reset();
-                }
-            });
+            const resetStatsBtn = document.getElementById('reset-stats');
+            if (resetStatsBtn) {
+                resetStatsBtn.addEventListener('click', async () => {
+                    if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
+                        Utils.log('Сброс статистики...');
+                        await StatsManager.reset();
+                    }
+                });
+            }
             
             // Обработчики для бейджа
-            document.querySelector('.close-btn').addEventListener('click', () => {
-                Utils.log('Закрытие бейджа...', 'warning');
-                alert('В рабочей версии это закрыло бы бейдж, но в демо он останется видимым');
-            });
+            const closeBtn = document.querySelector('.close-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    Utils.log('Закрытие бейджа...', 'warning');
+                    alert('В рабочей версии это закрыло бы бейдж, но в демо он останется видимым');
+                });
+            }
             
-            datePicker.addEventListener('change', (e) => {
-                Utils.log(`Выбрана дата: ${e.target.value}`);
-                StatsManager.updateUI();
-            });
+            // Обработчик изменения даты
+            if (datePicker) {
+                datePicker.addEventListener('change', (e) => {
+                    Utils.log(`Выбрана дата: ${e.target.value}`);
+                    StatsManager.updateUI();
+                });
+            }
             
-            document.getElementById('btn-today').addEventListener('click', () => {
-                datePicker.value = Utils.formatDate();
-                Utils.log('Выбрана сегодняшняя дата');
-                StatsManager.updateUI();
-            });
+            // Быстрые кнопки дат
+            const btnToday = document.getElementById('btn-today');
+            if (btnToday) {
+                btnToday.addEventListener('click', () => {
+                    if (datePicker) {
+                        datePicker.value = Utils.formatDate();
+                        Utils.log('Выбрана сегодняшняя дата');
+                        StatsManager.updateUI();
+                    }
+                });
+            }
             
-            document.getElementById('btn-yesterday').addEventListener('click', () => {
-                datePicker.value = Utils.getYesterday();
-                Utils.log('Выбрана вчерашняя дата');
-                StatsManager.updateUI();
-            });
+            const btnYesterday = document.getElementById('btn-yesterday');
+            if (btnYesterday) {
+                btnYesterday.addEventListener('click', () => {
+                    if (datePicker) {
+                        datePicker.value = Utils.getYesterday();
+                        Utils.log('Выбрана вчерашняя дата');
+                        StatsManager.updateUI();
+                    }
+                });
+            }
             
             // Имитация первоначального просмотра
             setTimeout(async () => {
                 await StatsManager.increment('views');
                 Utils.log('Аналитика готова к работе', 'success');
             }, 1000);
+            
+            // Если режим администратора активирован, показываем бейдж
+            if (isAdmin) {
+                const badgeContainer = document.querySelector('.badge-container');
+                if (badgeContainer) {
+                    badgeContainer.style.display = 'flex';
+                }
+                Utils.log('Режим администратора активирован - бейдж отображается');
+            }
         });
 
         // Для интеграции с вашим существующим кодом
@@ -507,26 +558,6 @@
             track: (type) => StatsManager.increment(type),
             updateUI: () => StatsManager.updateUI()
         };
-
-        // Добавляем автоматическую проверку на admin=true
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('admin') && urlParams.get('admin') === 'true') {
-            // Скрыть все элементы кроме бейджа и статистики
-            document.body.style.display = 'flex';
-            document.body.style.flexDirection = 'column';
-            document.body.style.alignItems = 'center';
-            document.body.style.minHeight = '100vh';
-            
-            // Убедиться, что контент отображается правильно
-            const container = document.querySelector('.container');
-            if (container) {
-                container.style.marginTop = '20px';
-                container.style.width = '100%';
-                container.style.maxWidth = '1000px';
-            }
-            
-            Utils.log('Режим администратора активирован');
-        }
     </script>
 </body>
 </html>
