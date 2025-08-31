@@ -4,7 +4,8 @@
 
   // Конфигурация
   const CONFIG = {
-    GITHUB_TOKEN: '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',
+    // УДАЛИТЬ ТОКЕН ИЗ КОДА! Использовать переменные окружения или другой безопасный метод
+    GITHUB_TOKEN: '', // Будет устанавливаться через init()
     REPO_OWNER: 'antomimpuls',
     REPO_NAME: 'gadanie-privoroti.ru',
     FILE_PATH: 'global-stats.json',
@@ -20,13 +21,15 @@
       result.setDate(result.getDate() + days);
       return result;
     },
-    getYesterday: () => Utils.formatDate(Utils.addDays(new Date(), -1))
+    getYesterday: () => Utils.formatDate(Utils.addDays(new Date(), -1)),
+    encodeBase64: (str) => btoa(unescape(encodeURIComponent(str))),
+    decodeBase64: (str) => decodeURIComponent(escape(atob(str)))
   };
 
   // Работа с GitHub
   const GitHubService = {
     getRawUrl() {
-      return `https://raw.githubusercontent.com/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/main/${CONFIG.FILE_PATH}`;
+      return `https://raw.githubusercontent.com/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/main/${CONFIG.FILE_PATH}?t=${Date.now()}`;
     },
     
     getApiUrl() {
@@ -36,10 +39,22 @@
     async getFile() {
       try {
         console.log('Попытка получить файл:', this.getRawUrl());
-        const response = await fetch(this.getRawUrl());
+        const response = await fetch(this.getRawUrl(), {
+          cache: 'no-cache'
+        });
         console.log('Ответ от GitHub:', response.status);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
+        
+        if (!response.ok) {
+          // Если файл не существует, возвращаем пустой объект
+          if (response.status === 404) {
+            console.log('Файл не найден, создаем новый');
+            return {};
+          }
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
         console.log('Полученные данные:', data);
         return data;
       } catch (error) {
@@ -50,6 +65,8 @@
     
     async getFileSha() {
       try {
+        if (!CONFIG.GITHUB_TOKEN) return null;
+        
         const response = await fetch(this.getApiUrl(), {
           headers: { 'Authorization': `token ${CONFIG.GITHUB_TOKEN}` }
         });
@@ -65,9 +82,15 @@
     
     async updateFile(content, message = 'Update stats') {
       try {
+        if (!CONFIG.GITHUB_TOKEN) {
+          console.warn('GitHub токен не установлен');
+          return false;
+        }
+        
         console.log('Попытка сохранить данные:', content);
         const sha = await this.getFileSha();
-        const encodedContent = btoa(JSON.stringify(content, null, 2));
+        const contentStr = JSON.stringify(content, null, 2);
+        const encodedContent = Utils.encodeBase64(contentStr);
         
         const response = await fetch(this.getApiUrl(), {
           method: 'PUT',
@@ -82,8 +105,15 @@
           })
         });
         
-        console.log('Ответ сохранения:', response.status);
-        return response.ok;
+        console.log('Ответ сохранения:', response.status, response.statusText);
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error('Ошибка GitHub API:', errorData);
+          return false;
+        }
+        
+        return true;
       } catch (error) {
         console.error('Ошибка сохранения файла:', error);
         return false;
@@ -93,9 +123,20 @@
 
   // Статистика
   const StatsManager = {
-    async get() {
+    cache: null,
+    lastUpdate: 0,
+    
+    async get(force = false) {
       try {
-        return await GitHubService.getFile();
+        const now = Date.now();
+        // Кэшируем данные на 1 секунду
+        if (!force && this.cache && now - this.lastUpdate < 1000) {
+          return this.cache;
+        }
+        
+        this.cache = await GitHubService.getFile();
+        this.lastUpdate = now;
+        return this.cache;
       } catch {
         return {};
       }
@@ -105,6 +146,9 @@
       try {
         const result = await GitHubService.updateFile(data);
         console.log('Результат сохранения:', result);
+        if (result) {
+          this.cache = data; // Обновляем кэш
+        }
         return result;
       } catch {
         return false;
@@ -115,6 +159,7 @@
       try {
         const today = Utils.formatDate();
         console.log(`Увеличиваем ${type} для даты ${today}`);
+        
         const data = await this.get();
         
         if (!data[today]) {
@@ -126,6 +171,12 @@
         
         const saveResult = await this.save(data);
         console.log('Сохранение успешно:', saveResult);
+        
+        // Обновляем UI если открыт
+        if (window.GlobalAnalytics && window.GlobalAnalytics.isAdmin) {
+          window.GlobalAnalytics.updateAdminUI();
+        }
+        
         return saveResult;
       } catch (error) {
         console.error('Ошибка увеличения счетчика:', error);
@@ -172,6 +223,7 @@
         </div>
         
         <div id="date-stats" style="font-size: 12px; color: #a0aec0; margin-bottom: 8px;"></div>
+        <div id="last-update" style="font-size: 11px; color: #718096; margin-bottom: 8px;"></div>
         
         <div style="font-size: 11px; color: #718096; text-align: center;">
           🌍 Все устройства | Обновление каждые 3 сек
@@ -233,9 +285,16 @@
     
     async update(data) {
       this.currentData = data;
-      const datePicker = this.element.querySelector('#stats-date-picker');
-      const selectedDate = datePicker.value || Utils.formatDate();
+      const datePicker = this.element?.querySelector('#stats-date-picker');
+      const selectedDate = datePicker ? datePicker.value : Utils.formatDate();
       this.updateForDate(selectedDate);
+      
+      // Обновляем время последнего обновления
+      if (this.element) {
+        const now = new Date();
+        this.element.querySelector('#last-update').textContent = 
+          `Последнее обновление: ${now.toLocaleTimeString()}`;
+      }
     },
     
     updateForDate(date) {
@@ -273,6 +332,9 @@
       // Установка текущей даты
       const datePicker = this.element.querySelector('#stats-date-picker');
       datePicker.value = Utils.formatDate();
+      
+      // Первоначальное обновление
+      this.update(this.currentData);
     },
     
     hide() {
@@ -292,6 +354,10 @@
     async init() {
       try {
         console.log('Инициализация аналитики...');
+        
+        // Установка токена (должен приходить из безопасного источника)
+        this.setTokenFromSafeSource();
+        
         // Отслеживаем просмотр
         const viewResult = await StatsManager.increment('views');
         console.log('Результат отслеживания просмотра:', viewResult);
@@ -309,19 +375,25 @@
       }
     }
     
+    setTokenFromSafeSource() {
+      // Здесь должен быть безопасный способ получения токена
+      // Например, из data-атрибутов, защищенных переменных и т.д.
+      // CONFIG.GITHUB_TOKEN = 'ваш_безопасный_токен';
+    }
+    
     initAdminUI() {
       StatsBadge.show();
       this.updateAdminUI();
       
       // Периодическое обновление
-      setInterval(() => {
+      this.updateInterval = setInterval(() => {
         this.updateAdminUI();
       }, CONFIG.UPDATE_INTERVAL);
     }
     
     async updateAdminUI() {
       try {
-        const data = await StatsManager.get();
+        const data = await StatsManager.get(true); // force update
         StatsBadge.update(data);
       } catch (error) {
         console.warn('Ошибка обновления UI:', error);
@@ -337,10 +409,15 @@
         const href = link.href.toLowerCase();
         if (href.includes('whatsapp') || href.includes('wa.me')) {
           console.log('Обнаружен клик по WhatsApp ссылке');
-          event.preventDefault();
+          
+          // Сначала увеличиваем счетчик, потом открываем ссылку
           const result = await StatsManager.increment('whatsapp');
           console.log('Результат отслеживания WhatsApp:', result);
-          window.open(link.href, '_blank');
+          
+          // Не предотвращаем стандартное поведение, чтобы ссылка работала
+          setTimeout(() => {
+            window.open(link.href, '_blank');
+          }, 100);
         }
       }, true);
     }
@@ -363,6 +440,9 @@
       if (new URLSearchParams(window.location.search).get('admin') === 'true') {
         StatsBadge.update(data);
       }
+    },
+    setToken: (token) => {
+      CONFIG.GITHUB_TOKEN = token;
     }
   };
 
