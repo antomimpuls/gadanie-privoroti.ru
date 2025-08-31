@@ -9,17 +9,19 @@
     REPO_NAME: 'gadanie-privoroti.ru',
     FILE_PATH: 'global-stats.json',
     BADGE_ID: 'global-stats-badge',
-    UPDATE_INTERVAL: 5000
+    UPDATE_INTERVAL: 3000
   };
 
   // Вспомогательные функции
   const Utils = {
     formatDate: (date = new Date()) => date.toISOString().split('T')[0],
-    getYesterday: () => {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      return yesterday.toISOString().split('T')[0];
-    }
+    addDays: (date, days) => {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    },
+    getYesterday: () => Utils.formatDate(Utils.addDays(new Date(), -1)),
+    getDaysAgo: (days) => Utils.formatDate(Utils.addDays(new Date(), -days))
   };
 
   // Работа с GitHub
@@ -39,7 +41,7 @@
         return await response.json();
       } catch (error) {
         console.warn('Failed to fetch stats:', error);
-        return { data: {} };
+        return {};
       }
     },
     
@@ -61,7 +63,7 @@
     async updateFile(content, message = 'Update stats') {
       try {
         const sha = await this.getFileSha();
-        const encodedContent = btoa(JSON.stringify(content));
+        const encodedContent = btoa(JSON.stringify(content, null, 2));
         
         const response = await fetch(this.getApiUrl(), {
           method: 'PUT',
@@ -86,22 +88,17 @@
 
   // Статистика
   const StatsManager = {
-    getDefaultData() {
-      return {};
-    },
-    
     async get() {
       try {
-        const result = await GitHubService.getFile();
-        return result.data || this.getDefaultData();
+        return await GitHubService.getFile();
       } catch {
-        return this.getDefaultData();
+        return {};
       }
     },
     
     async save(data) {
       try {
-        return await GitHubService.updateFile({ data });
+        return await GitHubService.updateFile(data);
       } catch {
         return false;
       }
@@ -124,17 +121,45 @@
   // UI компонент для отображения статистики
   const StatsBadge = {
     element: null,
+    currentData: {},
     
     create() {
       if (this.element) return this.element;
       
       this.element = document.createElement('div');
       this.element.id = CONFIG.BADGE_ID;
+      
       this.element.innerHTML = `
-        <div style="font-weight: bold; margin-bottom: 8px;">📊 Статистика</div>
-        <div id="stats-today">Сегодня: 0 просмотров, 0 WhatsApp</div>
-        <div id="stats-yesterday">Вчера: 0 просмотров, 0 WhatsApp</div>
-        <div style="margin-top: 8px; font-size: 12px; opacity: 0.8;">🌍 Все устройства</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div style="font-weight: bold; font-size: 16px;">📊 Аналитика</div>
+          <button id="close-stats" style="background: none; border: none; color: #a0aec0; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <input type="date" id="stats-date-picker" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #4a5568; background: #1a202c; color: white;">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+          <button id="btn-today" style="padding: 8px; background: #4a5568; border: none; border-radius: 4px; color: white; cursor: pointer;">Сегодня</button>
+          <button id="btn-yesterday" style="padding: 8px; background: #4a5568; border: none; border-radius: 4px; color: white; cursor: pointer;">Вчера</button>
+        </div>
+        
+        <div id="stats-display" style="margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>👀 Просмотры:</span>
+            <span id="views-count" style="font-weight: bold;">0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>📱 WhatsApp:</span>
+            <span id="whatsapp-count" style="font-weight: bold;">0</span>
+          </div>
+        </div>
+        
+        <div id="date-stats" style="font-size: 12px; color: #a0aec0; margin-bottom: 8px;"></div>
+        
+        <div style="font-size: 11px; color: #718096; text-align: center;">
+          🌍 Все устройства | Обновление каждые 3 сек
+        </div>
       `;
       
       this.element.style.cssText = `
@@ -150,31 +175,79 @@
         color: #e2e8f0;
         z-index: 10000;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        min-width: 250px;
+        min-width: 300px;
+        backdrop-filter: blur(10px);
+        background: rgba(45, 55, 72, 0.95);
       `;
       
+      this.bindEvents();
       return this.element;
     },
     
-    update(data) {
+    bindEvents() {
+      // Закрытие статистики
+      const closeBtn = this.element.querySelector('#close-stats');
+      closeBtn.addEventListener('click', () => {
+        this.hide();
+      });
+      
+      // Выбор даты
+      const datePicker = this.element.querySelector('#stats-date-picker');
+      datePicker.value = Utils.formatDate();
+      datePicker.addEventListener('change', (e) => {
+        this.updateForDate(e.target.value);
+      });
+      
+      // Кнопки быстрого выбора
+      const todayBtn = this.element.querySelector('#btn-today');
+      const yesterdayBtn = this.element.querySelector('#btn-yesterday');
+      
+      todayBtn.addEventListener('click', () => {
+        const today = Utils.formatDate();
+        datePicker.value = today;
+        this.updateForDate(today);
+      });
+      
+      yesterdayBtn.addEventListener('click', () => {
+        const yesterday = Utils.getYesterday();
+        datePicker.value = yesterday;
+        this.updateForDate(yesterday);
+      });
+    },
+    
+    async update(data) {
+      this.currentData = data;
+      const datePicker = this.element.querySelector('#stats-date-picker');
+      const selectedDate = datePicker.value || Utils.formatDate();
+      this.updateForDate(selectedDate);
+    },
+    
+    updateForDate(date) {
       if (!this.element) return;
       
-      const today = Utils.formatDate();
-      const yesterday = Utils.getYesterday();
+      const stats = this.currentData[date] || { views: 0, whatsapp: 0 };
+      const dateDisplay = this.element.querySelector('#date-stats');
       
-      const todayStats = data[today] || { views: 0, whatsapp: 0 };
-      const yesterdayStats = data[yesterday] || { views: 0, whatsapp: 0 };
+      // Форматирование даты для отображения
+      const dateObj = new Date(date);
+      const today = new Date();
+      const yesterday = Utils.addDays(today, -1);
       
-      const todayEl = this.element.querySelector('#stats-today');
-      const yesterdayEl = this.element.querySelector('#stats-yesterday');
+      let dateLabel = dateObj.toLocaleDateString('ru-RU', { 
+        day: 'numeric', 
+        month: 'long' 
+      });
       
-      if (todayEl) {
-        todayEl.textContent = `Сегодня: ${todayStats.views} просмотров, ${todayStats.whatsapp} WhatsApp`;
+      if (date === Utils.formatDate()) {
+        dateLabel += ' (Сегодня)';
+      } else if (date === Utils.getYesterday()) {
+        dateLabel += ' (Вчера)';
       }
       
-      if (yesterdayEl) {
-        yesterdayEl.textContent = `Вчера: ${yesterdayStats.views} просмотров, ${yesterdayStats.whatsapp} WhatsApp`;
-      }
+      // Обновление отображения
+      this.element.querySelector('#views-count').textContent = stats.views;
+      this.element.querySelector('#whatsapp-count').textContent = stats.whatsapp;
+      dateDisplay.textContent = dateLabel;
     },
     
     show() {
@@ -183,6 +256,10 @@
         document.body.appendChild(this.element);
       }
       this.element.style.display = 'block';
+      
+      // Установка текущей даты
+      const datePicker = this.element.querySelector('#stats-date-picker');
+      datePicker.value = Utils.formatDate();
     },
     
     hide() {
