@@ -2,12 +2,12 @@
   const STATS_URL = 'https://gadanie-privoroti.ru/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
-  // 1 просмотр на сессию
+  // считаем 1 просмотр на сессию
   if (!sessionStorage.getItem('viewRecorded')) {
     fetch(STATS_URL, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
-        d[TODAY] = (d[TODAY] || { views: 0, whatsapp: 0 });
+        d[TODAY] = d[TODAY] || { views: 0, whatsapp: 0 };
         d[TODAY].views += 1;
         return fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/contents/stats.json', {
           method: 'PUT',
@@ -16,9 +16,9 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: `Update stats ${Date.now()}`,
+            message: `update stats ${Date.now()}`,
             content: btoa(JSON.stringify(d, null, 2)),
-            sha: 'HEAD' // GitHub сам найдёт
+            sha: 'HEAD'
           })
         });
       })
@@ -29,7 +29,7 @@
   // показываем только админу
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
-  // CSS + HTML
+  // CSS
   const style = document.createElement('style');
   style.innerHTML = `
     .analytics-badge{position:fixed;top:20px;right:20px;width:320px;background:linear-gradient(135deg,#2d3748,#4a5568);color:#e2e8f0;border-radius:12px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.3);font-family:system-ui,sans-serif;font-size:14px;z-index:9999}
@@ -43,6 +43,7 @@
   `;
   document.head.appendChild(style);
 
+  // HTML
   const badge = document.createElement('div');
   badge.className = 'analytics-badge';
   badge.innerHTML = `
@@ -53,7 +54,7 @@
   `;
   document.body.appendChild(badge);
 
-  // читаем счётчик из файла
+  // читаем счётчик
   async function fetchStats() {
     const res = await fetch(STATS_URL + '?t=' + Date.now());
     return res.ok ? await res.json() : { [TODAY]: { views: 0, whatsapp: 0 } };
