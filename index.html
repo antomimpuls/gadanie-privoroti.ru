@@ -1445,12 +1445,58 @@
       document.body.appendChild(tap);
       setTimeout(() => tap.remove(), 1500);
     }
+    </script>
+
+  <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
+  <script>
+    // === НАСТРОЙКИ API ===
+    const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
+
+    // Сразу при загрузке — отправляем визит
+    function sendVisit() {
+      fetch(STATS_API_URL, {
+        method: 'POST',
+        params: {
+          site: window.location.hostname,
+          visitors: 1,
+          clicks_whatsapp: 0
+        }
+      })
+      .then(response => response.json())
+      .then(data => console.log("Статистика (визит):", data))
+      .catch(error => console.error("Ошибка отправки визита:", error));
+    }
+
+    // При клике на WhatsApp — увеличиваем счётчик
+    function trackWhatsAppClick() {
+      fetch(STATS_API_URL, {
+        method: 'POST',
+        params: {
+          site: window.location.hostname,
+          visitors: 0,
+          clicks_whatsapp: 1
+        }
+      })
+      .then(response => response.json())
+      .then(data => console.log("Статистика (WhatsApp):", data))
+      .catch(error => console.error("Ошибка отправки клика:", error));
+    }
+
+    // === ПОДМЕШИВАЕМ КЛИКИ ПО ВСЕМ КНОПКАМ WhatsApp ===
+    document.addEventListener('DOMContentLoaded', () => {
+      sendVisit(); // Отправить визит
+
+      // Находим все кнопки с id или href, содержащие "waBtn" или "whatsapp"
+      const waButtons = document.querySelectorAll('a[href*="wa.me"], #waBtn, #waBtn2, #stickyWaBtn');
+      waButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setTimeout(trackWhatsAppClick, 500); // Задержка, чтобы не мешать основному действию
+        });
+      });
+    });
   </script>
+
   <!-- Analytics -->
-<script src="analytics.js"></script>
+  <script src="analytics.js"></script>
 </body>
 </html>
-
-
-
-
