@@ -1,5 +1,5 @@
 (function () {
-  const TOKEN = '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';
+  const TOKEN = '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';
   const STATS_URL = 'https://gadanie-privoroti.ru/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
@@ -73,3 +73,4 @@
     }
   });
 })();
+
