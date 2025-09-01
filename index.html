@@ -572,7 +572,7 @@
           <!-- КОНТЕЙНЕР ДЛЯ ФОТО И АУРЫ -->
           <div class="psychic-photo-wrapper">
             <!-- Удалены .mystic-fog и .magic-runes -->
-            <img src="https://raw.githubusercontent.com/antomimpuls/gadlka-vector.ru/main/92ddbc.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
+            <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
           </div>
           <canvas id="auraCanvas"></canvas>
         </div>
@@ -740,7 +740,7 @@
   <!-- НОВАЯ ЛИПКАЯ КНОПКА -->
   <div class="sticky-whatsapp">
     <div class="avatar">
-      <img src="https://raw.githubusercontent.com/antomimpuls/gadlka-vector.ru/main/92ddbc.jpg" alt="Гадалка">
+      <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Гадалка">
     </div>
     <a href="#" id="stickyWaBtn" class="btn" aria-label="Написать в WhatsApp">💬</a>
   </div>
@@ -751,11 +751,9 @@
       message: SITE_SETTINGS.whatsappMessage,
       portalDelayMs: 460
     };
-    
     // Создаем URL для WhatsApp
     const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
     // === РЕДИРЕКТ ===
     function handleRedirect() {
       if (SITE_SETTINGS.enableRedirect && 
@@ -766,7 +764,6 @@
         }, SITE_SETTINGS.redirectDelaySeconds * 1000);
       }
     }
-    
     // === НАСТРОЙКИ ЭФФЕКТОВ ===
     const EFFECT_SETTINGS = {
       // Энергетические волны
@@ -1313,7 +1310,6 @@
         });
       }
       showCloud();
-      
       // Запуск редиректа после загрузки DOM
       handleRedirect();
     });
@@ -1402,10 +1398,12 @@
       const tapLength = currentTime - lastTap;
       if (tapLength < 300 && tapLength > 0) {
         // Двойной тап
-        createHeartAnimation(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-        setTimeout(() => {
-          window.location.href = 'https://wa.me/79326387087?text=💜 нужна помощь';
-        }, 800);
+        if (e.changedTouches && e.changedTouches[0]) {
+            createHeartAnimation(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            setTimeout(() => {
+              window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent('💜 нужна помощь')}`;
+            }, 800);
+        }
       }
       lastTap = currentTime;
     });
@@ -1422,8 +1420,10 @@
     }
     // --- ДОБАВЛЕНО: МАГИЧЕСКИЙ ТАП-ЭФФЕКТ ---
     document.addEventListener('touchstart', function(e) {
-      const touch = e.touches[0];
-      createMagicTap(touch.clientX, touch.clientY);
+      if (e.touches && e.touches[0]) {
+          const touch = e.touches[0];
+          createMagicTap(touch.clientX, touch.clientY);
+      }
     });
     function createMagicTap(x, y) {
       const symbols = ['✨', '🔮', '✦', '✧', '☽'];
@@ -1445,53 +1445,69 @@
       document.body.appendChild(tap);
       setTimeout(() => tap.remove(), 1500);
     }
-    <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
-<script>
-  // === НАСТРОЙКИ API ===
-  const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
-
-  // Отправка визита при загрузке страницы
-  function sendVisit() {
-    fetch(STATS_API_URL, {
-      method: 'POST',
-      body: new URLSearchParams({
-        site: window.location.hostname,
-        visitors: 1,
-        clicks_whatsapp: 0
+  </script>
+  <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
+  <script>
+    // === НАСТРОЙКИ API ===
+    const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
+    // Отправка визита при загрузке страницы
+    function sendVisit() {
+      fetch(STATS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          site: window.location.hostname,
+          visitors: 1,
+          clicks_whatsapp: 0
+        })
       })
-    })
-    .then(response => response.json())
-    .then(data => console.log("Статистика (визит):", data))
-    .catch(error => console.error("Ошибка отправки визита:", error));
-  }
-
-  // Отправка клика по WhatsApp
-  function trackWhatsAppClick() {
-    fetch(STATS_API_URL, {
-      method: 'POST',
-      body: new URLSearchParams({
-        site: window.location.hostname,
-        visitors: 0,
-        clicks_whatsapp: 1
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
       })
-    })
-    .then(response => response.json())
-    .then(data => console.log("Статистика (WhatsApp):", data))
-    .catch(error => console.error("Ошибка отправки клика:", error));
-  }
-
-  // Запуск при загрузке и отслеживание кликов
-  document.addEventListener('DOMContentLoaded', () => {
-    sendVisit(); // Отправляем визит
-
-    // Находим все кнопки WhatsApp
-    const waButtons = document.querySelectorAll(
-      'a[href*="wa.me"], #waBtn, #waBtn2'
-    );
-    waButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        setTimeout(trackWhatsAppClick, 500);
+      .then(data => console.log("Статистика (визит):", data))
+      .catch(error => console.error("Ошибка отправки визита:", error));
+    }
+    // Отправка клика по WhatsApp
+    function trackWhatsAppClick() {
+      fetch(STATS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          site: window.location.hostname,
+          visitors: 0,
+          clicks_whatsapp: 1
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => console.log("Статистика (WhatsApp):", data))
+      .catch(error => console.error("Ошибка отправки клика:", error));
+    }
+    // Запуск при загрузке и отслеживание кликов
+    document.addEventListener('DOMContentLoaded', () => {
+      sendVisit(); // Отправляем визит
+      // Находим все кнопки WhatsApp, включая липкую
+      const waButtons = document.querySelectorAll(
+        'a[href*="wa.me"], #waBtn, #waBtn2, #stickyWaBtn'
+      );
+      waButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          // Запускаем отслеживание клика
+          trackWhatsAppClick();
+        });
       });
     });
-  });
-</script>
+  </script>
+</body>
+</html>
