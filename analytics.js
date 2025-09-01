@@ -1,8 +1,5 @@
 (function () {
-  const TOKEN = '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';
-  const GIST_ID = '7c53f66e1f8a89f3f0b0519b61e847b9';
-  const GIST_URL = `https://gist.githubusercontent.com/antomimpuls/${GIST_ID}/raw/stats.json`;
-  const GIST_API = `https://api.github.com/gists/${GIST_ID}`;
+  const GIST_URL = 'https://gist.githubusercontent.com/antomimpuls/7c53f66e1f8a89f3f0b0519b61e847b9/raw/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
   // 1 просмотр на сессию
@@ -12,19 +9,20 @@
       .then(d => {
         d[TODAY] = d[TODAY] || { views: 0, whatsapp: 0 };
         d[TODAY].views += 1;
-        return fetch(GIST_API, {
-          method: 'PATCH',
-          headers: { Authorization: `token ${TOKEN}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ files: { 'stats.json': { content: JSON.stringify(d, null, 2) } } })
+        return fetch('https://jsonbin.org/antomimpuls/stats', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'token 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' },
+          body: JSON.stringify(d)
         });
       })
       .catch(() => {});
     sessionStorage.setItem('viewRecorded', 'true');
   }
 
-  // показываем бейдж только админу
+  // Показываем бейдж только админу
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
+  // CSS + HTML
   const style = document.createElement('style');
   style.innerHTML = `
     .analytics-badge{position:fixed;top:20px;right:20px;width:320px;background:linear-gradient(135deg,#2d3748,#4a5568);color:#e2e8f0;border-radius:12px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.3);font-family:system-ui,sans-serif;font-size:14px;z-index:9999}
@@ -49,7 +47,7 @@
   document.body.appendChild(badge);
 
   async function fetchStats() {
-    const res = await fetch(GIST_URL + '?t=' + Date.now());
+    const res = await fetch('https://jsonbin.org/antomimpuls/stats');
     return res.ok ? await res.json() : { [TODAY]: { views: 0, whatsapp: 0 } };
   }
 
@@ -63,25 +61,4 @@
 
   updateUI();
   setInterval(updateUI, 5000);
-
-  // клики по WhatsApp
-  let lastClick = 0;
-  document.addEventListener('click', e => {
-    const link = e.target.closest('a[href*="wa.me"]');
-    if (link && Date.now() - lastClick > 5000) {
-      lastClick = Date.now();
-      fetch(GIST_URL, { cache: 'no-store' })
-        .then(r => r.json())
-        .then(d => {
-          d[TODAY] = d[TODAY] || { views: 0, whatsapp: 0 };
-          d[TODAY].whatsapp += 1;
-          return fetch(GIST_API, {
-            method: 'PATCH',
-            headers: { Authorization: `token ${TOKEN}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ files: { 'stats.json': { content: JSON.stringify(d, null, 2) } } })
-          });
-        })
-        .catch(console.error);
-    }
-  });
 })();
