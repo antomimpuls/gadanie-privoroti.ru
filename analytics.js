@@ -5,7 +5,7 @@
 
   // 1 просмотр на сессию
   if (!sessionStorage.getItem('viewRecorded')) {
-    fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
+    fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti/dispatches', {
       method: 'POST',
       headers: {
         Authorization: `token ${TOKEN}`,
@@ -65,7 +65,7 @@
   document.addEventListener('click', e => {
     const link = e.target.closest('a[href*="wa.me"]');
     if (link) {
-      fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
+      fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti/dispatches', {
         method: 'POST',
         headers: { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json' },
         body: JSON.stringify({ event_type: 'stats_update', client_payload: { type: 'whatsapp' } })
