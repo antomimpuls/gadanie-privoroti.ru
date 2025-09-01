@@ -1445,54 +1445,53 @@
       document.body.appendChild(tap);
       setTimeout(() => tap.remove(), 1500);
     }
-     <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
-  <script>
-    // === НАСТРОЙКИ API ===
-    const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
+    <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
+<script>
+  // === НАСТРОЙКИ API ===
+  const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
 
-    // Отправка визита при загрузке страницы
-    function sendVisit() {
-      fetch(STATS_API_URL, {
-        method: 'POST',
-        body: new URLSearchParams({
-          site: window.location.hostname,
-          visitors: 1,
-          clicks_whatsapp: 0
-        })
+  // Отправка визита при загрузке страницы
+  function sendVisit() {
+    fetch(STATS_API_URL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        site: window.location.hostname,
+        visitors: 1,
+        clicks_whatsapp: 0
       })
-      .then(response => response.json())
-      .then(data => console.log("Статистика (визит):", data))
-      .catch(error => console.error("Ошибка отправки визита:", error));
-    }
+    })
+    .then(response => response.json())
+    .then(data => console.log("Статистика (визит):", data))
+    .catch(error => console.error("Ошибка отправки визита:", error));
+  }
 
-    // Отправка клика по WhatsApp
-    function trackWhatsAppClick() {
-      fetch(STATS_API_URL, {
-        method: 'POST',
-        body: new URLSearchParams({
-          site: window.location.hostname,
-          visitors: 0,
-          clicks_whatsapp: 1
-        })
+  // Отправка клика по WhatsApp
+  function trackWhatsAppClick() {
+    fetch(STATS_API_URL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        site: window.location.hostname,
+        visitors: 0,
+        clicks_whatsapp: 1
       })
-      .then(response => response.json())
-      .then(data => console.log("Статистика (WhatsApp):", data))
-      .catch(error => console.error("Ошибка отправки клика:", error));
-    }
+    })
+    .then(response => response.json())
+    .then(data => console.log("Статистика (WhatsApp):", data))
+    .catch(error => console.error("Ошибка отправки клика:", error));
+  }
 
-    // Запуск при загрузке и отслеживание кликов
-    document.addEventListener('DOMContentLoaded', () => {
-      sendVisit(); // Отправляем визит
+  // Запуск при загрузке и отслеживание кликов
+  document.addEventListener('DOMContentLoaded', () => {
+    sendVisit(); // Отправляем визит
 
-      // Находим все кнопки WhatsApp
-      // Учитываем id="sticky-whatsapp" и потенциальный клик по аватару внутри
-      const waButtons = document.querySelectorAll('a[href*="wa.me"], #waBtn, #waBtn2, #sticky-whatsapp, #sticky-whatsapp .avatar');
-      waButtons.forEach(btn => {
-        // Для .avatar кликаем на родителя (#sticky-whatsapp)
-        const targetButton = btn.classList.contains('avatar') ? btn.parentElement : btn;
-        targetButton.addEventListener('click', () => {
-          setTimeout(trackWhatsAppClick, 500);
-        });
+    // Находим все кнопки WhatsApp
+    const waButtons = document.querySelectorAll(
+      'a[href*="wa.me"], #waBtn, #waBtn2'
+    );
+    waButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTimeout(trackWhatsAppClick, 500);
       });
     });
-  </script>
+  });
+</script>
