@@ -2,34 +2,20 @@
   const STATS_URL = 'https://gadanie-privoroti.ru/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
-  // считаем 1 просмотр на сессию
+  // 1 просмотр на сессию
   if (!sessionStorage.getItem('viewRecorded')) {
-    fetch(STATS_URL, { cache: 'no-store' })
-      .then(r => r.json())
-      .then(d => {
-        d[TODAY] = d[TODAY] || { views: 0, whatsapp: 0 };
-        d[TODAY].views += 1;
-        return fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/contents/stats.json', {
-          method: 'PUT',
-          headers: {
-            Authorization: 'token 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',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `update stats ${Date.now()}`,
-            content: btoa(JSON.stringify(d, null, 2)),
-            sha: 'HEAD'
-          })
-        });
-      })
-      .catch(console.error);
+    fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
+      method: 'POST',
+      headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' },
+      body: JSON.stringify({ event_type: 'stats_update', client_payload: { type: 'view' } })
+    });
     sessionStorage.setItem('viewRecorded', 'true');
   }
 
   // показываем только админу
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
-  // CSS
+  // CSS + HTML
   const style = document.createElement('style');
   style.innerHTML = `
     .analytics-badge{position:fixed;top:20px;right:20px;width:320px;background:linear-gradient(135deg,#2d3748,#4a5568);color:#e2e8f0;border-radius:12px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.3);font-family:system-ui,sans-serif;font-size:14px;z-index:9999}
@@ -43,7 +29,6 @@
   `;
   document.head.appendChild(style);
 
-  // HTML
   const badge = document.createElement('div');
   badge.className = 'analytics-badge';
   badge.innerHTML = `
@@ -70,4 +55,16 @@
 
   updateUI();
   setInterval(updateUI, 5000);
+
+  // вызываем Action +1 клик
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href*="wa.me"]');
+    if (link) {
+      fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
+        method: 'POST',
+        headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' },
+        body: JSON.stringify({ event_type: 'stats_update', client_payload: { type: 'whatsapp' } })
+      });
+    }
+  });
 })();
