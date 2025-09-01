@@ -9,17 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Update counters
         run: |
-          today=$(date +%Y-%m-%d)
+          today=$(date +'%Y-%m-%d')
           data=$(cat stats.json)
-          views=$(echo "$data" | jq -r --arg d "$today" '.[$d].views // 0')
-          whatsapp=$(echo "$data" | jq -r --arg d "$today" '.[$d].whatsapp // 0')
+          views=$(echo "$data" | jq --arg d "$today" '.[$d].views // 0')
+          whatsapp=$(echo "$data" | jq --arg d "$today" '.[$d].whatsapp // 0')
           case "${{ github.event.client_payload.type }}" in
             view) views=$((views + 1)) ;;
             whatsapp) whatsapp=$((whatsapp + 1)) ;;
           esac
+
           echo "$data" | jq --arg d "$today" --argjson v "$views" --argjson w "$whatsapp" '.[$d] = {views: $v, whatsapp: $w}' > stats.json
+
           git config user.name "bot"
           git config user.email "bot@example.com"
           git add stats.json
