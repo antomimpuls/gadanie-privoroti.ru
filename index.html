@@ -1445,7 +1445,7 @@
       document.body.appendChild(tap);
       setTimeout(() => tap.remove(), 1500);
     }
-   <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
+     <!-- === СБОР СТАТИСТИКИ В GOOGLE SHEETS === -->
   <script>
     // === НАСТРОЙКИ API ===
     const STATS_API_URL = "https://script.google.com/macros/s/AKfycbxQoTQPStRV0ZUr5s3EFAtvgC62jbVjH2cp8VLrMPKBi3vDkoAmafVb_fC4L-jw0LBZ/exec";
@@ -1485,14 +1485,14 @@
       sendVisit(); // Отправляем визит
 
       // Находим все кнопки WhatsApp
-      const waButtons = document.querySelectorAll(
-        'a[href*="wa.me"], #waBtn, #waBtn2, .sticky-whatsapp'
-      );
+      // Учитываем id="sticky-whatsapp" и потенциальный клик по аватару внутри
+      const waButtons = document.querySelectorAll('a[href*="wa.me"], #waBtn, #waBtn2, #sticky-whatsapp, #sticky-whatsapp .avatar');
       waButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        // Для .avatar кликаем на родителя (#sticky-whatsapp)
+        const targetButton = btn.classList.contains('avatar') ? btn.parentElement : btn;
+        targetButton.addEventListener('click', () => {
           setTimeout(trackWhatsAppClick, 500);
         });
       });
     });
   </script>
-
