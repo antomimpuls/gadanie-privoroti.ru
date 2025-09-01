@@ -1,4 +1,5 @@
 (function () {
+  const TOKEN = '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';
   const STATS_URL = 'https://gadanie-privoroti.ru/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
@@ -6,16 +7,19 @@
   if (!sessionStorage.getItem('viewRecorded')) {
     fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
       method: 'POST',
-      headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' },
+      headers: {
+        Authorization: `token ${TOKEN}`,
+        Accept: 'application/vnd.github.v3+json'
+      },
       body: JSON.stringify({ event_type: 'stats_update', client_payload: { type: 'view' } })
     });
     sessionStorage.setItem('viewRecorded', 'true');
   }
 
-  // показываем только админу
+  // показываем бейдж только админу
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
-  // CSS + HTML
+  // CSS
   const style = document.createElement('style');
   style.innerHTML = `
     .analytics-badge{position:fixed;top:20px;right:20px;width:320px;background:linear-gradient(135deg,#2d3748,#4a5568);color:#e2e8f0;border-radius:12px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.3);font-family:system-ui,sans-serif;font-size:14px;z-index:9999}
@@ -29,6 +33,7 @@
   `;
   document.head.appendChild(style);
 
+  // HTML
   const badge = document.createElement('div');
   badge.className = 'analytics-badge';
   badge.innerHTML = `
@@ -62,7 +67,7 @@
     if (link) {
       fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/dispatches', {
         method: 'POST',
-        headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' },
+        headers: { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json' },
         body: JSON.stringify({ event_type: 'stats_update', client_payload: { type: 'whatsapp' } })
       });
     }
