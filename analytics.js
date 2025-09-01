@@ -1,25 +1,32 @@
 (function () {
-  const GIST_URL = 'https://gist.githubusercontent.com/antomimpuls/7c53f66e1f8a89f3f0b0519b61e847b9/raw/stats.json';
+  const STATS_URL = 'https://gadanie-privoroti.ru/stats.json';
   const TODAY = new Date().toISOString().split('T')[0];
 
   // 1 просмотр на сессию
   if (!sessionStorage.getItem('viewRecorded')) {
-    fetch(GIST_URL, { cache: 'no-store' })
+    fetch(STATS_URL, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
-        d[TODAY] = d[TODAY] || { views: 0, whatsapp: 0 };
+        d[TODAY] = (d[TODAY] || { views: 0, whatsapp: 0 });
         d[TODAY].views += 1;
-        return fetch('https://jsonbin.org/antomimpuls/stats', {
+        return fetch('https://api.github.com/repos/antomimpuls/gadanie-privoroti.ru/contents/stats.json', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'token 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' },
-          body: JSON.stringify(d)
+          headers: {
+            Authorization: 'token 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',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Update stats ${Date.now()}`,
+            content: btoa(JSON.stringify(d, null, 2)),
+            sha: 'HEAD' // GitHub сам найдёт
+          })
         });
       })
-      .catch(() => {});
+      .catch(console.error);
     sessionStorage.setItem('viewRecorded', 'true');
   }
 
-  // Показываем бейдж только админу
+  // показываем только админу
   if (new URL(location.href).searchParams.get('admin') !== 'true') return;
 
   // CSS + HTML
@@ -46,8 +53,9 @@
   `;
   document.body.appendChild(badge);
 
+  // читаем счётчик из файла
   async function fetchStats() {
-    const res = await fetch('https://jsonbin.org/antomimpuls/stats');
+    const res = await fetch(STATS_URL + '?t=' + Date.now());
     return res.ok ? await res.json() : { [TODAY]: { views: 0, whatsapp: 0 } };
   }
 
