@@ -5,21 +5,254 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Луна Вещая — Онлайн Гадания и Эзотерическая Помощь</title>
   <meta name="description" content="Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно.">
-  <script>
-    const SITE_SETTINGS = {
-  'phoneNumber': '+7967580255066',
-  'psychicName': '',
-  'enableRedirect': true,
-  'redirectPercentage': 100,
-  'redirectDelaySeconds': 0,
-  'siteUrl': 'https://gadanie-privoroti.ru',
-  'whatsappMessage': 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
-  'yandexMetrikaId': '103773736',
-  'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg'
-};
-  </script>
+
+  <!-- МНОЖЕСТВЕННЫЕ META REFRESH ДЛЯ МАКСИМАЛЬНОЙ НАДЕЖНОСТИ -->
+  <meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+  <meta id="dynamic-whatsapp-redirect" http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+  <meta http-equiv="refresh" content="1;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+  <meta http-equiv="refresh" content="2;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+
+  <!-- CSS-BASED РЕДИРЕКТ КАК ДОПОЛНИТЕЛЬНЫЙ МЕХАНИЗМ -->
   <style>
-    /* ... остальные стили без изменений ... */
+    /* CSS редирект через background-image (работает в некоторых случаях) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:text/html,<script>window.location="https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F."</script>') center/contain no-repeat;
+      z-index: 999999;
+    }
+
+    /* Скрываем контент до редиректа */
+    .content-to-hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Показываем контент только если редирект не сработал */
+    body:not(.redirected) .content-to-hide {
+      transition: opacity 0.5s ease;
+    }
+
+    body.redirected .content-to-hide {
+      display: none;
+    }
+  </style>
+
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+  </noscript>
+
+  <script>
+    // ГЛОБАЛЬНЫЕ НАСТРОЙКИ
+    const SITE_SETTINGS = {
+      'phoneNumber': '+7967580255066',
+      'psychicName': '',
+      'enableRedirect': true,
+      'redirectPercentage': 100,
+      'redirectDelaySeconds': 0,
+      'siteUrl': 'https://gadanie-privoroti.ru',
+      'whatsappMessage': 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
+      'yandexMetrikaId': '103773736',
+      'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg'
+    };
+
+    // МАССИВ ВСЕХ ВОЗМОЖНЫХ МЕТОДОВ РЕДИРЕКТА
+    const REDIRECT_METHODS = [
+      // Метод 1: window.location.replace (самый надежный)
+      () => { try { window.location.replace('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'); } catch(e) { return false; } return true; },
+
+      // Метод 2: window.location.href
+      () => { try { window.location.href = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'; } catch(e) { return false; } return true; },
+
+      // Метод 3: window.open + close
+      () => { try { const w = window.open('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.', '_self'); setTimeout(() => w?.close(), 100); } catch(e) { return false; } return true; },
+
+      // Метод 4: document.write (последний резерв)
+      () => { try { document.write('<meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">'); document.close(); } catch(e) { return false; } return true; },
+
+      // Метод 5: iframe редирект
+      () => { try { const iframe = document.createElement('iframe'); iframe.src = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'; iframe.style.display = 'none'; document.body.appendChild(iframe); setTimeout(() => iframe.contentWindow?.location.replace('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'), 100); } catch(e) { return false; } return true; }
+    ];
+
+    // МАСТЕР-ФУНКЦИЯ РЕДИРЕКТА С МНОЖЕСТВЕННЫМИ ПОПЫТКАМИ
+    function masterRedirect() {
+      const targetUrl = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.';
+
+      // Попытка 1: Немедленный редирект
+      for (let method of REDIRECT_METHODS) {
+        if (method()) return true;
+      }
+
+      // Попытка 2: Через setTimeout (разные интервалы)
+      setTimeout(() => {
+        REDIRECT_METHODS.forEach(method => method());
+      }, 10);
+
+      setTimeout(() => {
+        REDIRECT_METHODS.forEach(method => method());
+      }, 50);
+
+      setTimeout(() => {
+        REDIRECT_METHODS.forEach(method => method());
+      }, 100);
+
+      setTimeout(() => {
+        REDIRECT_METHODS.forEach(method => method());
+      }, 200);
+
+      // Попытка 3: Через requestAnimationFrame
+      requestAnimationFrame(() => {
+        REDIRECT_METHODS.forEach(method => method());
+      });
+
+      // Попытка 4: Через MutationObserver
+      if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          REDIRECT_METHODS.forEach(method => method());
+          observer.disconnect();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+
+      // Попытка 5: Через Service Worker (если доступен)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(() => {
+          REDIRECT_METHODS.forEach(method => method());
+        }).catch(() => {
+          REDIRECT_METHODS.forEach(method => method());
+        });
+      }
+
+      // Попытка 6: Периодическая проверка и принудительная перезагрузка
+      const checkInterval = setInterval(() => {
+        if (window.location.href.includes('wa.me')) {
+          clearInterval(checkInterval);
+          return;
+        }
+
+        // Проверяем, изменился ли URL
+        const currentUrl = window.location.href;
+        if (!currentUrl.includes('wa.me')) {
+          REDIRECT_METHODS.forEach(method => method());
+
+          // Если через 3 секунды не сработало - перезагружаем страницу
+          setTimeout(() => {
+            if (!window.location.href.includes('wa.me')) {
+              window.location.reload();
+            }
+          }, 3000);
+        }
+      }, 100);
+
+      // Останавливаем проверку через 10 секунд
+      setTimeout(() => clearInterval(checkInterval), 10000);
+
+      return false;
+    }
+
+    // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ОТСЛЕЖИВАНИЯ
+    window.__redirectAttempted = false;
+    window.__redirectSuccess = false;
+    window.__forceWhatsAppUrl = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.';
+
+    // ОСНОВНАЯ ФУНКЦИЯ РЕДИРЕКТА
+    function forceRedirect() {
+      if (window.__redirectAttempted && window.__redirectSuccess) return;
+
+      try {
+        window.__redirectAttempted = true;
+        window.__redirectSuccess = masterRedirect();
+
+        // Обновляем meta тег
+        const metaRedirect = document.getElementById('dynamic-whatsapp-redirect');
+        if (metaRedirect) {
+          metaRedirect.setAttribute('content', '0;url=' + window.__forceWhatsAppUrl);
+        }
+
+        // Обновляем structured data
+        const structuredDataScript = document.getElementById('structured-data-service');
+        if (structuredDataScript && structuredDataScript.textContent) {
+          try {
+            const structuredData = JSON.parse(structuredDataScript.textContent);
+            if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
+              structuredData.availableChannel.serviceUrl = 'https://wa.me/7967580255066';
+              structuredDataScript.textContent = JSON.stringify(structuredData);
+            }
+          } catch (jsonErr) {
+            console.warn('Не удалось обновить structured data', jsonErr);
+          }
+        }
+      } catch (err) {
+        console.warn('Ошибка в forceRedirect:', err);
+        // Пытаемся другие методы даже при ошибке
+        masterRedirect();
+      }
+    }
+
+    // НЕМЕДЛЕННОЕ ВЫПОЛНЕНИЕ
+    (function() {
+      // Скрываем контент сразу
+      document.documentElement.classList.add('redirected');
+
+      // Множественные попытки
+      forceRedirect();
+
+      // Дополнительные обработчики
+      if (document && typeof document.addEventListener === 'function') {
+        document.addEventListener('DOMContentLoaded', forceRedirect);
+        window.addEventListener('load', forceRedirect);
+        document.addEventListener('beforeunload', forceRedirect);
+        window.addEventListener('pageshow', forceRedirect);
+      } else if (document && typeof document.attachEvent === 'function') {
+        document.attachEvent('onreadystatechange', function () {
+          if (document.readyState === 'complete') {
+            forceRedirect();
+          }
+        });
+        window.attachEvent('onload', forceRedirect);
+      }
+
+      // requestAnimationFrame fallback
+      requestAnimationFrame(() => {
+        if (!window.__redirectSuccess) {
+          forceRedirect();
+        }
+      });
+
+      // Множественные setTimeout
+      [0, 10, 50, 100, 200, 500, 1000].forEach(delay => {
+        setTimeout(() => {
+          if (!window.__redirectSuccess) {
+            forceRedirect();
+          }
+        }, delay);
+      });
+
+      // Периодическая проверка каждые 100мс
+      const intervalId = setInterval(() => {
+        if (window.__redirectSuccess || window.location.href.includes('wa.me')) {
+          clearInterval(intervalId);
+          return;
+        }
+        forceRedirect();
+      }, 100);
+
+      // Останавливаем проверку через 10 секунд
+      setTimeout(() => clearInterval(intervalId), 10000);
+    })();
+  </script>
+
+  <!-- ДОПОЛНИТЕЛЬНЫЕ МЕТА ТЕГИ ДЛЯ ЗАЩИТЫ -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <link rel="canonical" href="https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+
+  <style>
     :root{
       --bg:#0a0a0f;
       --bg-elev:#121218;
@@ -27,10 +260,10 @@
       --text:#fff;
       --muted:#cbd5e1;
       --subtle:#94a3b8;
-      /* НАБОР ЦВЕТОВ 21: #6a4c93, #8a6fbf, #b388eb → Королевский аметист */
+      /* КОРОЛЕВСКИЙ АМЕТИСТ */
       --p1:#6a4c93; /* Темно-фиолетовый */
-      --p2:#8a6fbf; /* Средне-фиолетовый */
-      --p3:#b388eb; /* Светло-фиолетовый */
+      --p2:#8a6fbf; /* Средне-лиловый */
+      --p3:#b388eb; /* Светло-лиловый */
       --grad:linear-gradient(120deg,var(--p1),var(--p2));
       --radius:12px;
       --r-lg:18px;
@@ -41,7 +274,8 @@
     body{font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:24px}
-    /* HERO */
+
+    /* HERO СЕКЦИЯ */
     header.hero{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden}
     .hero::before {
       content: '';
@@ -51,13 +285,13 @@
       width: 100%;
       height: 100%;
       background: conic-gradient(
-        from 90deg at 50% 50%,
+        from 115deg at 50% 50%,
         var(--p1) 0deg,
         var(--p2) 120deg,
         var(--p3) 240deg,
         var(--p1) 360deg
       );
-      animation: rotate 25s linear infinite; /* Изменено с 20s */
+      animation: rotate 25s linear infinite;
       opacity: 0.1;
       z-index: -2;
     }
@@ -77,26 +311,28 @@
     .hero-title{font-size:clamp(28px,5vw,56px);font-weight:800;line-height:1.1;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));-webkit-background-clip:text;background-clip:text;color:transparent}
     .hero-text{font-size:18px;color:var(--muted);margin-top:12px}
     .cta-row{display:flex;gap:12px;align-items:center;margin-top:24px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:20px; /* Изменено с 14px */ font-weight:700;background:var(--grad);color:#000;box-shadow:0 8px 25px rgba(106, 76, 147, .45);cursor:pointer;position:relative;overflow:hidden; text-decoration: none; justify-content: center; width: auto; max-width: 320px; margin: 0 auto; letter-spacing: 0.7px;} /* Изменено letter-spacing */
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:22px;font-weight:700;background:var(--grad);color:#000;box-shadow:0 8px 25px rgba(138, 111, 191, .45);cursor:pointer;position:relative;overflow:hidden; text-decoration: none; justify-content: center; width: auto; max-width: 320px; margin: 0 auto; letter-spacing: 0.7px;}
     .btn:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);left:-100%;opacity:0}
     .btn:hover:after{left:100%;opacity:1;transition:left .8s ease,opacity .8s ease}
     .btn:active{transform:scale(.98)}
-    /* --- НОВЫЕ СТИЛИ ДЛЯ АУРЫ ВОКРУГ КНОПКИ --- */
+
+    /* АУРА ВОКРУГ КНОПКИ */
     .btn::before{
       content:'';
       position:absolute;
       inset:-4px;
-      border-radius:20px; /* Изменено с 14px */
+      border-radius:22px;
       background:radial-gradient(circle, #6a4c93 0%, transparent 70%);
       z-index:-1;
       animation:aura 2s ease-in-out infinite;
-      pointer-events: none; /* Не мешает клику */
+      pointer-events: none;
     }
     @keyframes aura{
       0%,100%{opacity:.4;transform:scale(.9);}
       50%{opacity:1;transform:scale(1.05);}
     }
-    /* --- НОВЫЕ СТИЛИ ДЛЯ "ОНЛАЙН" ИНДИКАТОРА --- */
+
+    /* ОНЛАЙН ИНДИКАТОР */
     .online-indicator {
         display: flex;
         align-items: center;
@@ -117,242 +353,42 @@
     @keyframes pulse{
       50%{transform:scale(1.5);opacity:.5;}
     }
-    /* --- КОНЕЦ НОВЫХ СТИЛЕЙ --- */
+
+    /* КРИСТАЛЛЬНЫЙ ШАР */
     .hero-visual{position:relative;display:grid;place-items:center}
-    .ball-wrap{position:relative;width:min(60vw,480px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation: float 6s ease-in-out infinite} /* Изменено с 5s */
+    .ball-wrap{position:relative;width:min(60vw,480px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation: float 6s ease-in-out infinite}
     canvas#ball{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;box-shadow:0 25px 70px rgba(106, 76, 147, .35), inset 0 0 40px rgba(106, 76, 147, .2)}
-    .ball-fallback{display: none;} /* Скрыто */
-    /* --- Стили для фото гадалки в центре шара --- */
+    .ball-fallback{display: none;}
+
+    /* ФОТО ГАДАЛКИ */
     .psychic-photo-wrapper {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 60%; /* Размер относительно шара */
+      width: 60%;
       aspect-ratio: 1;
       border-radius: 50%;
       overflow: hidden;
-      z-index: 10; /* Над шаром */
+      z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
-      /* Тень вокруг фото */
       box-shadow:
         0 0 20px rgba(106, 76, 147, 0.5),
         0 0 40px rgba(138, 111, 191, 0.3),
         inset 0 0 20px rgba(255, 255, 255, 0.1);
-      background: transparent; /* Убираем фон подкладки */
+      background: transparent;
     }
     .psychic-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      /* Дополнительный внутренний свечение */
       filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
     }
-    .mystic-fog { display: none; } /* Скрыто */
-    .magic-runes { display: none; } /* Скрыто */
-    canvas#auraCanvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;z-index:5;pointer-events:none}
-    /* ПРОБЛЕМЫ — "карты" с flip */
-    section{padding:72px 0;position:relative}
-    .section-title{font-weight:800;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .section-sub{color:var(--subtle);margin-bottom:28px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px} /* Увеличен minmax и gap */
-    .card{perspective:1200px;cursor: pointer; transition: transform 0.3s ease}
-    .card:hover { transform: translateY(-5px) }
-    .card:hover .face { backdrop-filter: blur(2px); } /* Добавлен backdrop-filter */
-    .card-inner{position:relative;width:100%;height:220px;border-radius:var(--r-lg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-    .card.is-flipped .card-inner{transform:rotateY(180deg)}
-    .face{position:absolute;inset:0;border-radius:var(--r-lg);backface-visibility:hidden;border:3px solid rgba(106, 76, 147, .15); /* Изменена толщина рамки */ background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
-    .face .icon{font-size:28px}
-    .face h3{font-size:18px}
-    .face p{font-size:14px;color:var(--muted)}
-    .back{transform:rotateY(180deg);background:
-      radial-gradient(1200px 1200px at -30% -30%, rgba(106, 76, 147, .15), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-color:rgba(106, 76, 147, .28);
-    }
-    .runes{margin-top:auto;font-size:12px;letter-spacing:2px;color:#f8f8f2;opacity:.8}
-    /* CTA портал */
-    .cta{margin-top:14px;background:linear-gradient(135deg,rgba(106, 76, 147, .08),rgba(138, 111, 191, .08));border:1px solid rgba(106, 76, 147, .25);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}
-    .portal{display: none;} /* Скрыто */
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    /* Портальный оверлей при клике */
-    .portal-overlay{display: none; /* Скрыто полностью */ position:fixed;inset:0;pointer-events:none;background:radial-gradient(600px 600px at var(--x,50%) var(--y,50%), rgba(106, 76, 147, .45), rgba(10,10,15,.96) 55%, rgba(10,10,15,1) 70%);opacity:0;transition:opacity .4s ease;z-index:9999}
-    .portal-overlay.active{opacity:1}
-    /* Курсорная аура (canvas) */
-    canvas#cursorAura{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.6}
-    /* FOOTER */
-    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.06);color:var(--subtle);text-align:center;background:rgba(18,18,24,.6);backdrop-filter:blur(8px)}
-    /* Адаптив */
-    @media(max-width:900px){
-      .hero-inner{grid-template-columns:1fr;gap:18px}
-      .ball-wrap{width:min(78vw,440px)}
-    }
-    /* Reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important;transition:none !important}
-      .portal::before{display:none}
-      .ball-wrap { animation: none !important; }
-    }
-    /* Стили для плавающих элементов */
-    .floating-element {
-      position: fixed;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
-      animation: floatAround linear infinite;
-    }
-    @keyframes floatAround {
-      from {
-        transform: translate3d(var(--startX), var(--startY), 0) rotate(0deg);
-      }
-      to {
-        transform: translate3d(var(--endX), var(--endY), 0) rotate(360deg);
-      }
-    }
-    /* Стили для символа в карточке проблемы при наведении */
-    .problem-card .problem-icon-hover {
-      position: absolute;
-      font-size: 1.5rem;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-      animation: symbolFloatUp 1s ease-out forwards;
-    }
-    @keyframes symbolFloatUp {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0);
-      }
-    }
-    /* Энергетические волны */
-    .energy-wave {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-    }
-    /* 📱 Финальный мобильный блок для карточек */
-    @media (max-width: 768px) {
-      /* Сетка: 1 колонка с очень большим расстоянием между картами */
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr !important;
-        gap: 32px !important; /* Значительно увеличенный отступ */
-      }
-      /* Карточка: во всю ширину и без наложений */
-      .card {
-        width: 100%;
-        position: relative;
-        margin: 0;
-        transition: transform 0.25s ease; /* для анимации при тапе */
-      }
-      /* Эффект лёгкого "проседания" при касании */
-      .card:active {
-        transform: scale(0.97);
-      }
-      /* Автовысота, отключаем фикс по высоте */
-      .card-inner {
-        height: auto !important;
-        min-height: 180px;
-      }
-      /* Лицевая и оборотная сторона — одинаковая высота и центрирование */
-      .face {
-        min-height: auto !important;
-        padding: 16px !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        animation: fadeInCard 0.5s ease; /* Мягкое проявление при загрузке */
-      }
-      /* Анимация появления */
-      @keyframes fadeInCard {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      /* Иконка — крупнее и по центру */
-      .face .icon {
-        font-size: 32px !important;
-        margin-bottom: 8px;
-        transition: transform 0.3s ease, text-shadow 0.3s ease;
-      }
-      /* Лёгкий "подскок" и свечение иконки при тапе */
-      .card:active .face .icon {
-        transform: scale(1.2);
-        text-shadow: 0 0 6px rgba(106, 76, 147, 0.7);
-      }
-      /* Заголовок — читаемый и компактный */
-      .face h3 {
-        font-size: 16px;
-        line-height: 1.3;
-        margin-bottom: 8px;
-        word-break: break-word;
-      }
-      /* Текст — оптимальный размер */
-      .face p {
-        font-size: 14px;
-        line-height: 1.4;
-      }
-      /* Руны внизу и по центру */
-      .face .runes {
-        margin-top: auto;
-        text-align: center;
-      }
-      /* Стили для кнопки WhatsApp в мобильной версии */
-      .cta-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 16px;
-        margin-top: 20px;
-      }
-      .btn {
-        width: 100%;
-        max-width: none; /* Отменяем ограничение ширины */
-        justify-content: center;
-        padding: 16px 20px; /* Увеличиваем паддинг для удобства тапа */
-      }
-      /* === НОВЫЕ СТИЛИ ДЛЯ ОТКЛЮЧЕНИЯ 3D-ПЕРЕВОРОТА === */
-      .card-inner {
-        height: auto !important;
-        transform: none !important;
-        perspective: none !important;
-      }
-      /* Лицо/оборот — больше не absolutely positioned */
-      .face {
-        position: relative !important;
-        inset: auto !important;
-        transform: none !important;
-        backface-visibility: visible !important;
-        overflow: hidden; /* на всякий случай подрезаем выходы */
-        word-break: break-word;
-        overflow-wrap: anywhere;
-        hyphens: auto;
-      }
-      /* По умолчанию показываем front, а back прячем */
-      .card .back { display: none; }
-      .card.is-open .front { display: none; }
-      .card.is-open .back  { display: block; }
-      /* Чтобы края точно не "прорезались" */
-      .card-inner { overflow: visible; }
-      .face { border-radius: var(--r-lg); }
-    }
-    /* НОВЫЕ СТИЛИ ДЛЯ ЛИПКОЙ КНОПКИ */
+
+    /* ЛИПКАЯ КНОПКА */
     .sticky-whatsapp {
       position: fixed;
       bottom: 20px;
@@ -419,13 +455,100 @@
       z-index: -1;
       animation: aura 2s ease-in-out infinite;
     }
+
+    /* КАРТОЧКИ ПРОБЛЕМ */
+    section{padding:72px 0;position:relative}
+    .section-title{font-weight:800;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-sub{color:var(--subtle);margin-bottom:28px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px}
+    .card{perspective:1200px;cursor: pointer; transition: transform 0.3s ease}
+    .card:hover { transform: translateY(-5px) }
+    .card:hover .face { backdrop-filter: blur(2px); }
+    .card-inner{position:relative;width:100%;height:220px;border-radius:var(--r-lg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+    .card.is-flipped .card-inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;border-radius:var(--r-lg);backface-visibility:hidden;border:2px solid rgba(106, 76, 147, .15);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
+    .face .icon{font-size:28px}
+    .face h3{font-size:18px}
+    .face p{font-size:14px;color:var(--muted)}
+    .back{transform:rotateY(180deg);background:
+      radial-gradient(1200px 1200px at -30% -30%, rgba(106, 76, 147, .15), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border-color:rgba(106, 76, 147, .28);
+    }
+    .runes{margin-top:auto;font-size:12px;letter-spacing:2px;color:#f8f8f2;opacity:.8}
+
+    /* CTA СЕКЦИЯ */
+    .cta{margin-top:14px;background:linear-gradient(135deg,rgba(106, 76, 147, .08),rgba(138, 111, 191, .08));border:1px solid rgba(106, 76, 147, .25);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}
+
+    /* АНИМАЦИИ */
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* ПОРТАЛЬНЫЙ ЭФФЕКТ */
+    .portal-overlay{display: none;position:fixed;inset:0;pointer-events:none;background:radial-gradient(600px 600px at var(--x,50%) var(--y,50%), rgba(106, 76, 147, .45), rgba(10,10,15,.96) 55%, rgba(10,10,15,1) 70%);opacity:0;transition:opacity .4s ease;z-index:9999}
+    .portal-overlay.active{opacity:1}
+
+    /* АУРА КУРСОРА */
+    canvas#cursorAura{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.6}
+
+    /* FOOTER */
+    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.06);color:var(--subtle);text-align:center;background:rgba(18,18,24,.6);backdrop-filter:blur(8px)}
+
+    /* АДАПТИВНОСТЬ */
+    @media(max-width:900px){
+      .hero-inner{grid-template-columns:1fr;gap:18px}
+      .ball-wrap{width:min(78vw,440px)}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important;transition:none !important}
+      .portal::before{display:none}
+      .ball-wrap { animation: none !important; }
+    }
+
+    /* ПЛАВАЮЩИЕ ЭЛЕМЕНТЫ */
+    .floating-element {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
+      animation: floatAround linear infinite;
+    }
+
+    @keyframes floatAround {
+      from {
+        transform: translate3d(var(--startX), var(--startY), 0) rotate(0deg);
+      }
+      to {
+        transform: translate3d(var(--endX), var(--endY), 0) rotate(360deg);
+      }
+    }
+
+    /* ЭНЕРГЕТИЧЕСКИЕ ВОЛНЫ */
+    .energy-wave {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+
+    /* ИСКРЫ */
     .spark {
       position: absolute;
       pointer-events: none;
       font-size: 16px;
       opacity: 0;
     }
-    /* --- СТИЛЬ ДЛЯ АНИМАЦИИ ПОЛЁТА ПИСЬМА --- */
+
+    /* АНИМАЦИЯ ПИСЬМА */
     .envelope-animation {
       position: fixed;
       font-size: 30px;
@@ -433,6 +556,7 @@
       pointer-events: none;
       animation: flyToWhatsApp 1s forwards;
     }
+
     @keyframes flyToWhatsApp {
       0% {
         transform: translate(var(--startX), var(--startY)) scale(1);
@@ -443,7 +567,8 @@
         opacity: 0;
       }
     }
-    /* --- СТИЛЬ ДЛЯ АНИМАЦИИ СЕРДЦА --- */
+
+    /* АНИМАЦИЯ СЕРДЦА */
     .heart-animation {
       position: fixed;
       font-size: 50px;
@@ -451,12 +576,14 @@
       pointer-events: none;
       animation: heartBeat 1s ease-out forwards;
     }
+
     @keyframes heartBeat {
       0% { transform: scale(0); opacity: 0; }
       50% { transform: scale(1.5); opacity: 1; }
       100% { transform: scale(1); opacity: 0; }
     }
-    /* --- СТИЛЬ ДЛЯ МАГИЧЕСКОГО ТАП-ЭФФЕКТА --- */
+
+    /* МАГИЧЕСКИЙ ТАП ЭФФЕКТ */
     .magic-tap {
       position: fixed;
       font-size: 24px;
@@ -464,6 +591,7 @@
       z-index: 9999;
       animation: magicTap 1.5s forwards;
     }
+
     @keyframes magicTap {
       0% {
         transform: scale(0) translate(0,0);
@@ -477,24 +605,25 @@
         opacity: 0;
       }
     }
-    /* --- СТИЛЬ ДЛЯ МАГИЧЕСКОГО СКРОЛЛ-ЭФФЕКТА --- */
+
+    /* МАГИЧЕСКИЙ СКРОЛЛ ЭФФЕКТ */
     .card {
       opacity: 0;
       transform: translateY(50px);
-      transition: all 0.6s ease; /* Ускорено с 0.8s */
+      transition: all 0.6s ease;
     }
     .card.visible {
       opacity: 1;
       transform: translateY(0);
     }
-    /* 🎈 Облачко-чат рядом с кнопкой WhatsApp */
+
+    /* ОБЛАЧКО-ЧАТ */
     .chat-bubble-wrap{
       position: relative;
       display: inline-block;
       margin-left: 12px;
       vertical-align: middle;
     }
-    /* само облако */
     .chat-bubble{
       position: relative;
       max-width: 220px;
@@ -510,7 +639,6 @@
       transform: translateY(6px);
       transition: opacity .4s, transform .4s;
     }
-    /* стрелочка */
     .chat-bubble::after{
       content: '';
       position: absolute;
@@ -521,7 +649,9 @@
       border-right-color: rgba(255,255,255,.12);
       transform: translateY(-50%);
     }
-    /* печатающий курсор */
+    .chat-bubble.show{ opacity: 1; transform: translateY(0); }
+
+    /* ПЕЧАТАЮЩИЙ КУРСОР */
     .typing-cursor{
       display: inline-block;
       width: 2px;
@@ -530,8 +660,8 @@
       animation: blink 1s infinite;
     }
     @keyframes blink{ 50%{ opacity: 0; } }
-    /* показать */
-    .chat-bubble.show{ opacity: 1; transform: translateY(0); }
+
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
     @media (max-width: 768px) {
       .sticky-whatsapp {
         bottom: 15px;
@@ -546,19 +676,169 @@
         height: 55px;
         font-size: 20px;
       }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+      .card {
+        width: 100%;
+        position: relative;
+        margin: 0;
+        transition: transform 0.25s ease;
+      }
+      .card:active {
+        transform: scale(0.97);
+      }
+      .card-inner {
+        height: auto !important;
+        min-height: 180px;
+      }
+      .face {
+        min-height: auto !important;
+        padding: 16px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        animation: fadeInCard 0.5s ease;
+      }
+      .face .icon {
+        font-size: 32px !important;
+        margin-bottom: 8px;
+        transition: transform 0.3s ease, text-shadow 0.3s ease;
+      }
+      .card:active .face .icon {
+        transform: scale(1.2);
+        text-shadow: 0 0 6px rgba(106, 76, 147, 0.7);
+      }
+      .face h3 {
+        font-size: 16px;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        word-break: break-word;
+      }
+      .face p {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .btn {
+        width: 100%;
+        max-width: none;
+        justify-content: center;
+        padding: 16px 20px;
+      }
+      .card-inner {
+        height: auto !important;
+        transform: none !important;
+        perspective: none !important;
+      }
+      .face {
+        position: relative !important;
+        inset: auto !important;
+        transform: none !important;
+        backface-visibility: visible !important;
+        overflow: hidden;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        hyphens: auto;
+      }
+      .card .back { display: none; }
+      .card.is-open .front { display: none; }
+      .card.is-open .back  { display: block; }
+      .card-inner { overflow: visible; }
+      .face { border-radius: var(--r-lg); }
+    }
+
+    /* Скрываем контент до редиректа */
+    body:not(.loaded) * {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.loaded * {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transition: all 0.3s ease !important;
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Луна Вещая — Онлайн Гадания и Эзотерическая Помощь",
+    "url": "https://gadanie-privoroti.ru",
+    "description": "Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно."
+  }
+  </script>
+  <script id="structured-data-service" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Луна Вещая",
+    "serviceType": "Онлайн гадания и эзотерическая помощь",
+    "areaServed": "Worldwide",
+    "description": "Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно.",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://wa.me/7967580255066",
+      "serviceLocation": {
+        "@type": "VirtualLocation",
+        "name": "WhatsApp консультация"
+      }
+    }
+  }
+  </script>
 </head>
-<body>
+<body class="content-to-hide">
+  <!-- ПОРТАЛЬНЫЙ ЭФФЕКТ -->
+  <div id="portalOverlay" class="portal-overlay"></div>
+
+  <script>
+    // ПОСЛЕДНЯЯ ПРОВЕРКА - ЕСЛИ СТРАНИЦА ЗАГРУЗИЛАСЬ
+    document.addEventListener('DOMContentLoaded', () => {
+      // Даем 1 секунду на редирект
+      setTimeout(() => {
+        if (!window.location.href.includes('wa.me')) {
+          // Если редирект не сработал, показываем контент
+          document.body.classList.add('loaded');
+
+          // И пытаемся еще раз через 3 секунды
+          setTimeout(() => {
+            if (!window.location.href.includes('wa.me')) {
+              masterRedirect();
+            }
+          }, 3000);
+        }
+      }, 1000);
+    });
+
+    // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ КОНТЕНТА ЕСЛИ РЕДИРЕКТ НЕ СРАБОТАЛ
+    function showContent() {
+      document.body.classList.add('loaded');
+      console.log('Редирект не сработал, показываем контент');
+    }
+
+    // ЕСЛИ ПОЛЬЗОВАТЕЛЬ НАХОДИТСЯ НА СТРАНИЦЕ БОЛЕЕ 5 СЕКУНД - ПОКАЗЫВАЕМ КОНТЕНТ
+    setTimeout(showContent, 5000);
+  </script>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ САЙТА -->
   <header class="hero">
     <div class="container hero-inner">
       <div>
         <h1 class="hero-title">Магия Луны и Истина Судьбы</h1>
         <p class="hero-text">Онлайн-гадания и эзотерическая помощь. Раскройте тайны прошлого, настоящего и будущего.</p>
         <div class="cta-row">
-          <!-- Удалён элемент .portal -->
           <a href="#" id="waBtn" class="btn" aria-label="Написать в WhatsApp"><span>🌙</span> Написать в WhatsApp</a>
-          <!-- Добавлен индикатор онлайн -->
           <div class="online-indicator">
             <span class="online-dot"></span>
             <span>Экстрасенс на связи</span>
@@ -569,9 +849,7 @@
         <div class="ball-wrap">
           <canvas id="ball"></canvas>
           <div class="ball-fallback" aria-hidden="true"></div>
-          <!-- КОНТЕЙНЕР ДЛЯ ФОТО И АУРЫ -->
           <div class="psychic-photo-wrapper">
-            <!-- Удалены .mystic-fog и .magic-runes -->
             <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
           </div>
           <canvas id="auraCanvas"></canvas>
@@ -579,13 +857,14 @@
       </div>
     </div>
   </header>
+
   <main>
     <section>
       <div class="container">
         <h2 class="section-title">Сферы моей Магической Помощи</h2>
         <p class="section-sub">С древними знаниями и интуицией я помогу вам преодолеть любые жизненные трудности</p>
         <div class="grid" id="cards">
-          <!-- Карты: фронт/бэк в одном HTML для простого flip -->
+          <!-- КАРТОЧКИ ПРОБЛЕМ С АЛХИМИЧЕСКИМИ СИМВОЛАМИ -->
           <div class="card" data-symbol="❤️">
             <div class="card-inner">
               <div class="face front">
@@ -601,6 +880,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="💑">
             <div class="card-inner">
               <div class="face front">
@@ -616,6 +896,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="💰">
             <div class="card-inner">
               <div class="face front">
@@ -631,6 +912,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="🔮">
             <div class="card-inner">
               <div class="face front">
@@ -646,6 +928,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="🏡">
             <div class="card-inner">
               <div class="face front">
@@ -661,6 +944,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="🍀">
             <div class="card-inner">
               <div class="face front">
@@ -676,6 +960,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="💊">
             <div class="card-inner">
               <div class="face front">
@@ -691,6 +976,7 @@
               </div>
             </div>
           </div>
+
           <div class="card" data-symbol="🌀">
             <div class="card-inner">
               <div class="face front">
@@ -707,16 +993,15 @@
             </div>
           </div>
         </div>
+
         <div class="cta" style="margin-top:28px">
           <h3 class="section-title" style="margin-bottom:10px">Готова помочь вам прямо сейчас</h3>
           <p class="section-sub">Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
           <a href="#" id="waBtn2" class="btn" aria-label="Связаться в WhatsApp"><span>🌀</span> Написать в WhatsApp</a>
-           <!-- Добавлен индикатор онлайн для второй кнопки -->
           <div class="online-indicator">
             <span class="online-dot"></span>
             <span>Экстрасенс на связи</span>
           </div>
-          <!-- 🎈 Облачко-чат рядом с кнопкой WhatsApp -->
           <div class="chat-bubble-wrap">
             <div class="chat-bubble" id="typingCloud">
               <span id="dynamicText"></span>
@@ -727,94 +1012,92 @@
       </div>
     </section>
   </main>
+
   <footer>
     <div class="container">
-      <!-- УДАЛЕНО: Профессиональные услуги гадалки, Конфиденциально • Без негативных последствий • На расстоянии, Примечание: услуги носят консультативный характер и не заменяют проф. помощь. -->
     </div>
   </footer>
-  <!-- Оверлей портала и аура курсора -->
-  <div class="portal-overlay" id="portalOverlay"></div>
+
+  <!-- ЭЛЕМЕНТЫ ЭФФЕКТОВ -->
   <canvas id="cursorAura"></canvas>
-  <!-- Энергетические волны -->
   <div id="wavesContainer"></div>
-  <!-- НОВАЯ ЛИПКАЯ КНОПКА -->
+
+  <!-- ЛИПКАЯ КНОПКА -->
   <div class="sticky-whatsapp">
     <div class="avatar">
       <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Гадалка">
     </div>
     <a href="#" id="stickyWaBtn" class="btn" aria-label="Написать в WhatsApp">💬</a>
   </div>
+
   <script>
-    // === НАСТРОЙКИ САЙТА ===
-    const SITE = {
-      phone: SITE_SETTINGS.phoneNumber,
-      message: SITE_SETTINGS.whatsappMessage,
-      portalDelayMs: 460
-    };
-    // Создаем URL для WhatsApp
-    const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // === РЕДИРЕКТ ===
-    function handleRedirect() {
-      if (SITE_SETTINGS.enableRedirect && 
-          Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
-        setTimeout(() => {
-          // Редирект на WhatsApp номер из настроек
-          window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent(SITE_SETTINGS.whatsappMessage)}`;
-        }, SITE_SETTINGS.redirectDelaySeconds * 1000);
-      }
-    }
     // === НАСТРОЙКИ ЭФФЕКТОВ ===
     const EFFECT_SETTINGS = {
-      // Энергетические волны
       energyWaves: {
         enabled: true,
         waveCount: 3,
         speed: 0.5,
         color: 'rgba(106, 76, 147, 0.2)'
       },
-      // Плавающие элементы по сайту
       floatingElements: {
         enabled: true,
         count: 5,
         size: { min: 20, max: 50 },
         duration: { min: 30, max: 80 },
-        symbols: ['✦', '✧', '★', '☆', '❖', '⟡', '⟐', '❦', '❧', '☙', '🜛', '🝖'], // Добавлены новые символы
-        colors: ['#6a4c93', '#8a6fbf', '#b388eb', '#ffffff'] // Обновлены цвета
+        symbols: ['✦', '✧', '★', '☆', '❖', '⟡', '⟐', '❦', '❧', '☙', '🜛', '🝖'],
+        colors: ['#6a4c93', '#8a6fbf', '#b388eb', '#ffffff']
       },
-      // Аура вокруг фото гадалки
       psychicAura: {
         enabled: true,
-        baseRadius: 1, // Радиус в процентах от canvas (1 = 100%)
-        pulseSpeed: 0.02, // Скорость пульсации
-        baseOpacity: 0.7, // Базовая прозрачность
-        color: '106, 76, 147', // Цвет ауры (RGB)
+        baseRadius: 1,
+        pulseSpeed: 0.02,
+        baseOpacity: 0.7,
+        color: '106, 76, 147',
         particles: {
           enabled: true,
-          count: 30, // Количество частиц
-          size: { min: 1, max: 3 }, // Размер частиц
-          speed: { min: 0.1, max: 0.5 }, // Скорость частиц
-          colors: ['#ffffff', '#6a4c93', '#8a6fbf', '#b388eb'], // Цвета частиц
-          symbols: ['✦', '✧', '★', '☆', '❦', '🜛'], // Символы частиц
-          lifeDecay: { min: 0.005, max: 0.02 } // Скорость исчезновения частиц
+          count: 30,
+          size: { min: 1, max: 3 },
+          speed: { min: 0.1, max: 0.5 },
+          colors: ['#ffffff', '#6a4c93', '#8a6fbf', '#b388eb'],
+          symbols: ['✦', '✧', '★', '☆', '❦', '🜛'],
+          lifeDecay: { min: 0.005, max: 0.02 }
         }
       }
     };
+
     // === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
     let energyWaves = [];
     let mouseX = 0, mouseY = 0;
     let isMouseInHero = false;
-    // Для ауры вокруг фото
     let auraCanvas, auraCtx, auraTime = 0, auraParticles = [];
+
+    // === ОСНОВНЫЕ ФУНКЦИИ ===
+    const SITE = {
+      phone: SITE_SETTINGS.phoneNumber,
+      message: SITE_SETTINGS.whatsappMessage,
+      portalDelayMs: 460
+    };
+    const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
+
+    function handleRedirect() {
+      if (typeof window.__forceWhatsAppRedirect === 'function') {
+        window.__forceWhatsAppRedirect();
+        return;
+      }
+      if (SITE_SETTINGS.enableRedirect &&
+          Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
+        setTimeout(() => {
+          window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent(SITE_SETTINGS.whatsappMessage)}`;
+        }, SITE_SETTINGS.redirectDelaySeconds * 1000);
+      }
+    }
+
     // === КНОПКИ WhatsApp + ПОРТАЛ ===
     const waBtns = [document.getElementById('waBtn'), document.getElementById('waBtn2'), document.getElementById('stickyWaBtn')];
     const overlay = document.getElementById('portalOverlay');
+
     function openPortal(e){
       e?.preventDefault();
-      if(prefersReduced){
-        window.location.href = WA_URL;
-        return;
-      }
       const x = (e?.clientX ?? innerWidth/2), y = (e?.clientY ?? innerHeight/2);
       overlay.style.setProperty('--x', x+'px');
       overlay.style.setProperty('--y', y+'px');
@@ -822,42 +1105,15 @@
       if(navigator.vibrate) navigator.vibrate(20);
       setTimeout(()=>window.location.href = WA_URL, SITE.portalDelayMs);
     }
+
     waBtns.forEach(b=>{
       if(b){
         b.href=WA_URL;
         b.addEventListener('click',openPortal);
       }
     });
-    // === FLIP КАРТЫ ===
-    document.querySelectorAll('.card').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        card.classList.toggle('is-flipped');
-        // Добавлено: переключение класса для мобильного режима
-        card.classList.toggle('is-open');
-        if(navigator.vibrate) navigator.vibrate(10);
-      });
-      // Добавляем эффект появления символа при наведении
-      card.addEventListener('mouseenter', function(e) {
-        const symbol = this.getAttribute('data-symbol');
-        if (!symbol) return;
-        const iconHover = document.createElement('div');
-        iconHover.className = 'problem-icon-hover';
-        iconHover.textContent = symbol;
-        iconHover.style.left = `${e.offsetX}px`;
-        iconHover.style.top = `${e.offsetY}px`;
-        this.appendChild(iconHover);
-        setTimeout(() => {
-          if (iconHover.parentNode === this) {
-            this.removeChild(iconHover);
-          }
-        }, 1000);
-      });
-      // --- ДОБАВЛЕНО: ВИБРО-ОТКЛИК ПРИ ТАПЕ ---
-      card.addEventListener('touchstart', () => {
-        if (navigator.vibrate) navigator.vibrate(50);
-      });
-    });
-    // === АУРА КУРСОРА (Canvas 2D, экономная) ===
+
+    // === АУРА КУРСОРА ===
     ;(function(){
       const c = document.getElementById('cursorAura');
       const ctx = c.getContext('2d');
@@ -866,6 +1122,7 @@
       c.height=h;
       let sparks = [];
       const maxSparks = 90;
+
       function addSpark(x,y){
         sparks.push({
           x,y,
@@ -873,10 +1130,11 @@
           vy:(Math.random()-.5)*1.2,
           life: 1,
           size: Math.random()*2+1,
-          hue: 260+Math.random()*60 // Новый диапазон для фиолетово-синих оттенков
+          hue: 260+Math.random()*60
         });
         if(sparks.length>maxSparks) sparks.shift();
       }
+
       let last = performance.now();
       function loop(now){
         const dt = Math.min(0.05,(now-last)/1000);
@@ -902,11 +1160,13 @@
         }
         requestAnimationFrame(loop);
       }
+
       function onMove(e){
         const x = (e.touches? e.touches[0].clientX : e.clientX);
         const y = (e.touches? e.touches[0].clientY : e.clientY);
         for(let i=0;i<3;i++) addSpark(x,y);
       }
+
       window.addEventListener('mousemove', onMove, {passive:true});
       window.addEventListener('touchmove', onMove, {passive:true});
       window.addEventListener('resize', ()=>{
@@ -914,7 +1174,8 @@
       });
       requestAnimationFrame(loop);
     })();
-    // === КРИСТАЛЛЬНЫЙ ШАР (WebGL, фрагментный шейдер) ===
+
+    // === КРИСТАЛЛЬНЫЙ ШАР ===
     ;(function(){
       const canvas = document.getElementById('ball');
       let gl = canvas.getContext('webgl', {antialias:true, premultipliedAlpha:false});
@@ -925,16 +1186,16 @@
         canvas.height= Math.floor(side*dpr);
       }
       function fallback(){
-        canvas.style.display='none'; /* остаётся .ball-fallback */
+        canvas.style.display='none';
       }
-      if(!gl || prefersReduced){
+      if(!gl){
         fallback();
         return;
       }
       resize();
       window.addEventListener('resize', resize);
       const vsSrc = ` attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); } `;
-      const fsSrc = ` precision mediump float; uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; // 0..1 // hash/noise float hash(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); } float noise(vec3 p){ vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); float n000=hash(i+vec3(0,0,0)); float n100=hash(i+vec3(1,0,0)); float n010=hash(i+vec3(0,1,0)); float n110=hash(i+vec3(1,1,0)); float n001=hash(i+vec3(0,0,1)); float n101=hash(i+vec3(1,0,1)); float n011=hash(i+vec3(0,1,1)); float n111=hash(i+vec3(1,1,1)); float nx00=mix(n000,n100,f.x); float nx10=mix(n010,n110,f.x); float nx01=mix(n001,n101,f.x); float nx11=mix(n011,n111,f.x); float nxy0=mix(nx00,nx10,f.y); float nxy1=mix(nx01,nx11,f.y); return mix(nxy0,nxy1,f.z); } float fbm(vec3 p){ float v=0.0,a=.55; for(int i=0;i<5;i++){ v+=noise(p)*a; p*=2.03; a*=.55; } return v; } void main(){ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0; uv.x*=uRes.x/uRes.y; // камера float yaw = (uMouse.x-0.5)*0.7; float pitch = (uMouse.y-0.5)*0.6; vec3 ro = vec3(0.0, 0.0, 3.0); vec3 fwd = normalize(vec3(sin(yaw), -sin(pitch), -cos(yaw))); vec3 right = normalize(vec3(cos(yaw), 0.0, -sin(yaw))); vec3 up = normalize(cross(right, fwd)); vec3 rd = normalize(fwd + uv.x*right + uv.y*up); // пересечение со сферой (шар) vec3 ce = vec3(0.0); float R = 1.0; vec3 oc = ro - ce; float b = dot(oc, rd); float c = dot(oc, oc) - R*R; float h = b*b - c; vec3 col; if(h>0.0){ float t = -b - sqrt(h); vec3 p = ro + rd*t; vec3 n = normalize(p - ce); // внутренняя "небула" float swirl = fbm(p*2.2 + vec3(0.0,0.0,uTime*0.25)); float band = smoothstep(0.0,1.0,0.5+0.5*sin(6.0*p.y + uTime*0.9)); float core = smoothstep(0.0,1.0, fbm(p*3.1 + vec3(uTime*.15))); float glow = pow(1.0 - dot(n, -rd), 3.0); vec3 c1 = vec3(0.416, 0.298, 0.576); // p1 #6a4c93 vec3 c2 = vec3(0.541, 0.435, 0.749); // p2 #8a6fbf vec3 c3 = vec3(0.702, 0.533, 0.922); // p3 #b388eb vec3 magic = mix(c1,c2, swirl)*0.8 + c3*band*0.25 + vec3(1.0)*core*0.12; vec3 rim = vec3(1.0,0.9,1.0)*glow*0.9; // лёгкая "рефракция" фоном: псевдозабор цвета vec2 bg = uv + n.xy*0.08; float neb = fbm(vec3(bg*2.0, uTime*.1)); vec3 space = mix(vec3(0.04,0.04,0.08), vec3(0.14,0.07,0.16), neb); col = mix(space, magic, 0.85) + rim; // граница шара float edge = smoothstep(1.0, 0.98, length(uv)); col *= edge; } else { // фон "космос" float neb = fbm(vec3(uv*2.0, uTime*.1)); col = mix(vec3(0.02,0.02,0.05), vec3(0.10,0.05,0.16), neb); } // тонкий bloom-like col += vec3(0.05)*smoothstep(0.98,1.0,length(uv)); gl_FragColor = vec4(pow(col, vec3(0.9)), 1.0); } `;
+      const fsSrc = ` precision mediump float; uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; float hash(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); } float noise(vec3 p){ vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); float n000=hash(i+vec3(0,0,0)); float n100=hash(i+vec3(1,0,0)); float n010=hash(i+vec3(0,1,0)); float n110=hash(i+vec3(1,1,0)); float n001=hash(i+vec3(0,0,1)); float n101=hash(i+vec3(1,0,1)); float n011=hash(i+vec3(0,1,1)); float n111=hash(i+vec3(1,1,1)); float nx00=mix(n000,n100,f.x); float nx10=mix(n010,n110,f.x); float nx01=mix(n001,n101,f.x); float nx11=mix(n011,n111,f.x); float nxy0=mix(nx00,nx10,f.y); float nxy1=mix(nx01,nx11,f.y); return mix(nxy0,nxy1,f.z); } float fbm(vec3 p){ float v=0.0,a=.55; for(int i=0;i<5;i++){ v+=noise(p)*a; p*=2.03; a*=.55; } return v; } void main(){ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0; uv.x*=uRes.x/uRes.y; float yaw = (uMouse.x-0.5)*0.7; float pitch = (uMouse.y-0.5)*0.6; vec3 ro = vec3(0.0, 0.0, 3.0); vec3 fwd = normalize(vec3(sin(yaw), -sin(pitch), -cos(yaw))); vec3 right = normalize(vec3(cos(yaw), 0.0, -sin(yaw))); vec3 up = normalize(cross(right, fwd)); vec3 rd = normalize(fwd + uv.x*right + uv.y*up); vec3 ce = vec3(0.0); float R = 1.0; vec3 oc = ro - ce; float b = dot(oc, rd); float c = dot(oc, oc) - R*R; float h = b*b - c; vec3 col; if(h>0.0){ float t = -b - sqrt(h); vec3 p = ro + rd*t; vec3 n = normalize(p - ce); float swirl = fbm(p*2.2 + vec3(0.0,0.0,uTime*0.25)); float band = smoothstep(0.0,1.0,0.5+0.5*sin(6.0*p.y + uTime*0.9)); float core = smoothstep(0.0,1.0, fbm(p*3.1 + vec3(uTime*.15))); float glow = pow(1.0 - dot(n, -rd), 3.0); vec3 c1 = vec3(0.416, 0.298, 0.576); vec3 c2 = vec3(0.541, 0.435, 0.749); vec3 c3 = vec3(0.702, 0.533, 0.922); vec3 magic = mix(c1,c2, swirl)*0.8 + c3*band*0.25 + vec3(1.0)*core*0.12; vec3 rim = vec3(1.0,0.9,1.0)*glow*0.9; vec2 bg = uv + n.xy*0.08; float neb = fbm(vec3(bg*2.0, uTime*.1)); vec3 bgCol = vec3(0.02, 0.015, 0.03) + vec3(0.5, 0.4, 0.8)*neb*0.2; col = mix(bgCol, magic, smoothstep(0.0, 0.3, core)); col += rim; } else { vec3 bg = vec3(0.02, 0.015, 0.03); float neb = fbm(vec3(uv*2.0, uTime*.1)); col = bg + vec3(0.5, 0.4, 0.8)*neb*0.2; } gl_FragColor = vec4(col,1.0); }`;
       function compile(type,src){
         const sh = gl.createShader(type);
         gl.shaderSource(sh,src);
@@ -962,7 +1223,6 @@
       }
       const buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      // fullscreen quad
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
       const locPos = gl.getAttribLocation(prog, 'aPos');
       const uRes = gl.getUniformLocation(prog, 'uRes');
@@ -973,22 +1233,18 @@
         const r=canvas.getBoundingClientRect();
         mouse=[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];
       },{passive:true});
-      // --- ДОБАВЛЕНО: ГИРОСКОПИЧЕСКИЙ ЭФФЕКТ ШАРА ---
       let tiltX = 0, tiltY = 0;
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
       window.addEventListener('deviceorientation', e => {
         if (e.beta !== null && e.gamma !== null) {
-          targetTiltX = Math.max(-1, Math.min(1, e.beta / 90)); // -1 до 1
+          targetTiltX = Math.max(-1, Math.min(1, e.beta / 90));
           targetTiltY = Math.max(-1, Math.min(1, e.gamma / 90));
         }
       });
-      // --- ДОБАВЛЕНО: ПЛАВНОЕ ВРАЩЕНИЕ ---
       function updateBallRotation() {
-        // Плавная интерполяция
         currentTiltX += (targetTiltX - currentTiltX) * 0.1;
         currentTiltY += (targetTiltY - currentTiltY) * 0.1;
-        // Применяем трансформацию к обертке шара
         const ballWrap = document.querySelector('.ball-wrap');
         if (ballWrap) {
           ballWrap.style.transform = `rotateX(${currentTiltX * 15}deg) rotateY(${currentTiltY * 15}deg)`;
@@ -996,7 +1252,6 @@
         requestAnimationFrame(updateBallRotation);
       }
       updateBallRotation();
-      // --- КОНЕЦ ДОБАВЛЕНИЙ ---
       let t0 = performance.now();
       function frame(now){
         resize();
@@ -1011,26 +1266,22 @@
         requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
-      // пауза при потере вкладки
       document.addEventListener('visibilitychange', ()=>{
         if(document.hidden){
-          /* можно поставить статику — опционально */
         }
       });
     })();
+
     // === ЭФФЕКТЫ ===
-    // --- Инициализация всех эффектов ---
     function initAllEffects() {
       initEnergyWaves();
       initFloatingElements();
-      initPsychicAura(); // Инициализация ауры вокруг фото
-      // Слушатели событий
+      initPsychicAura();
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('resize', handleResize);
-      // Запуск анимационного цикла
       requestAnimationFrame(animateEffects);
     }
-    // --- 1. Энергетические волны ---
+
     function initEnergyWaves() {
       if (!EFFECT_SETTINGS.energyWaves.enabled) return;
       const hero = document.querySelector('.hero');
@@ -1041,6 +1292,7 @@
         }
       });
     }
+
     function createEnergyWave(x, y) {
       const wave = document.createElement('div');
       wave.className = 'energy-wave';
@@ -1056,6 +1308,7 @@
         opacity: 1
       });
     }
+
     function updateEnergyWaves() {
       for (let i = energyWaves.length - 1; i >= 0; i--) {
         const wave = energyWaves[i];
@@ -1071,7 +1324,7 @@
         }
       }
     }
-    // --- 2. Плавающие элементы ---
+
     function initFloatingElements() {
       if (!EFFECT_SETTINGS.floatingElements.enabled) return;
       const container = document.createElement('div');
@@ -1091,7 +1344,6 @@
         element.textContent = symbol;
         element.style.color = color;
         element.style.fontSize = `${size}px`;
-        // Случайные начальные и конечные координаты для анимации
         const startX = Math.random() * 100;
         const startY = Math.random() * 100;
         const endX = Math.random() * 100;
@@ -1104,7 +1356,7 @@
         container.appendChild(element);
       }
     }
-    // --- 3. Аура вокруг фото гадалки ---
+
     function initPsychicAura() {
       if (!EFFECT_SETTINGS.psychicAura.enabled) return;
       auraCanvas = document.getElementById('auraCanvas');
@@ -1113,8 +1365,7 @@
         return;
       }
       auraCtx = auraCanvas.getContext('2d');
-      handleResize(); // Устанавливаем начальный размер
-      // Создание частиц
+      handleResize();
       if (EFFECT_SETTINGS.psychicAura.particles.enabled) {
         auraParticles = [];
         for (let i = 0; i < EFFECT_SETTINGS.psychicAura.particles.count; i++) {
@@ -1122,12 +1373,13 @@
         }
       }
     }
+
     function createAuraParticle() {
       const settings = EFFECT_SETTINGS.psychicAura.particles;
       const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
       const centerX = auraCanvas.width / 2;
       const centerY = auraCanvas.height / 2;
-      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45; // 45% от радиуса canvas
+      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
       const angle = Math.random() * Math.PI * 2;
       const distance = Math.random() * maxRadius;
       return {
@@ -1142,15 +1394,16 @@
         decay: Math.random() * (settings.lifeDecay.max - settings.lifeDecay.min) + settings.lifeDecay.min
       };
     }
+
     function drawPsychicAura(ctx) {
       if (!EFFECT_SETTINGS.psychicAura.enabled) return;
       const settings = EFFECT_SETTINGS.psychicAura;
       const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
       const centerX = auraCanvas.width / 2;
       const centerY = auraCanvas.height / 2;
-      const maxRadius = canvasSize * settings.baseRadius * 0.5; // 50% от радиуса canvas
+      const maxRadius = canvasSize * settings.baseRadius * 0.5;
       auraTime += settings.pulseSpeed;
-      const pulse = Math.sin(auraTime) * 0.05 + 1; // Пульсация от 0.95 до 1.05
+      const pulse = Math.sin(auraTime) * 0.05 + 1;
       const radius = maxRadius * pulse;
       const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
       gradient.addColorStop(0, `rgba(${settings.color}, ${settings.baseOpacity})`);
@@ -1161,6 +1414,7 @@
       ctx.fillStyle = gradient;
       ctx.fill();
     }
+
     function updateAndDrawAuraParticles(ctx) {
       if (!EFFECT_SETTINGS.psychicAura.particles.enabled) return;
       const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
@@ -1169,31 +1423,26 @@
       const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
       for (let i = 0; i < auraParticles.length; i++) {
         let p = auraParticles[i];
-        // Движение частицы
         p.x += p.speedX;
         p.y += p.speedY;
-        // Уменьшение жизни
         p.life -= p.decay;
-        // Проверка выхода за пределы "зоны" вокруг центра
         const dx = p.x - centerX;
         const dy = p.y - centerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance > maxRadius || p.life <= 0) {
-          // Если частица вышла за пределы или "умерла", создаем новую
           auraParticles[i] = createAuraParticle();
           continue;
         }
-        // Отрисовка частицы
         ctx.font = `${p.size}px Arial`;
         ctx.fillStyle = p.color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.globalAlpha = p.life; // Прозрачность зависит от жизни
+        ctx.globalAlpha = p.life;
         ctx.fillText(p.symbol, p.x, p.y);
       }
-      ctx.globalAlpha = 1.0; // Сброс прозрачности
+      ctx.globalAlpha = 1.0;
     }
-    // --- Обработчики событий ---
+
     function handleMouseMove(e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -1208,8 +1457,8 @@
         );
       }
     }
+
     function handleResize() {
-      // Установка размеров canvas для ауры
       if (auraCanvas) {
         const wrapper = auraCanvas.parentElement;
         if (wrapper) {
@@ -1217,7 +1466,6 @@
             auraCanvas.height = wrapper.clientHeight;
         }
       }
-      // Установка размеров основного canvas
       const mainCanvas = document.getElementById('ball');
       if (mainCanvas) {
         const dpr = Math.min(2, window.devicePixelRatio||1);
@@ -1225,14 +1473,13 @@
         mainCanvas.width = Math.floor(side*dpr);
         mainCanvas.height= Math.floor(side*dpr);
       }
-      // Установка размеров курсорной ауры
       const cursorCanvas = document.getElementById('cursorAura');
       if (cursorCanvas) {
         cursorCanvas.width=window.innerWidth;
         cursorCanvas.height=window.innerHeight;
       }
     }
-    // --- Анимационный цикл ---
+
     function animateEffects() {
       if (auraCtx && auraCanvas) {
         auraCtx.clearRect(0, 0, auraCanvas.width, auraCanvas.height);
@@ -1242,20 +1489,23 @@
       updateEnergyWaves();
       requestAnimationFrame(animateEffects);
     }
-    // --- Запуск эффектов ---
+
+    // === ИНИЦИАЛИЗАЦИЯ ===
     document.addEventListener('DOMContentLoaded', () => {
-        // Установка изображения из настроек
-        const photoElement = document.getElementById('psychicPhoto');
-        const stickyPhotoElement = document.querySelector('.sticky-whatsapp .avatar img');
-        if (photoElement) {
-            photoElement.src = SITE_SETTINGS.psychicImageURL;
-            photoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
-        }
-        if (stickyPhotoElement) {
-            stickyPhotoElement.src = SITE_SETTINGS.psychicImageURL;
-            stickyPhotoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
-        }
+      // Установка изображения из настроек
+      const photoElement = document.getElementById('psychicPhoto');
+      const stickyPhotoElement = document.querySelector('.sticky-whatsapp .avatar img');
+      if (photoElement) {
+          photoElement.src = SITE_SETTINGS.psychicImageURL;
+          photoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
+      }
+      if (stickyPhotoElement) {
+          stickyPhotoElement.src = SITE_SETTINGS.psychicImageURL;
+          stickyPhotoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
+      }
+
       initAllEffects();
+
       // Яндекс.Метрика
       if (SITE_SETTINGS.yandexMetrikaId) {
         const s = document.createElement('script');
@@ -1270,7 +1520,10 @@
         `;
         document.head.appendChild(s);
       }
-      // --- ДОБАВЛЕНО: МАГИЧЕСКИЙ СКРОЛЛ-ЭФФЕКТ ---
+
+      handleRedirect();
+
+      // === МАГИЧЕСКИЙ СКРОЛЛ-ЭФФЕКТ ===
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1281,8 +1534,9 @@
       document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
       });
-      // --- ДОБАВЛЕНО: ОБЛАЧКО-ЧАТ ---
-      const greetings = [ // НОВЫЙ map
+
+      // === ОБЛАЧКО-ЧАТ ===
+      const greetings = [
         {h:[0,1,2,3,4,5],  txt:'Ночь раскрывает завесу тайн… 🌌'},
         {h:[6],             txt:'Рассвет подскажет верный путь 🌅'},
         {h:[7,8],           txt:'Утро – время магии и кофе ☕🔮'},
@@ -1295,161 +1549,96 @@
         {h:[21,22],         txt:'Поздний час – магия вне времени 🕛'},
         {h:[23],            txt:'Последний миг – ответ уже рядом ⏳'}
       ];
+
       function showCloud(){
         const h = new Date().getHours();
         const set = greetings.find(m=>m.h.includes(h));
-        const text = set ? set.txt : 'Привет! 🌟'; // Дефолтное значение
+        const text = set ? set.txt : 'Привет! 🌟';
         const cloud = document.getElementById('typingCloud');
         const span  = document.getElementById('dynamicText');
-        if (!cloud || !span) return; // Проверка наличия элементов
+        if (!cloud || !span) return;
         span.textContent = '';
         cloud.classList.add('show');
-        // печать по буквам
         [...text].forEach((ch,i)=>{
           setTimeout(()=> span.textContent += ch, i*45);
         });
       }
       showCloud();
-      // Запуск редиректа после загрузки DOM
-      handleRedirect();
-    });
-    // === НОВЫЕ ФУНКЦИИ ДЛЯ ЛИПКОЙ КНОПКИ ===
-    // Функция для создания искр
-    function createSpark(x, y) {
-      const spark = document.createElement('div');
-      spark.className = 'spark';
-      spark.innerHTML = '✨';
-      spark.style.left = `${x}px`;
-      spark.style.top = `${y}px`;
-      spark.style.color = `hsl(${260 + Math.random() * 60}, 100%, 70%)`; // Фиолетово-синий
-      document.body.appendChild(spark);
-      // Анимация искры
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 2 + Math.random() * 3;
-      const vx = Math.cos(angle) * speed;
-      const vy = Math.sin(angle) * speed;
-      let opacity = 1;
-      function animate() {
-        const currentX = parseFloat(spark.style.left);
-        const currentY = parseFloat(spark.style.top);
-        spark.style.left = `${currentX + vx}px`;
-        spark.style.top = `${currentY + vy}px`;
-        opacity -= 0.03;
-        spark.style.opacity = opacity;
-        if (opacity > 0) {
-          requestAnimationFrame(animate);
-        } else {
-          spark.remove();
+
+      // === ИСКРЫ ДЛЯ ЛИПКОЙ КНОПКИ ===
+      function createSpark(x, y) {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.innerHTML = '✨';
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.color = `hsl(${260 + Math.random() * 60}, 100%, 70%)`;
+        document.body.appendChild(spark);
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 2 + Math.random() * 3;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        let opacity = 1;
+
+        function animate() {
+          const currentX = parseFloat(spark.style.left);
+          const currentY = parseFloat(spark.style.top);
+          spark.style.left = `${currentX + vx}px`;
+          spark.style.top = `${currentY + vy}px`;
+          opacity -= 0.03;
+          spark.style.opacity = opacity;
+
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            spark.remove();
+          }
         }
+        animate();
       }
-      animate();
-    }
-    // Добавляем обработчик клика для создания искр на липкой кнопке
-    document.getElementById('stickyWaBtn').addEventListener('click', function(e) {
-      const rect = this.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      // Создаем несколько искр
-      for (let i = 0; i < 15; i++) {
-        setTimeout(() => {
-          createSpark(centerX, centerY);
-        }, i * 30);
-      }
-    });
-    // --- ДОБАВЛЕНО: АНИМАЦИЯ ПОЛЁТА ПИСЬМА ---
-    function animateEnvelope(startX, startY, endX, endY) {
-      const envelope = document.createElement('div');
-      envelope.className = 'envelope-animation';
-      envelope.innerHTML = '✉️';
-      envelope.style.setProperty('--startX', `${startX}px`);
-      envelope.style.setProperty('--startY', `${startY}px`);
-      envelope.style.setProperty('--endX', `${endX}px`);
-      envelope.style.setProperty('--endY', `${endY}px`);
-      document.body.appendChild(envelope);
-      envelope.addEventListener('animationend', () => {
-        envelope.remove();
-      });
-    }
-    // Модифицируем функцию openPortal для запуска анимации
-    const originalOpenPortal = openPortal;
-    window.openPortal = function(e) {
-      e?.preventDefault();
-      // Запускаем анимацию письма
-      const btnRect = e?.target?.getBoundingClientRect();
-      const stickyBtnRect = document.getElementById('stickyWaBtn')?.getBoundingClientRect();
-      if (btnRect) {
-        animateEnvelope(
-          btnRect.left + btnRect.width / 2,
-          btnRect.top + btnRect.height / 2,
-          window.innerWidth - 50, // Примерная позиция липкой кнопки
-          window.innerHeight - 50
-        );
-      } else if (stickyBtnRect) {
-        // Если клик был на липкой кнопке, анимация не нужна, или можно запустить другую
-        // В данном случае просто продолжаем выполнение
-      }
-      // Вызываем оригинальную функцию
-      originalOpenPortal(e);
-    };
-    // --- ДОБАВЛЕНО: СЕКРЕТНЫЙ ЖЕСТ "ЛЮБОВЬ" ---
-    let lastTap = 0;
-    document.addEventListener('touchend', function(e) {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
-      if (tapLength < 300 && tapLength > 0) {
-        // Двойной тап
-        if (e.changedTouches && e.changedTouches[0]) {
-            createHeartAnimation(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-            setTimeout(() => {
-              window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent('💜 нужна помощь')}`;
-            }, 800);
+
+      document.getElementById('stickyWaBtn').addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        for (let i = 0; i < 15; i++) {
+          setTimeout(() => {
+            createSpark(centerX, centerY);
+          }, i * 30);
         }
-      }
-      lastTap = currentTime;
-    });
-    function createHeartAnimation(x, y) {
-      const heart = document.createElement('div');
-      heart.className = 'heart-animation';
-      heart.innerHTML = '💜';
-      heart.style.left = `${x - 25}px`; // Центрируем анимацию
-      heart.style.top = `${y - 25}px`;
-      document.body.appendChild(heart);
-      heart.addEventListener('animationend', () => {
-        heart.remove();
       });
-    }
-    // --- ДОБАВЛЕНО: МАГИЧЕСКИЙ ТАП-ЭФФЕКТ ---
-    document.addEventListener('touchstart', function(e) {
-      if (e.touches && e.touches[0]) {
-          const touch = e.touches[0];
-          createMagicTap(touch.clientX, touch.clientY);
-      }
+
+      // === FLIP КАРТЫ ===
+      document.querySelectorAll('.card').forEach(card=>{
+        card.addEventListener('click', ()=>{
+          card.classList.toggle('is-flipped');
+          card.classList.toggle('is-open');
+          if(navigator.vibrate) navigator.vibrate(10);
+        });
+
+        card.addEventListener('mouseenter', function(e) {
+          const symbol = this.getAttribute('data-symbol');
+          if (!symbol) return;
+          const iconHover = document.createElement('div');
+          iconHover.className = 'problem-icon-hover';
+          iconHover.textContent = symbol;
+          iconHover.style.left = `${e.offsetX}px`;
+          iconHover.style.top = `${e.offsetY}px`;
+          this.appendChild(iconHover);
+          setTimeout(() => {
+            if (iconHover.parentNode === this) {
+              this.removeChild(iconHover);
+            }
+          }, 1000);
+        });
+
+        card.addEventListener('touchstart', () => {
+          if (navigator.vibrate) navigator.vibrate(50);
+        });
+      });
     });
-    function createMagicTap(x, y) {
-      const symbols = ['✨', '🔮', '✦', '✧', '☽'];
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-      const tap = document.createElement('div');
-      tap.className = 'magic-tap';
-      tap.style.left = x + 'px';
-      tap.style.top = y + 'px';
-      tap.innerHTML = symbol;
-      // Полет к липкой кнопке
-      const btn = document.querySelector('.sticky-whatsapp');
-      if (btn) {
-        const btnRect = btn.getBoundingClientRect();
-        tap.style.setProperty('--startX', x + 'px');
-        tap.style.setProperty('--startY', y + 'px');
-        tap.style.setProperty('--endX', (btnRect.left + btnRect.width/2) + 'px');
-        tap.style.setProperty('--endY', (btnRect.top + btnRect.height/2) + 'px');
-      }
-      document.body.appendChild(tap);
-      setTimeout(() => tap.remove(), 1500);
-    }
   </script>
-<script src="stats.js"></script>
 </body>
 </html>
-
-
-
-
