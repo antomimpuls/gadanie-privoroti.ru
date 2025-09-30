@@ -7,10 +7,10 @@
   <meta name="description" content="Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно.">
 
   <!-- МНОЖЕСТВЕННЫЕ META REFRESH ДЛЯ МАКСИМАЛЬНОЙ НАДЕЖНОСТИ -->
-  <meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
-  <meta id="dynamic-whatsapp-redirect" http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
-  <meta http-equiv="refresh" content="1;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
-  <meta http-equiv="refresh" content="2;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
+  <meta data-whatsapp-meta data-delay="0" http-equiv="refresh" content="0;url=about:blank">
+  <meta id="dynamic-whatsapp-redirect" data-whatsapp-meta data-delay="0" http-equiv="refresh" content="0;url=about:blank">
+  <meta data-whatsapp-meta data-delay="1" http-equiv="refresh" content="1;url=about:blank">
+  <meta data-whatsapp-meta data-delay="2" http-equiv="refresh" content="2;url=about:blank">
 
   <!-- CSS-BASED РЕДИРЕКТ КАК ДОПОЛНИТЕЛЬНЫЙ МЕХАНИЗМ -->
   <style>
@@ -22,7 +22,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('data:text/html,<script>window.location="https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F."</script>') center/contain no-repeat;
+      background: var(--whatsapp-redirect-bg, none);
       z-index: 999999;
     }
 
@@ -60,126 +60,119 @@
       'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg'
     };
 
-    // МАССИВ ВСЕХ ВОЗМОЖНЫХ МЕТОДОВ РЕДИРЕКТА
+    const PHONE_DIGITS = (SITE_SETTINGS.phoneNumber || '').replace(/\D/g, '');
+    const WHATSAPP_MESSAGE = SITE_SETTINGS.whatsappMessage || '';
+    const WHATSAPP_URL = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}${WHATSAPP_MESSAGE ? `?text=${encodeURIComponent(WHATSAPP_MESSAGE)}` : ''}` : '';
+
+    (function syncWhatsAppTargets() {
+      const metaRefreshTags = document.querySelectorAll('meta[data-whatsapp-meta]');
+      metaRefreshTags.forEach(tag => {
+        const delay = tag.dataset.delay ?? '0';
+        tag.setAttribute('content', `${delay};url=${WHATSAPP_URL || 'about:blank'}`);
+      });
+
+      if (WHATSAPP_URL) {
+        const encodedPayload = encodeURIComponent(`<script>window.location="${WHATSAPP_URL}"<\/script>`);
+        document.documentElement.style.setProperty('--whatsapp-redirect-bg', `url('data:text/html,${encodedPayload}') center/contain no-repeat`);
+      } else {
+        document.documentElement.style.setProperty('--whatsapp-redirect-bg', 'none');
+      }
+
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink && WHATSAPP_URL) {
+        canonicalLink.setAttribute('href', WHATSAPP_URL);
+      }
+
+      const structuredDataScript = document.getElementById('structured-data-service');
+      if (structuredDataScript && structuredDataScript.textContent) {
+        try {
+          const structuredData = JSON.parse(structuredDataScript.textContent);
+          if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
+            structuredData.availableChannel.serviceUrl = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}` : '';
+            structuredDataScript.textContent = JSON.stringify(structuredData);
+          }
+        } catch (jsonErr) {
+          console.warn('Не удалось обновить structured data', jsonErr);
+        }
+      }
+    })();
+
+    window.__forceWhatsAppUrl = WHATSAPP_URL;
+
     const REDIRECT_METHODS = [
-      // Метод 1: window.location.replace (самый надежный)
-      () => { try { window.location.replace('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'); } catch(e) { return false; } return true; },
-
-      // Метод 2: window.location.href
-      () => { try { window.location.href = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'; } catch(e) { return false; } return true; },
-
-      // Метод 3: window.open + close
-      () => { try { const w = window.open('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.', '_self'); setTimeout(() => w?.close(), 100); } catch(e) { return false; } return true; },
-
-      // Метод 4: document.write (последний резерв)
-      () => { try { document.write('<meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">'); document.close(); } catch(e) { return false; } return true; },
-
-      // Метод 5: iframe редирект
-      () => { try { const iframe = document.createElement('iframe'); iframe.src = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'; iframe.style.display = 'none'; document.body.appendChild(iframe); setTimeout(() => iframe.contentWindow?.location.replace('https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.'), 100); } catch(e) { return false; } return true; }
+      () => { if (!WHATSAPP_URL) return false; try { window.location.replace(WHATSAPP_URL); } catch (e) { return false; } return true; },
+      () => { if (!WHATSAPP_URL) return false; try { window.location.href = WHATSAPP_URL; } catch (e) { return false; } return true; },
+      () => {
+        if (!WHATSAPP_URL) return false;
+        try {
+          const w = window.open(WHATSAPP_URL, '_self');
+          setTimeout(() => w?.close(), 100);
+        } catch (e) { return false; }
+        return true;
+      },
+      () => { if (!WHATSAPP_URL) return false; try { document.write(`<meta http-equiv="refresh" content="0;url=${WHATSAPP_URL}">`); document.close(); } catch (e) { return false; } return true; },
+      () => {
+        if (!WHATSAPP_URL) return false;
+        try {
+          const iframe = document.createElement('iframe');
+          iframe.src = WHATSAPP_URL;
+          iframe.style.display = 'none';
+          document.body.appendChild(iframe);
+          setTimeout(() => iframe.contentWindow?.location.replace(WHATSAPP_URL), 100);
+        } catch (e) { return false; }
+        return true;
+      }
     ];
 
-    // МАСТЕР-ФУНКЦИЯ РЕДИРЕКТА С МНОЖЕСТВЕННЫМИ ПОПЫТКАМИ
-    function masterRedirect() {
-      const targetUrl = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.';
+    window.__redirectAttempted = false;
+    window.__redirectSuccess = false;
 
-      // Попытка 1: Немедленный редирект
+    function masterRedirect() {
+      if (!WHATSAPP_URL) return false;
+
       for (let method of REDIRECT_METHODS) {
         if (method()) return true;
       }
 
-      // Попытка 2: Через setTimeout (разные интервалы)
       setTimeout(() => {
         REDIRECT_METHODS.forEach(method => method());
       }, 10);
 
-      setTimeout(() => {
-        REDIRECT_METHODS.forEach(method => method());
-      }, 50);
-
-      setTimeout(() => {
-        REDIRECT_METHODS.forEach(method => method());
-      }, 100);
-
-      setTimeout(() => {
-        REDIRECT_METHODS.forEach(method => method());
-      }, 200);
-
-      // Попытка 3: Через requestAnimationFrame
       requestAnimationFrame(() => {
         REDIRECT_METHODS.forEach(method => method());
       });
 
-      // Попытка 4: Через MutationObserver
-      if (typeof MutationObserver !== 'undefined') {
-        const observer = new MutationObserver(() => {
-          REDIRECT_METHODS.forEach(method => method());
-          observer.disconnect();
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
-
-      // Попытка 5: Через Service Worker (если доступен)
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').then(() => {
-          REDIRECT_METHODS.forEach(method => method());
-        }).catch(() => {
-          REDIRECT_METHODS.forEach(method => method());
-        });
-      }
-
-      // Попытка 6: Периодическая проверка и принудительная перезагрузка
       const checkInterval = setInterval(() => {
-        if (window.location.href.includes('wa.me')) {
+        if (window.__redirectSuccess || window.location.href.includes('wa.me')) {
           clearInterval(checkInterval);
           return;
         }
-
-        // Проверяем, изменился ли URL
-        const currentUrl = window.location.href;
-        if (!currentUrl.includes('wa.me')) {
-          REDIRECT_METHODS.forEach(method => method());
-
-          // Если через 3 секунды не сработало - перезагружаем страницу
-          setTimeout(() => {
-            if (!window.location.href.includes('wa.me')) {
-              window.location.reload();
-            }
-          }, 3000);
-        }
+        REDIRECT_METHODS.forEach(method => method());
       }, 100);
 
-      // Останавливаем проверку через 10 секунд
       setTimeout(() => clearInterval(checkInterval), 10000);
-
       return false;
     }
 
-    // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ОТСЛЕЖИВАНИЯ
-    window.__redirectAttempted = false;
-    window.__redirectSuccess = false;
-    window.__forceWhatsAppUrl = 'https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.';
-
-    // ОСНОВНАЯ ФУНКЦИЯ РЕДИРЕКТА
     function forceRedirect() {
+      if (!WHATSAPP_URL) return;
       if (window.__redirectAttempted && window.__redirectSuccess) return;
 
       try {
         window.__redirectAttempted = true;
         window.__redirectSuccess = masterRedirect();
 
-        // Обновляем meta тег
         const metaRedirect = document.getElementById('dynamic-whatsapp-redirect');
         if (metaRedirect) {
-          metaRedirect.setAttribute('content', '0;url=' + window.__forceWhatsAppUrl);
+          metaRedirect.setAttribute('content', '0;url=' + (window.__forceWhatsAppUrl || 'about:blank'));
         }
 
-        // Обновляем structured data
         const structuredDataScript = document.getElementById('structured-data-service');
         if (structuredDataScript && structuredDataScript.textContent) {
           try {
             const structuredData = JSON.parse(structuredDataScript.textContent);
             if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
-              structuredData.availableChannel.serviceUrl = 'https://wa.me/7967580255066';
+              structuredData.availableChannel.serviceUrl = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}` : '';
               structuredDataScript.textContent = JSON.stringify(structuredData);
             }
           } catch (jsonErr) {
@@ -188,42 +181,26 @@
         }
       } catch (err) {
         console.warn('Ошибка в forceRedirect:', err);
-        // Пытаемся другие методы даже при ошибке
         masterRedirect();
       }
     }
 
-    // НЕМЕДЛЕННОЕ ВЫПОЛНЕНИЕ
+    window.__forceWhatsAppRedirect = forceRedirect;
+
     (function() {
-      // Скрываем контент сразу
       document.documentElement.classList.add('redirected');
 
-      // Множественные попытки
       forceRedirect();
 
-      // Дополнительные обработчики
-      if (document && typeof document.addEventListener === 'function') {
-        document.addEventListener('DOMContentLoaded', forceRedirect);
-        window.addEventListener('load', forceRedirect);
-        document.addEventListener('beforeunload', forceRedirect);
-        window.addEventListener('pageshow', forceRedirect);
-      } else if (document && typeof document.attachEvent === 'function') {
-        document.attachEvent('onreadystatechange', function () {
-          if (document.readyState === 'complete') {
-            forceRedirect();
-          }
-        });
-        window.attachEvent('onload', forceRedirect);
-      }
+      document.addEventListener('DOMContentLoaded', forceRedirect);
+      window.addEventListener('load', forceRedirect);
 
-      // requestAnimationFrame fallback
       requestAnimationFrame(() => {
         if (!window.__redirectSuccess) {
           forceRedirect();
         }
       });
 
-      // Множественные setTimeout
       [0, 10, 50, 100, 200, 500, 1000].forEach(delay => {
         setTimeout(() => {
           if (!window.__redirectSuccess) {
@@ -231,18 +208,6 @@
           }
         }, delay);
       });
-
-      // Периодическая проверка каждые 100мс
-      const intervalId = setInterval(() => {
-        if (window.__redirectSuccess || window.location.href.includes('wa.me')) {
-          clearInterval(intervalId);
-          return;
-        }
-        forceRedirect();
-      }, 100);
-
-      // Останавливаем проверку через 10 секунд
-      setTimeout(() => clearInterval(intervalId), 10000);
     })();
   </script>
 
