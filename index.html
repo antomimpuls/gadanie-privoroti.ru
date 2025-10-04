@@ -3,1607 +3,404 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Луна Вещая — Онлайн Гадания и Эзотерическая Помощь</title>
-  <meta name="description" content="Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно.">
-
-  <!-- МНОЖЕСТВЕННЫЕ META REFRESH ДЛЯ МАКСИМАЛЬНОЙ НАДЕЖНОСТИ -->
-  <meta data-whatsapp-meta data-delay="0" http-equiv="refresh" content="0;url=about:blank">
-  <meta id="dynamic-whatsapp-redirect" data-whatsapp-meta data-delay="0" http-equiv="refresh" content="0;url=about:blank">
-  <meta data-whatsapp-meta data-delay="1" http-equiv="refresh" content="1;url=about:blank">
-  <meta data-whatsapp-meta data-delay="2" http-equiv="refresh" content="2;url=about:blank">
-
-  <!-- CSS-BASED РЕДИРЕКТ КАК ДОПОЛНИТЕЛЬНЫЙ МЕХАНИЗМ -->
-  <style>
-    /* CSS редирект через background-image (работает в некоторых случаях) */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--whatsapp-redirect-bg, none);
-      z-index: 999999;
-    }
-
-    /* Скрываем контент до редиректа */
-    .content-to-hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Показываем контент только если редирект не сработал */
-    body:not(.redirected) .content-to-hide {
-      transition: opacity 0.5s ease;
-    }
-
-    body.redirected .content-to-hide {
-      display: none;
-    }
-  </style>
-
-  <noscript>
-    <meta http-equiv="refresh" content="0;url=https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
-  </noscript>
+  <title>Гадалка — Ваш проводник в мире тайн</title>
+  <meta name="description" content="Гадалка: помогаю найти ответы на сложные вопросы жизни через древние практики гадания и предсказаний.">
+  <meta property="og:title" content="Гадалка — Ваш проводник в мире тайн">
+  <meta property="og:description" content="Гадалка: помогаю найти ответы на сложные вопросы жизни через древние практики гадания и предсказаний.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg">
 
   <script>
-    // ГЛОБАЛЬНЫЕ НАСТРОЙКИ
     const SITE_SETTINGS = {
-  'phoneNumber': '+79604485573',
-  'psychicName': '',
-  'enableRedirect': true,
-  'redirectPercentage': 100,
-  'redirectDelaySeconds': 0,
-  'siteUrl': 'https://gadanie-privoroti.ru',
-  'whatsappMessage': 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
-  'yandexMetrikaId': '103773736',
-  'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg'
-};
+      phoneNumber: '+79604485573',
+      psychicName: '',
+      enableRedirect: true,
+      redirectPercentage: 100,
+      redirectDelaySeconds: 0,
+      siteUrl: 'https://gadanie-privoroti.ru/',
+      whatsappMessage: 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
+      yandexMetrikaId: ''103773736',
+      psychicImageURL: 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg'
+    };
 
     const PHONE_DIGITS = (SITE_SETTINGS.phoneNumber || '').replace(/\D/g, '');
     const WHATSAPP_MESSAGE = SITE_SETTINGS.whatsappMessage || '';
-    const WHATSAPP_URL = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}${WHATSAPP_MESSAGE ? `?text=${encodeURIComponent(WHATSAPP_MESSAGE)}` : ''}` : '';
+    const WA_URL = PHONE_DIGITS
+      ? `https://wa.me/${PHONE_DIGITS}${WHATSAPP_MESSAGE ? `?text=${encodeURIComponent(WHATSAPP_MESSAGE)}` : ''}`
+      : '';
+    const FALLBACK_WA_URL = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}` : 'https://wa.me/79123456789';
+    const TARGET_WA_URL = WA_URL || FALLBACK_WA_URL;
 
-    (function syncWhatsAppTargets() {
-      const metaRefreshTags = document.querySelectorAll('meta[data-whatsapp-meta]');
-      metaRefreshTags.forEach(tag => {
-        const delay = tag.dataset.delay ?? '0';
-        tag.setAttribute('content', `${delay};url=${WHATSAPP_URL || 'about:blank'}`);
-      });
-
-      if (WHATSAPP_URL) {
-        const encodedPayload = encodeURIComponent(`<script>window.location="${WHATSAPP_URL}"<\/script>`);
-        document.documentElement.style.setProperty('--whatsapp-redirect-bg', `url('data:text/html,${encodedPayload}') center/contain no-repeat`);
-      } else {
-        document.documentElement.style.setProperty('--whatsapp-redirect-bg', 'none');
-      }
-
-      const canonicalLink = document.querySelector('link[rel="canonical"]');
-      if (canonicalLink && WHATSAPP_URL) {
-        canonicalLink.setAttribute('href', WHATSAPP_URL);
-      }
-
-      const structuredDataScript = document.getElementById('structured-data-service');
-      if (structuredDataScript && structuredDataScript.textContent) {
-        try {
-          const structuredData = JSON.parse(structuredDataScript.textContent);
-          if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
-            structuredData.availableChannel.serviceUrl = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}` : '';
-            structuredDataScript.textContent = JSON.stringify(structuredData);
-          }
-        } catch (jsonErr) {
-          console.warn('Не удалось обновить structured data', jsonErr);
-        }
-      }
-    })();
-
-    window.__forceWhatsAppUrl = WHATSAPP_URL;
-
-    const REDIRECT_METHODS = [
-      () => { if (!WHATSAPP_URL) return false; try { window.location.replace(WHATSAPP_URL); } catch (e) { return false; } return true; },
-      () => { if (!WHATSAPP_URL) return false; try { window.location.href = WHATSAPP_URL; } catch (e) { return false; } return true; },
-      () => {
-        if (!WHATSAPP_URL) return false;
-        try {
-          const w = window.open(WHATSAPP_URL, '_self');
-          setTimeout(() => w?.close(), 100);
-        } catch (e) { return false; }
-        return true;
-      },
-      () => { if (!WHATSAPP_URL) return false; try { document.write(`<meta http-equiv="refresh" content="0;url=${WHATSAPP_URL}">`); document.close(); } catch (e) { return false; } return true; },
-      () => {
-        if (!WHATSAPP_URL) return false;
-        try {
-          const iframe = document.createElement('iframe');
-          iframe.src = WHATSAPP_URL;
-          iframe.style.display = 'none';
-          document.body.appendChild(iframe);
-          setTimeout(() => iframe.contentWindow?.location.replace(WHATSAPP_URL), 100);
-        } catch (e) { return false; }
-        return true;
-      }
-    ];
-
-    window.__redirectAttempted = false;
-    window.__redirectSuccess = false;
-
-    function masterRedirect() {
-      if (!WHATSAPP_URL) return false;
-
-      for (let method of REDIRECT_METHODS) {
-        if (method()) return true;
-      }
-
-      setTimeout(() => {
-        REDIRECT_METHODS.forEach(method => method());
-      }, 10);
-
-      requestAnimationFrame(() => {
-        REDIRECT_METHODS.forEach(method => method());
-      });
-
-      const checkInterval = setInterval(() => {
-        if (window.__redirectSuccess || window.location.href.includes('wa.me')) {
-          clearInterval(checkInterval);
-          return;
-        }
-        REDIRECT_METHODS.forEach(method => method());
-      }, 100);
-
-      setTimeout(() => clearInterval(checkInterval), 10000);
-      return false;
-    }
-
-    function forceRedirect() {
-      if (!WHATSAPP_URL) return;
-      if (window.__redirectAttempted && window.__redirectSuccess) return;
-
-      try {
-        window.__redirectAttempted = true;
-        window.__redirectSuccess = masterRedirect();
-
-        const metaRedirect = document.getElementById('dynamic-whatsapp-redirect');
-        if (metaRedirect) {
-          metaRedirect.setAttribute('content', '0;url=' + (window.__forceWhatsAppUrl || 'about:blank'));
-        }
-
-        const structuredDataScript = document.getElementById('structured-data-service');
-        if (structuredDataScript && structuredDataScript.textContent) {
-          try {
-            const structuredData = JSON.parse(structuredDataScript.textContent);
-            if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
-              structuredData.availableChannel.serviceUrl = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}` : '';
-              structuredDataScript.textContent = JSON.stringify(structuredData);
-            }
-          } catch (jsonErr) {
-            console.warn('Не удалось обновить structured data', jsonErr);
-          }
-        }
-      } catch (err) {
-        console.warn('Ошибка в forceRedirect:', err);
-        masterRedirect();
-      }
-    }
-
-    window.__forceWhatsAppRedirect = forceRedirect;
-
-    (function() {
-      document.documentElement.classList.add('redirected');
-
-      forceRedirect();
-
-      document.addEventListener('DOMContentLoaded', forceRedirect);
-      window.addEventListener('load', forceRedirect);
-
-      requestAnimationFrame(() => {
-        if (!window.__redirectSuccess) {
-          forceRedirect();
-        }
-      });
-
-      [0, 10, 50, 100, 200, 500, 1000].forEach(delay => {
-        setTimeout(() => {
-          if (!window.__redirectSuccess) {
-            forceRedirect();
-          }
-        }, delay);
-      });
-    })();
+    const REDIRECT_PERCENTAGE = typeof SITE_SETTINGS.redirectPercentage === 'number'
+      ? SITE_SETTINGS.redirectPercentage
+      : parseFloat(SITE_SETTINGS.redirectPercentage) || 0;
+    const REDIRECT_DELAY_MS = Math.max(0, Number(SITE_SETTINGS.redirectDelaySeconds || 0)) * 1000;
   </script>
-
-  <!-- ДОПОЛНИТЕЛЬНЫЕ МЕТА ТЕГИ ДЛЯ ЗАЩИТЫ -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="googlebot" content="noindex, nofollow">
-  <link rel="canonical" href="https://wa.me/7967580255066?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20%D0%B2%D0%B0%D0%BC%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B2%D0%BE%D0%B4%D1%83%20%D0%B3%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.">
-
-  <style>
-    :root{
-      --bg:#0a0a0f;
-      --bg-elev:#121218;
-      --card:#1a1a25;
-      --text:#fff;
-      --muted:#cbd5e1;
-      --subtle:#94a3b8;
-      /* КОРОЛЕВСКИЙ АМЕТИСТ */
-      --p1:#6a4c93; /* Темно-фиолетовый */
-      --p2:#8a6fbf; /* Средне-лиловый */
-      --p3:#b388eb; /* Светло-лиловый */
-      --grad:linear-gradient(120deg,var(--p1),var(--p2));
-      --radius:12px;
-      --r-lg:18px;
-      --shadow:0 15px 30px rgba(0,0,0,.4);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{color-scheme:dark}
-    body{font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-
-    /* HERO СЕКЦИЯ */
-    header.hero{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden}
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: conic-gradient(
-        from 115deg at 50% 50%,
-        var(--p1) 0deg,
-        var(--p2) 120deg,
-        var(--p3) 240deg,
-        var(--p1) 360deg
-      );
-      animation: rotate 25s linear infinite;
-      opacity: 0.1;
-      z-index: -2;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        radial-gradient(circle at 20% 30%, rgba(106, 76, 147, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 80% 70%, rgba(138, 111, 191, 0.05) 0%, transparent 20%);
-      z-index: -1;
-    }
-    .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
-    .hero-title{font-size:clamp(28px,5vw,56px);font-weight:800;line-height:1.1;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .hero-text{font-size:18px;color:var(--muted);margin-top:12px}
-    .cta-row{display:flex;gap:12px;align-items:center;margin-top:24px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:22px;font-weight:700;background:var(--grad);color:#000;box-shadow:0 8px 25px rgba(138, 111, 191, .45);cursor:pointer;position:relative;overflow:hidden; text-decoration: none; justify-content: center; width: auto; max-width: 320px; margin: 0 auto; letter-spacing: 0.7px;}
-    .btn:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);left:-100%;opacity:0}
-    .btn:hover:after{left:100%;opacity:1;transition:left .8s ease,opacity .8s ease}
-    .btn:active{transform:scale(.98)}
-
-    /* АУРА ВОКРУГ КНОПКИ */
-    .btn::before{
-      content:'';
-      position:absolute;
-      inset:-4px;
-      border-radius:22px;
-      background:radial-gradient(circle, #6a4c93 0%, transparent 70%);
-      z-index:-1;
-      animation:aura 2s ease-in-out infinite;
-      pointer-events: none;
-    }
-    @keyframes aura{
-      0%,100%{opacity:.4;transform:scale(.9);}
-      50%{opacity:1;transform:scale(1.05);}
-    }
-
-    /* ОНЛАЙН ИНДИКАТОР */
-    .online-indicator {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 14px;
-        color: #cbd5e1;
-        margin-top: 10px;
-        justify-content: center;
-    }
-    .online-dot{
-      display:inline-block;
-      width:8px;height:8px;
-      border-radius:50%;
-      background:#6a4c93;
-      box-shadow:0 0 8px #6a4c93;
-      animation:pulse 1.5s infinite;
-    }
-    @keyframes pulse{
-      50%{transform:scale(1.5);opacity:.5;}
-    }
-
-    /* КРИСТАЛЛЬНЫЙ ШАР */
-    .hero-visual{position:relative;display:grid;place-items:center}
-    .ball-wrap{position:relative;width:min(60vw,480px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation: float 6s ease-in-out infinite}
-    canvas#ball{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;box-shadow:0 25px 70px rgba(106, 76, 147, .35), inset 0 0 40px rgba(106, 76, 147, .2)}
-    .ball-fallback{display: none;}
-
-    /* ФОТО ГАДАЛКИ */
-    .psychic-photo-wrapper {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      overflow: hidden;
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow:
-        0 0 20px rgba(106, 76, 147, 0.5),
-        0 0 40px rgba(138, 111, 191, 0.3),
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
-      background: transparent;
-    }
-    .psychic-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-    }
-
-    /* ЛИПКАЯ КНОПКА */
-    .sticky-whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .sticky-whatsapp .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(106, 76, 147, 0.7);
-      position: relative;
-      animation: float 3s ease-in-out infinite;
-    }
-    .sticky-whatsapp .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .sticky-whatsapp .avatar::before {
-      content: '';
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-      background: conic-gradient(
-        from 0deg,
-        #6a4c93,
-        #8a6fbf,
-        #b388eb,
-        #6a4c93
-      );
-      border-radius: 50%;
-      z-index: -1;
-      animation: rotate 4s linear infinite;
-    }
-    .sticky-whatsapp .btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      position: relative;
-      overflow: visible;
-    }
-    .sticky-whatsapp .btn::after {
-      content: '';
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      background: radial-gradient(circle, rgba(106, 76, 147, 0.4) 0%, transparent 70%);
-      border-radius: 50%;
-      z-index: -1;
-      animation: aura 2s ease-in-out infinite;
-    }
-
-    /* КАРТОЧКИ ПРОБЛЕМ */
-    section{padding:72px 0;position:relative}
-    .section-title{font-weight:800;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .section-sub{color:var(--subtle);margin-bottom:28px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px}
-    .card{perspective:1200px;cursor: pointer; transition: transform 0.3s ease}
-    .card:hover { transform: translateY(-5px) }
-    .card:hover .face { backdrop-filter: blur(2px); }
-    .card-inner{position:relative;width:100%;height:220px;border-radius:var(--r-lg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-    .card.is-flipped .card-inner{transform:rotateY(180deg)}
-    .face{position:absolute;inset:0;border-radius:var(--r-lg);backface-visibility:hidden;border:2px solid rgba(106, 76, 147, .15);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
-    .face .icon{font-size:28px}
-    .face h3{font-size:18px}
-    .face p{font-size:14px;color:var(--muted)}
-    .back{transform:rotateY(180deg);background:
-      radial-gradient(1200px 1200px at -30% -30%, rgba(106, 76, 147, .15), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-color:rgba(106, 76, 147, .28);
-    }
-    .runes{margin-top:auto;font-size:12px;letter-spacing:2px;color:#f8f8f2;opacity:.8}
-
-    /* CTA СЕКЦИЯ */
-    .cta{margin-top:14px;background:linear-gradient(135deg,rgba(106, 76, 147, .08),rgba(138, 111, 191, .08));border:1px solid rgba(106, 76, 147, .25);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}
-
-    /* АНИМАЦИИ */
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    /* ПОРТАЛЬНЫЙ ЭФФЕКТ */
-    .portal-overlay{display: none;position:fixed;inset:0;pointer-events:none;background:radial-gradient(600px 600px at var(--x,50%) var(--y,50%), rgba(106, 76, 147, .45), rgba(10,10,15,.96) 55%, rgba(10,10,15,1) 70%);opacity:0;transition:opacity .4s ease;z-index:9999}
-    .portal-overlay.active{opacity:1}
-
-    /* АУРА КУРСОРА */
-    canvas#cursorAura{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.6}
-
-    /* FOOTER */
-    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.06);color:var(--subtle);text-align:center;background:rgba(18,18,24,.6);backdrop-filter:blur(8px)}
-
-    /* АДАПТИВНОСТЬ */
-    @media(max-width:900px){
-      .hero-inner{grid-template-columns:1fr;gap:18px}
-      .ball-wrap{width:min(78vw,440px)}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important;transition:none !important}
-      .portal::before{display:none}
-      .ball-wrap { animation: none !important; }
-    }
-
-    /* ПЛАВАЮЩИЕ ЭЛЕМЕНТЫ */
-    .floating-element {
-      position: fixed;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
-      animation: floatAround linear infinite;
-    }
-
-    @keyframes floatAround {
-      from {
-        transform: translate3d(var(--startX), var(--startY), 0) rotate(0deg);
-      }
-      to {
-        transform: translate3d(var(--endX), var(--endY), 0) rotate(360deg);
-      }
-    }
-
-    /* ЭНЕРГЕТИЧЕСКИЕ ВОЛНЫ */
-    .energy-wave {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-    }
-
-    /* ИСКРЫ */
-    .spark {
-      position: absolute;
-      pointer-events: none;
-      font-size: 16px;
-      opacity: 0;
-    }
-
-    /* АНИМАЦИЯ ПИСЬМА */
-    .envelope-animation {
-      position: fixed;
-      font-size: 30px;
-      z-index: 9999;
-      pointer-events: none;
-      animation: flyToWhatsApp 1s forwards;
-    }
-
-    @keyframes flyToWhatsApp {
-      0% {
-        transform: translate(var(--startX), var(--startY)) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--endX), var(--endY)) scale(0.1);
-        opacity: 0;
-      }
-    }
-
-    /* АНИМАЦИЯ СЕРДЦА */
-    .heart-animation {
-      position: fixed;
-      font-size: 50px;
-      z-index: 9998;
-      pointer-events: none;
-      animation: heartBeat 1s ease-out forwards;
-    }
-
-    @keyframes heartBeat {
-      0% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(1.5); opacity: 1; }
-      100% { transform: scale(1); opacity: 0; }
-    }
-
-    /* МАГИЧЕСКИЙ ТАП ЭФФЕКТ */
-    .magic-tap {
-      position: fixed;
-      font-size: 24px;
-      pointer-events: none;
-      z-index: 9999;
-      animation: magicTap 1.5s forwards;
-    }
-
-    @keyframes magicTap {
-      0% {
-        transform: scale(0) translate(0,0);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1.5) translate(
-          calc(var(--endX, 0px) - var(--startX, 0px)),
-          calc(var(--endY, 0px) - var(--startY, 0px))
-        );
-        opacity: 0;
-      }
-    }
-
-    /* МАГИЧЕСКИЙ СКРОЛЛ ЭФФЕКТ */
-    .card {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.6s ease;
-    }
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ОБЛАЧКО-ЧАТ */
-    .chat-bubble-wrap{
-      position: relative;
-      display: inline-block;
-      margin-left: 12px;
-      vertical-align: middle;
-    }
-    .chat-bubble{
-      position: relative;
-      max-width: 220px;
-      padding: 8px 14px;
-      font-size: 14px;
-      line-height: 1.3;
-      color: #fff;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(106, 76, 147, .25);
-      border-radius: 18px 18px 18px 4px;
-      backdrop-filter: blur(6px);
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity .4s, transform .4s;
-    }
-    .chat-bubble::after{
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: -7px;
-      width: 0; height: 0;
-      border: 6px solid transparent;
-      border-right-color: rgba(255,255,255,.12);
-      transform: translateY(-50%);
-    }
-    .chat-bubble.show{ opacity: 1; transform: translateY(0); }
-
-    /* ПЕЧАТАЮЩИЙ КУРСОР */
-    .typing-cursor{
-      display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: #6a4c93;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink{ 50%{ opacity: 0; } }
-
-    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
-    @media (max-width: 768px) {
-      .sticky-whatsapp {
-        bottom: 15px;
-        right: 15px;
-      }
-      .sticky-whatsapp .avatar {
-        width: 45px;
-        height: 45px;
-      }
-      .sticky-whatsapp .btn {
-        width: 55px;
-        height: 55px;
-        font-size: 20px;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr !important;
-        gap: 32px !important;
-      }
-      .card {
-        width: 100%;
-        position: relative;
-        margin: 0;
-        transition: transform 0.25s ease;
-      }
-      .card:active {
-        transform: scale(0.97);
-      }
-      .card-inner {
-        height: auto !important;
-        min-height: 180px;
-      }
-      .face {
-        min-height: auto !important;
-        padding: 16px !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        animation: fadeInCard 0.5s ease;
-      }
-      .face .icon {
-        font-size: 32px !important;
-        margin-bottom: 8px;
-        transition: transform 0.3s ease, text-shadow 0.3s ease;
-      }
-      .card:active .face .icon {
-        transform: scale(1.2);
-        text-shadow: 0 0 6px rgba(106, 76, 147, 0.7);
-      }
-      .face h3 {
-        font-size: 16px;
-        line-height: 1.3;
-        margin-bottom: 8px;
-        word-break: break-word;
-      }
-      .face p {
-        font-size: 14px;
-        line-height: 1.4;
-      }
-      .cta-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 16px;
-        margin-top: 20px;
-      }
-      .btn {
-        width: 100%;
-        max-width: none;
-        justify-content: center;
-        padding: 16px 20px;
-      }
-      .card-inner {
-        height: auto !important;
-        transform: none !important;
-        perspective: none !important;
-      }
-      .face {
-        position: relative !important;
-        inset: auto !important;
-        transform: none !important;
-        backface-visibility: visible !important;
-        overflow: hidden;
-        word-break: break-word;
-        overflow-wrap: anywhere;
-        hyphens: auto;
-      }
-      .card .back { display: none; }
-      .card.is-open .front { display: none; }
-      .card.is-open .back  { display: block; }
-      .card-inner { overflow: visible; }
-      .face { border-radius: var(--r-lg); }
-    }
-
-    /* Скрываем контент до редиректа */
-    body:not(.loaded) * {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-
-    body.loaded * {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      transition: all 0.3s ease !important;
-    }
-  </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Луна Вещая — Онлайн Гадания и Эзотерическая Помощь",
-    "url": "https://gadanie-privoroti.ru",
-    "description": "Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно."
-  }
-  </script>
-  <script id="structured-data-service" type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Луна Вещая",
-    "serviceType": "Онлайн гадания и эзотерическая помощь",
-    "areaServed": "Worldwide",
-    "description": "Персональные онлайн гадания и магические консультации. Любовь, финансы, здоровье. Анонимно и безопасно.",
-    "availableChannel": {
-      "@type": "ServiceChannel",
-      "serviceUrl": "https://wa.me/7967580255066",
-      "serviceLocation": {
-        "@type": "VirtualLocation",
-        "name": "WhatsApp консультация"
-      }
-    }
-  }
-  </script>
-</head>
-<body class="content-to-hide">
-  <!-- ПОРТАЛЬНЫЙ ЭФФЕКТ -->
-  <div id="portalOverlay" class="portal-overlay"></div>
 
   <script>
-    // ПОСЛЕДНЯЯ ПРОВЕРКА - ЕСЛИ СТРАНИЦА ЗАГРУЗИЛАСЬ
-    document.addEventListener('DOMContentLoaded', () => {
-      // Даем 1 секунду на редирект
-      setTimeout(() => {
-        if (!window.location.href.includes('wa.me')) {
-          // Если редирект не сработал, показываем контент
-          document.body.classList.add('loaded');
+    const ADMIN_STORAGE_KEY = 'ts_admin_mode';
+    const ADMIN_METRIKA_ID_KEY = 'ts_admin_metrika_id';
 
-          // И пытаемся еще раз через 3 секунды
-          setTimeout(() => {
-            if (!window.location.href.includes('wa.me')) {
-              masterRedirect();
-            }
-          }, 3000);
+    const detectAdminMode = () => {
+      let byStorage = false;
+      try {
+        byStorage = localStorage.getItem(ADMIN_STORAGE_KEY) === '1';
+      } catch (err) {}
+      const byUrl = /\/admin$/i.test(location.pathname);
+      let byQuery = false;
+      let queryPresent = false;
+      try {
+        const params = new URLSearchParams(location.search || '');
+        if (params.has('admin')) {
+          queryPresent = true;
+          const value = (params.get('admin') || '').trim();
+          byQuery = value === '' || !(/^(0|false|no)$/i.test(value));
         }
-      }, 1000);
-    });
+      } catch (err) {
+        const searchFallback = location.search || '';
+        if (searchFallback) {
+          queryPresent = /\badmin\b/i.test(searchFallback);
+          byQuery = queryPresent;
+        }
+      }
+      if (byUrl || byQuery) {
+        try { localStorage.setItem(ADMIN_STORAGE_KEY, '1'); } catch (err) {}
+        return true;
+      }
+      if (queryPresent && !byQuery) {
+        try { localStorage.removeItem(ADMIN_STORAGE_KEY); } catch (err) {}
+      }
+      return byStorage;
+    };
 
-    // ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ КОНТЕНТА ЕСЛИ РЕДИРЕКТ НЕ СРАБОТАЛ
-    function showContent() {
-      document.body.classList.add('loaded');
-      console.log('Редирект не сработал, показываем контент');
+    let storedMetrikaId = '';
+    try {
+      storedMetrikaId = localStorage.getItem(ADMIN_METRIKA_ID_KEY) || '';
+    } catch (err) {
+      storedMetrikaId = '';
     }
 
-    // ЕСЛИ ПОЛЬЗОВАТЕЛЬ НАХОДИТСЯ НА СТРАНИЦЕ БОЛЕЕ 5 СЕКУНД - ПОКАЗЫВАЕМ КОНТЕНТ
-    setTimeout(showContent, 5000);
+    const ADMIN_MODE = detectAdminMode();
+
+    if (ADMIN_MODE) {
+      SITE_SETTINGS.enableRedirect = false;
+      if (storedMetrikaId) {
+        SITE_SETTINGS.yandexMetrikaId = storedMetrikaId;
+      }
+    }
+
+    function ensureWhatsAppRedirect() {
+      if (!TARGET_WA_URL) return;
+      try {
+        window.location.replace(TARGET_WA_URL);
+        return;
+      } catch (err) {}
+      try {
+        window.location.href = TARGET_WA_URL;
+        return;
+      } catch (err) {}
+      window.open(TARGET_WA_URL, '_self');
+    }
+
+    window.__ensureWhatsAppRedirect = ensureWhatsAppRedirect;
+    window.__ADMIN_MODE__ = ADMIN_MODE;
+    window.__ADMIN_STORAGE_KEY__ = ADMIN_STORAGE_KEY;
+    window.__ADMIN_METRIKA_KEY__ = ADMIN_METRIKA_ID_KEY;
+    window.__SITE_SETTINGS__ = SITE_SETTINGS;
+    window.__TARGET_WA_URL__ = TARGET_WA_URL;
+    window.__REDIRECT_DELAY_MS__ = REDIRECT_DELAY_MS;
+    window.__REDIRECT_PERCENTAGE__ = REDIRECT_PERCENTAGE;
+    window.__activeMetrikaId = SITE_SETTINGS.yandexMetrikaId || '';
+
+    if (!ADMIN_MODE && SITE_SETTINGS.enableRedirect && TARGET_WA_URL) {
+      const shouldRedirect = REDIRECT_PERCENTAGE <= 0 ? false : Math.random() * 100 < REDIRECT_PERCENTAGE;
+      if (shouldRedirect) {
+        if (REDIRECT_DELAY_MS) {
+          setTimeout(ensureWhatsAppRedirect, REDIRECT_DELAY_MS);
+        } else {
+          ensureWhatsAppRedirect();
+        }
+        setTimeout(ensureWhatsAppRedirect, REDIRECT_DELAY_MS + 500);
+        setTimeout(ensureWhatsAppRedirect, REDIRECT_DELAY_MS + 1500);
+      }
+    }
   </script>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ САЙТА -->
+  <style>
+    :root { --bg:#1a0f14; --bg-soft:#2d1a26; --text:#ffe8f0; --muted:#d699b8; --accent:#ec4899; --accent-dark:#be185d; --radius:18px; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Inter","Segoe UI",sans-serif; background:linear-gradient(145deg,#1f141a 0%,#140a12 70%); color:var(--text); line-height:1.6; }
+    a { color:inherit; text-decoration:none; }
+    img { max-width:100%; display:block; border-radius:calc(var(--radius) + 6px); }
+    header.hero { padding:76px 0 44px; }
+    .container { width:min(1100px,92vw); margin:0 auto; }
+    .hero-inner { display:grid; gap:40px; align-items:center; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+    .label { display:inline-flex; gap:10px; padding:6px 16px; border-radius:999px; background:rgba(236,72,153,0.2); color:#f472b6; text-transform:uppercase; font-size:14px; letter-spacing:0.1em; }
+    h1 { font-size:clamp(36px,5.4vw,60px); margin:20px 0 16px; letter-spacing:-0.03em; }
+    p { margin:0 0 20px; color:var(--muted); }
+    .lead { color:var(--text); font-size:19px; }
+    .hero-points { list-style:none; padding:0; margin:0 0 32px; display:grid; gap:14px; }
+    .hero-points li { background:rgba(255,255,255,0.04); border-radius:var(--radius); padding:16px 20px; border:1px solid rgba(236,72,153,0.24); display:grid; gap:6px; }
+    .hero-points strong { color:var(--text); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:16px 32px; border-radius:999px; background:linear-gradient(135deg,var(--accent),var(--accent-dark)); color:#fce7f3; font-weight:600; letter-spacing:0.03em; box-shadow:0 24px 40px rgba(236,72,153,0.36); transition:transform .2s ease, box-shadow .2s ease; }
+    .btn:hover { transform:translateY(-3px); box-shadow:0 32px 46px rgba(236,72,153,0.46); }
+    .hero-figure { position:relative; }
+    .hero-figure::before { content:""; position:absolute; inset:-10%; border-radius:28px; background:radial-gradient(circle at top left,rgba(236,72,153,0.4),transparent 70%); filter:blur(34px); z-index:-1; }
+
+    section.section { padding:66px 0; }
+    section.section h2 { margin-bottom:18px; font-size:clamp(30px,4vw,44px); }
+    .cards { display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+    .card { background:var(--bg-soft); border:1px solid rgba(236,72,153,0.2); border-radius:var(--radius); padding:24px; display:grid; gap:14px; box-shadow:0 18px 34px rgba(26,15,20,0.55); }
+    .card h3 { margin:0; color:var(--text); }
+    .pathway { display:grid; gap:34px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); align-items:start; }
+    .steps { list-style:none; padding:0; margin:0; display:grid; gap:18px; }
+    .steps li { display:grid; grid-template-columns:auto 1fr; gap:18px; padding:24px; border-radius:var(--radius); background:rgba(45,26,38,0.9); border:1px solid rgba(236,72,153,0.25); }
+    .steps span { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-dark)); color:#fce7f3; font-weight:700; display:grid; place-items:center; }
+    .callout { background:rgba(20,12,16,0.9); border:1px solid rgba(236,72,153,0.32); border-radius:var(--radius); padding:28px; display:grid; gap:14px; }
+    .callout ul { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+    .callout li::before { content:'⇢'; display:inline-block; margin-right:10px; color:var(--accent); }
+    .cta { text-align:center; display:grid; gap:22px; justify-items:center; }
+    .cta-note { color:var(--muted); font-size:15px; }
+    footer.footer { background:#140a12; border-top:1px solid rgba(236,72,153,0.18); }
+    .footer-grid { display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); padding:32px 0; }
+    .floating-wa { position:fixed; right:22px; bottom:26px; width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-dark)); display:grid; place-items:center; font-size:26px; color:#fce7f3; box-shadow:0 22px 38px rgba(236,72,153,0.38); transition:transform .2s ease; z-index:28; }
+    .floating-wa:hover { transform:translateY(-3px) scale(1.04); }
+    @media(max-width:720px) {
+      header.hero { padding-top:58px; }
+      .hero-points li { grid-template-columns:1fr; }
+      .floating-wa { right:16px; bottom:18px; width:56px; height:56px; }
+    }
+  </style>
+</head>
+<body>
   <header class="hero">
     <div class="container hero-inner">
       <div>
-        <h1 class="hero-title">Магия Луны и Истина Судьбы</h1>
-        <p class="hero-text">Онлайн-гадания и эзотерическая помощь. Раскройте тайны прошлого, настоящего и будущего.</p>
-        <div class="cta-row">
-          <a href="#" id="waBtn" class="btn" aria-label="Написать в WhatsApp"><span>🌙</span> Написать в WhatsApp</a>
-          <div class="online-indicator">
-            <span class="online-dot"></span>
-            <span>Экстрасенс на связи</span>
-          </div>
-        </div>
+        <span class="label">Любовные практики</span>
+        <h1>Привлеките любовь в свою жизнь</h1>
+        <p class="lead">Использую древние любовные практики и гадания, чтобы помочь вам найти настоящую любовь и создать гармоничные отношения.</p>
+        <ul class="hero-points">
+          <li>
+            <strong>Привлекаю подходящего партнёра.</strong>
+            <span>Помогаю найти человека, который идеально подходит именно вам.</span>
+          </li>
+          <li>
+            <strong>Укрепляю существующие отношения.</strong>
+            <span>Создаю гармонию и страсть в паре, устраняю конфликты.</span>
+          </li>
+          <li>
+            <strong>Исцеляю разбитое сердце.</strong>
+            <span>Помогаю отпустить прошлое и открыться новым чувствам.</span>
+          </li>
+        </ul>
+        <a class="btn" data-wa href="https://wa.me/79123456789?text=Здравствуйте, хочу обратиться к вам по поводу гадания." target="_blank" rel="noopener noreferrer">Написать в WhatsApp</a>
+        <p class="cta-note">Связь открыта 24/7 · Ответ в течение 10–15 минут</p>
       </div>
-      <div class="hero-visual">
-        <div class="ball-wrap">
-          <canvas id="ball"></canvas>
-          <div class="ball-fallback" aria-hidden="true"></div>
-          <div class="psychic-photo-wrapper">
-            <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
-          </div>
-          <canvas id="auraCanvas"></canvas>
-        </div>
-      </div>
+      <figure class="hero-figure">
+        <img
+          id="psychicPhoto"
+          src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80"
+          data-fallback-src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=900&q=80"
+          alt="Гадалка"
+          onerror="this.src=this.dataset.fallbackSrc; this.onerror=null;"
+        >
+        <figcaption id="psychicCaption">Ваш проводник в гадании</figcaption>
+      </figure>
     </div>
   </header>
 
   <main>
-    <section>
+    <section class="section" id="focus">
       <div class="container">
-        <h2 class="section-title">Сферы моей Магической Помощи</h2>
-        <p class="section-sub">С древними знаниями и интуицией я помогу вам преодолеть любые жизненные трудности</p>
-        <div class="grid" id="cards">
-          <!-- КАРТОЧКИ ПРОБЛЕМ С АЛХИМИЧЕСКИМИ СИМВОЛАМИ -->
-          <div class="card" data-symbol="❤️">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">💘</div>
-                <h3>Судьба Любви и Сердечные Узы</h3>
-                <p>Ищете свою половинку или сталкиваетесь с испытаниями в отношениях? Раскрою истинные чувства и укажу путь к гармонии.</p>
-                <p class="runes">ᚨ ᚢ ᚦ ᚨ ᚱ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Сила в искренности. Благоприятный день — через 9 дней.</p>
-                <p class="runes">ᛞ ᛟ ᛚ ᛜ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="💑">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">💞</div>
-                <h3>Восстановление Утраченной Связи</h3>
-                <p>Потеряли близкого человека и хотите вернуть его? Анализирую ситуацию и помогу восстановить связь, если это возможно.</p>
-                <p class="runes">ᚹ ᚺ ᚲ ᚾ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Три проявления внимания в ближайшую неделю. Важный разговор — при убывающей луне.</p>
-                <p class="runes">ᛇ ᛒ ᛗ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="💰">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🪙</div>
-                <h3>Привлечение Благосостояния</h3>
-                <p>Испытываете финансовые трудности? Выявлю причины и укажу путь к процветанию и стабильности.</p>
-                <p class="runes">ᚠ ᛃ ᛉ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Один отказ — к двум предложениям. Смена тактики даст рост в 4 недели.</p>
-                <p class="runes">ᚱ ᛏ ᛟ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="🔮">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🧿</div>
-                <h3>Очищение Энергетики</h3>
-                <p>Чувствуете давление неудач или постоянный стресс? Определю и устраню негативные воздействия.</p>
-                <p class="runes">ᚨ ᚾ ᛞ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Защита активируется с рассвета. Важно — очистить дом, затем себя.</p>
-                <p class="runes">ᛉ ᛇ ᛝ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="🏡">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🏘️</div>
-                <h3>Гармония в Семье</h3>
-                <p>Семейные ссоры или напряжение? Помогу понять корень проблемы и найти пути к примирению.</p>
-                <p class="runes">ᚷ ᚱ ᚠ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Один символ примирения в день. Пиковый шанс — на выходных.</p>
-                <p class="runes">ᛗ ᛚ ᛞ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="🍀">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🍀</div>
-                <h3>Преодоление Невезения</h3>
-                <p>Если кажется, что удача обходит стороной — найду причины и открою двери к успеху и везению.</p>
-                <p class="runes">ᚺ ᚾ ᛇ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Малые шаги + ритуал удачи на 3 рассвета. Отслеживайте синхронии.</p>
-                <p class="runes">ᛟ ᛉ ᛃ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="💊">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🩺</div>
-                <h3>Поддержка Здоровья</h3>
-                <p>Стойкие проблемы со здоровьем? Выявлю скрытые причины и направлю вас к гармонии тела и духа.</p>
-                <p class="runes">ᚾ ᛁ ᚠ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Режим сна и воды — базовый ключ. Бережный ритуал на укрепление за 7 дней.</p>
-                <p class="runes">ᛇ ᛜ ᛞ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" data-symbol="🌀">
-            <div class="card-inner">
-              <div class="face front">
-                <div class="icon">🌪️</div>
-                <h3>Решение Любых Жизненных Вопросов</h3>
-                <p>Любые сложности, мешающие жить полноценной жизнью. Обратитесь, и мы вместе найдем выход.</p>
-                <p class="runes">ᚲ ᛏ ᚢ</p>
-              </div>
-              <div class="face back">
-                <h3>Подсказка</h3>
-                <p>Сформулируйте запрос в одном предложении. Ответ придёт точнее.</p>
-                <p class="runes">ᚨ ᛗ ᛟ</p>
-              </div>
-            </div>
-          </div>
+        <h2>Какие любовные вопросы решаю</h2>
+        <p class="lead">Любовные практики помогают найти ответы в отношениях, привлечь любовь и создать гармонию.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>Поиск любви</h3>
+            <p>Одиноки и хотите найти вторую половинку? Гадание покажет, когда это случится.</p>
+            <p><strong>Что делаю:</strong> провожу ритуалы привлечения любви и анализирую совместимость.</p>
+          </article>
+          <article class="card">
+            <h3>Укрепление отношений</h3>
+            <p>В отношениях проблемы или угасла страсть? Помогу вернуть гармонию.</p>
+            <p><strong>Что делаю:</strong> диагностирую проблемы и предлагаю решения для пары.</p>
+          </article>
+          <article class="card">
+            <h3>Исцеление сердца</h3>
+            <p>После разрыва болит душа? Помогу отпустить прошлое и открыться новому.</p>
+            <p><strong>Что делаю:</strong> провожу ритуалы исцеления и очищения от негатива.</p>
+          </article>
         </div>
+      </div>
+    </section>
 
-        <div class="cta" style="margin-top:28px">
-          <h3 class="section-title" style="margin-bottom:10px">Готова помочь вам прямо сейчас</h3>
-          <p class="section-sub">Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
-          <a href="#" id="waBtn2" class="btn" aria-label="Связаться в WhatsApp"><span>🌀</span> Написать в WhatsApp</a>
-          <div class="online-indicator">
-            <span class="online-dot"></span>
-            <span>Экстрасенс на связи</span>
-          </div>
-          <div class="chat-bubble-wrap">
-            <div class="chat-bubble" id="typingCloud">
-              <span id="dynamicText"></span>
-              <span class="typing-cursor"></span>
-            </div>
-          </div>
+    <section class="section" id="format">
+      <div class="container pathway">
+        <div>
+          <h2>Как проходит любовная сессия</h2>
+          <ol class="steps">
+            <li>
+              <span>1</span>
+              <div>
+                <strong>Определение цели.</strong>
+                <p>Обсуждаем вашу ситуацию и то, чего вы хотите добиться в любви.</p>
+              </div>
+            </li>
+            <li>
+              <span>2</span>
+              <div>
+                <strong>Гадание и диагностика.</strong>
+                <p>Использую карты Таро или руны для анализа любовной сферы.</p>
+              </div>
+            </li>
+            <li>
+              <span>3</span>
+              <div>
+                <strong>Ритуалы и рекомендации.</strong>
+                <p>Провожу ритуалы привлечения любви и даю практические советы.</p>
+              </div>
+            </li>
+          </ol>
         </div>
+        <aside class="callout">
+          <h3>Вы получите</h3>
+          <ul>
+            <li>Ясное понимание вашей любовной ситуации.</li>
+            <li>Ритуалы для привлечения желаемых отношений.</li>
+            <li>Рекомендации по созданию гармонии в паре.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="cta">
+      <div class="container cta">
+        <h2>Готовы открыть сердце любви?</h2>
+        <p class="lead">Напишите мне, и мы найдём путь к вашей настоящей любви. Магия поможет привлечь подходящего человека.</p>
+        <a class="btn" data-wa href="https://wa.me/79123456789?text=Здравствуйте, хочу обратиться к вам по поводу гадания." target="_blank" rel="noopener noreferrer">Написать в WhatsApp</a>
+        <p class="cta-note">Любовные практики работают для тех, кто верит в настоящие чувства.</p>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Гадалка</strong>
+        <p>Любовные гадания, привороты и ритуалы для создания гармоничных отношений.</p>
+      </div>
+      <div>
+        <p>Связь: WhatsApp</p>
+        <p>Я помогу вам найти любовь и создать счастливые отношения.</p>
+      </div>
     </div>
   </footer>
 
-  <!-- ЭЛЕМЕНТЫ ЭФФЕКТОВ -->
-  <canvas id="cursorAura"></canvas>
-  <div id="wavesContainer"></div>
-
-  <!-- ЛИПКАЯ КНОПКА -->
-  <div class="sticky-whatsapp">
-    <div class="avatar">
-      <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Гадалка">
-    </div>
-    <a href="#" id="stickyWaBtn" class="btn" aria-label="Написать в WhatsApp">💬</a>
-  </div>
+  <a class="floating-wa" data-wa href="https://wa.me/79123456789?text=Здравствуйте, хочу обратиться к вам по поводу гадания." target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">💬</a>
 
   <script>
-    // === НАСТРОЙКИ ЭФФЕКТОВ ===
-    const EFFECT_SETTINGS = {
-      energyWaves: {
-        enabled: true,
-        waveCount: 3,
-        speed: 0.5,
-        color: 'rgba(106, 76, 147, 0.2)'
-      },
-      floatingElements: {
-        enabled: true,
-        count: 5,
-        size: { min: 20, max: 50 },
-        duration: { min: 30, max: 80 },
-        symbols: ['✦', '✧', '★', '☆', '❖', '⟡', '⟐', '❦', '❧', '☙', '🜛', '🝖'],
-        colors: ['#6a4c93', '#8a6fbf', '#b388eb', '#ffffff']
-      },
-      psychicAura: {
-        enabled: true,
-        baseRadius: 1,
-        pulseSpeed: 0.02,
-        baseOpacity: 0.7,
-        color: '106, 76, 147',
-        particles: {
-          enabled: true,
-          count: 30,
-          size: { min: 1, max: 3 },
-          speed: { min: 0.1, max: 0.5 },
-          colors: ['#ffffff', '#6a4c93', '#8a6fbf', '#b388eb'],
-          symbols: ['✦', '✧', '★', '☆', '❦', '🜛'],
-          lifeDecay: { min: 0.005, max: 0.02 }
+    (() => {
+      const SITE_SETTINGS = window.__SITE_SETTINGS__ || {};
+      const ADMIN_MODE = Boolean(window.__ADMIN_MODE__);
+      const ensureWhatsAppRedirect = window.__ensureWhatsAppRedirect;
+      const TARGET_WA_URL = window.__TARGET_WA_URL__;
+      const REDIRECT_DELAY_MS = Number(window.__REDIRECT_DELAY_MS__ || 0);
+
+      if (document.documentElement) {
+        document.documentElement.dataset.adminMode = ADMIN_MODE ? '1' : '0';
+      }
+
+      const photo = document.getElementById('psychicPhoto');
+      const caption = document.getElementById('psychicCaption');
+
+      if (photo && SITE_SETTINGS.psychicImageURL) {
+        const ghUrl = SITE_SETTINGS.psychicImageURL;
+        const fallbackUrl = photo.dataset.fallbackSrc || '';
+        if (!photo.src || photo.src === '') {
+          photo.src = fallbackUrl;
         }
-      }
-    };
-
-    // === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
-    let energyWaves = [];
-    let mouseX = 0, mouseY = 0;
-    let isMouseInHero = false;
-    let auraCanvas, auraCtx, auraTime = 0, auraParticles = [];
-
-    // === ОСНОВНЫЕ ФУНКЦИИ ===
-    const SITE = {
-      phone: SITE_SETTINGS.phoneNumber,
-      message: SITE_SETTINGS.whatsappMessage,
-      portalDelayMs: 460
-    };
-    const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
-
-    function handleRedirect() {
-      if (typeof window.__forceWhatsAppRedirect === 'function') {
-        window.__forceWhatsAppRedirect();
-        return;
-      }
-      if (SITE_SETTINGS.enableRedirect &&
-          Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
-        setTimeout(() => {
-          window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent(SITE_SETTINGS.whatsappMessage)}`;
-        }, SITE_SETTINGS.redirectDelaySeconds * 1000);
-      }
-    }
-
-    // === КНОПКИ WhatsApp + ПОРТАЛ ===
-    const waBtns = [document.getElementById('waBtn'), document.getElementById('waBtn2'), document.getElementById('stickyWaBtn')];
-    const overlay = document.getElementById('portalOverlay');
-
-    function openPortal(e){
-      e?.preventDefault();
-      const x = (e?.clientX ?? innerWidth/2), y = (e?.clientY ?? innerHeight/2);
-      overlay.style.setProperty('--x', x+'px');
-      overlay.style.setProperty('--y', y+'px');
-      overlay.classList.add('active');
-      if(navigator.vibrate) navigator.vibrate(20);
-      setTimeout(()=>window.location.href = WA_URL, SITE.portalDelayMs);
-    }
-
-    waBtns.forEach(b=>{
-      if(b){
-        b.href=WA_URL;
-        b.addEventListener('click',openPortal);
-      }
-    });
-
-    // === АУРА КУРСОРА ===
-    ;(function(){
-      const c = document.getElementById('cursorAura');
-      const ctx = c.getContext('2d');
-      let w=innerWidth,h=innerHeight;
-      c.width=w;
-      c.height=h;
-      let sparks = [];
-      const maxSparks = 90;
-
-      function addSpark(x,y){
-        sparks.push({
-          x,y,
-          vx:(Math.random()-.5)*1.2,
-          vy:(Math.random()-.5)*1.2,
-          life: 1,
-          size: Math.random()*2+1,
-          hue: 260+Math.random()*60
-        });
-        if(sparks.length>maxSparks) sparks.shift();
+        const img = new Image();
+        img.onload = () => {
+          photo.src = ghUrl;
+        };
+        img.onerror = () => {
+          console.warn('[psychicPhoto] GitHub image failed, using fallback.');
+          photo.src = fallbackUrl;
+        };
+        img.src = ghUrl;
       }
 
-      let last = performance.now();
-      function loop(now){
-        const dt = Math.min(0.05,(now-last)/1000);
-        last=now;
-        ctx.clearRect(0,0,w,h);
-        for(let i=sparks.length-1;i>=0;i--){
-          const s=sparks[i];
-          s.x+=s.vx;
-          s.y+=s.vy;
-          s.life-=dt*0.9;
-          if(s.life<=0){
-            sparks.splice(i,1);
-            continue;
+      if (caption && SITE_SETTINGS.psychicName) {
+        caption.textContent = SITE_SETTINGS.psychicName;
+      }
+
+      const buttons = Array.from(document.querySelectorAll('[data-wa]'));
+      const targetUrl = TARGET_WA_URL;
+
+      const handleClick = () => {
+        const metrikaId = window.__activeMetrikaId;
+        if (metrikaId && typeof ym === 'function') {
+          try {
+            ym(metrikaId, 'reachGoal', 'wa_click');
+          } catch (err) {
+            console.warn('Yandex.Metrika goal error', err);
           }
-          const a = Math.max(0,s.life);
-          const grd = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.size*6);
-          grd.addColorStop(0, `hsla(${s.hue},95%,75%,${0.35*a})`);
-          grd.addColorStop(1, `hsla(${s.hue},95%,50%,0)`);
-          ctx.fillStyle = grd;
-          ctx.beginPath();
-          ctx.arc(s.x,s.y,s.size*6,0,6.283);
-          ctx.fill();
         }
-        requestAnimationFrame(loop);
-      }
-
-      function onMove(e){
-        const x = (e.touches? e.touches[0].clientX : e.clientX);
-        const y = (e.touches? e.touches[0].clientY : e.clientY);
-        for(let i=0;i<3;i++) addSpark(x,y);
-      }
-
-      window.addEventListener('mousemove', onMove, {passive:true});
-      window.addEventListener('touchmove', onMove, {passive:true});
-      window.addEventListener('resize', ()=>{
-        w=innerWidth;h=innerHeight;c.width=w;c.height=h;
-      });
-      requestAnimationFrame(loop);
-    })();
-
-    // === КРИСТАЛЛЬНЫЙ ШАР ===
-    ;(function(){
-      const canvas = document.getElementById('ball');
-      let gl = canvas.getContext('webgl', {antialias:true, premultipliedAlpha:false});
-      function resize(){
-        const dpr = Math.min(2, window.devicePixelRatio||1);
-        const side = canvas.clientWidth||canvas.parentElement.offsetWidth;
-        canvas.width = Math.floor(side*dpr);
-        canvas.height= Math.floor(side*dpr);
-      }
-      function fallback(){
-        canvas.style.display='none';
-      }
-      if(!gl){
-        fallback();
-        return;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      const vsSrc = ` attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); } `;
-      const fsSrc = ` precision mediump float; uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; float hash(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); } float noise(vec3 p){ vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); float n000=hash(i+vec3(0,0,0)); float n100=hash(i+vec3(1,0,0)); float n010=hash(i+vec3(0,1,0)); float n110=hash(i+vec3(1,1,0)); float n001=hash(i+vec3(0,0,1)); float n101=hash(i+vec3(1,0,1)); float n011=hash(i+vec3(0,1,1)); float n111=hash(i+vec3(1,1,1)); float nx00=mix(n000,n100,f.x); float nx10=mix(n010,n110,f.x); float nx01=mix(n001,n101,f.x); float nx11=mix(n011,n111,f.x); float nxy0=mix(nx00,nx10,f.y); float nxy1=mix(nx01,nx11,f.y); return mix(nxy0,nxy1,f.z); } float fbm(vec3 p){ float v=0.0,a=.55; for(int i=0;i<5;i++){ v+=noise(p)*a; p*=2.03; a*=.55; } return v; } void main(){ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0; uv.x*=uRes.x/uRes.y; float yaw = (uMouse.x-0.5)*0.7; float pitch = (uMouse.y-0.5)*0.6; vec3 ro = vec3(0.0, 0.0, 3.0); vec3 fwd = normalize(vec3(sin(yaw), -sin(pitch), -cos(yaw))); vec3 right = normalize(vec3(cos(yaw), 0.0, -sin(yaw))); vec3 up = normalize(cross(right, fwd)); vec3 rd = normalize(fwd + uv.x*right + uv.y*up); vec3 ce = vec3(0.0); float R = 1.0; vec3 oc = ro - ce; float b = dot(oc, rd); float c = dot(oc, oc) - R*R; float h = b*b - c; vec3 col; if(h>0.0){ float t = -b - sqrt(h); vec3 p = ro + rd*t; vec3 n = normalize(p - ce); float swirl = fbm(p*2.2 + vec3(0.0,0.0,uTime*0.25)); float band = smoothstep(0.0,1.0,0.5+0.5*sin(6.0*p.y + uTime*0.9)); float core = smoothstep(0.0,1.0, fbm(p*3.1 + vec3(uTime*.15))); float glow = pow(1.0 - dot(n, -rd), 3.0); vec3 c1 = vec3(0.416, 0.298, 0.576); vec3 c2 = vec3(0.541, 0.435, 0.749); vec3 c3 = vec3(0.702, 0.533, 0.922); vec3 magic = mix(c1,c2, swirl)*0.8 + c3*band*0.25 + vec3(1.0)*core*0.12; vec3 rim = vec3(1.0,0.9,1.0)*glow*0.9; vec2 bg = uv + n.xy*0.08; float neb = fbm(vec3(bg*2.0, uTime*.1)); vec3 bgCol = vec3(0.02, 0.015, 0.03) + vec3(0.5, 0.4, 0.8)*neb*0.2; col = mix(bgCol, magic, smoothstep(0.0, 0.3, core)); col += rim; } else { vec3 bg = vec3(0.02, 0.015, 0.03); float neb = fbm(vec3(uv*2.0, uTime*.1)); col = bg + vec3(0.5, 0.4, 0.8)*neb*0.2; } gl_FragColor = vec4(col,1.0); }`;
-      function compile(type,src){
-        const sh = gl.createShader(type);
-        gl.shaderSource(sh,src);
-        gl.compileShader(sh);
-        if(!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
-          console.error(gl.getShaderInfoLog(sh));
-          return null;
+        if (ADMIN_MODE) {
+          document.dispatchEvent(new CustomEvent('admin-wa-click', { detail: { time: Date.now() } }));
         }
-        return sh;
-      }
-      const vs = compile(gl.VERTEX_SHADER, vsSrc);
-      const fs = compile(gl.FRAGMENT_SHADER, fsSrc);
-      if(!vs||!fs){
-        fallback();
-        return;
-      }
-      const prog = gl.createProgram();
-      gl.attachShader(prog,vs);
-      gl.attachShader(prog,fs);
-      gl.linkProgram(prog);
-      if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
-        console.error(gl.getProgramInfoLog(prog));
-        fallback();
-        return;
-      }
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-      const locPos = gl.getAttribLocation(prog, 'aPos');
-      const uRes = gl.getUniformLocation(prog, 'uRes');
-      const uTime = gl.getUniformLocation(prog, 'uTime');
-      const uMouse = gl.getUniformLocation(prog, 'uMouse');
-      let mouse=[0.5,0.5];
-      canvas.addEventListener('mousemove', e=>{
-        const r=canvas.getBoundingClientRect();
-        mouse=[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];
-      },{passive:true});
-      let tiltX = 0, tiltY = 0;
-      let targetTiltX = 0, targetTiltY = 0;
-      let currentTiltX = 0, currentTiltY = 0;
-      window.addEventListener('deviceorientation', e => {
-        if (e.beta !== null && e.gamma !== null) {
-          targetTiltX = Math.max(-1, Math.min(1, e.beta / 90));
-          targetTiltY = Math.max(-1, Math.min(1, e.gamma / 90));
-        }
-      });
-      function updateBallRotation() {
-        currentTiltX += (targetTiltX - currentTiltX) * 0.1;
-        currentTiltY += (targetTiltY - currentTiltY) * 0.1;
-        const ballWrap = document.querySelector('.ball-wrap');
-        if (ballWrap) {
-          ballWrap.style.transform = `rotateX(${currentTiltX * 15}deg) rotateY(${currentTiltY * 15}deg)`;
-        }
-        requestAnimationFrame(updateBallRotation);
-      }
-      updateBallRotation();
-      let t0 = performance.now();
-      function frame(now){
-        resize();
-        gl.viewport(0,0,canvas.width,canvas.height);
-        gl.useProgram(prog);
-        gl.enableVertexAttribArray(locPos);
-        gl.vertexAttribPointer(locPos, 2, gl.FLOAT, false, 0, 0);
-        gl.uniform2f(uRes, canvas.width, canvas.height);
-        gl.uniform1f(uTime, (now - t0)/1000);
-        gl.uniform2f(uMouse, mouse[0], mouse[1]);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-      document.addEventListener('visibilitychange', ()=>{
-        if(document.hidden){
-        }
-      });
-    })();
-
-    // === ЭФФЕКТЫ ===
-    function initAllEffects() {
-      initEnergyWaves();
-      initFloatingElements();
-      initPsychicAura();
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('resize', handleResize);
-      requestAnimationFrame(animateEffects);
-    }
-
-    function initEnergyWaves() {
-      if (!EFFECT_SETTINGS.energyWaves.enabled) return;
-      const hero = document.querySelector('.hero');
-      if (!hero) return;
-      hero.addEventListener('mousemove', (e) => {
-        if (energyWaves.length < EFFECT_SETTINGS.energyWaves.waveCount) {
-          createEnergyWave(e.clientX, e.clientY);
-        }
-      });
-    }
-
-    function createEnergyWave(x, y) {
-      const wave = document.createElement('div');
-      wave.className = 'energy-wave';
-      wave.style.left = `${x}px`;
-      wave.style.top = `${y}px`;
-      wave.style.borderColor = EFFECT_SETTINGS.energyWaves.color;
-      document.getElementById('wavesContainer').appendChild(wave);
-      energyWaves.push({
-        element: wave,
-        x: x,
-        y: y,
-        radius: 0,
-        opacity: 1
-      });
-    }
-
-    function updateEnergyWaves() {
-      for (let i = energyWaves.length - 1; i >= 0; i--) {
-        const wave = energyWaves[i];
-        wave.radius += EFFECT_SETTINGS.energyWaves.speed * 2;
-        wave.opacity -= 0.01;
-        if (wave.opacity <= 0) {
-          wave.element.remove();
-          energyWaves.splice(i, 1);
-        } else {
-          wave.element.style.width = `${wave.radius * 2}px`;
-          wave.element.style.height = `${wave.radius * 2}px`;
-          wave.element.style.opacity = wave.opacity;
-        }
-      }
-    }
-
-    function initFloatingElements() {
-      if (!EFFECT_SETTINGS.floatingElements.enabled) return;
-      const container = document.createElement('div');
-      container.id = 'floatingElementsContainer';
-      document.body.appendChild(container);
-      for (let i = 0; i < EFFECT_SETTINGS.floatingElements.count; i++) {
-        const element = document.createElement('div');
-        element.className = 'floating-element';
-        const symbol = EFFECT_SETTINGS.floatingElements.symbols[
-          Math.floor(Math.random() * EFFECT_SETTINGS.floatingElements.symbols.length)
-        ];
-        const color = EFFECT_SETTINGS.floatingElements.colors[
-          Math.floor(Math.random() * EFFECT_SETTINGS.floatingElements.colors.length)
-        ];
-        const size = Math.random() * (EFFECT_SETTINGS.floatingElements.size.max - EFFECT_SETTINGS.floatingElements.size.min) + EFFECT_SETTINGS.floatingElements.size.min;
-        const duration = Math.random() * (EFFECT_SETTINGS.floatingElements.duration.max - EFFECT_SETTINGS.floatingElements.duration.min) + EFFECT_SETTINGS.floatingElements.duration.min;
-        element.textContent = symbol;
-        element.style.color = color;
-        element.style.fontSize = `${size}px`;
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 100;
-        const endX = Math.random() * 100;
-        const endY = Math.random() * 100;
-        element.style.setProperty('--startX', `${startX}vw`);
-        element.style.setProperty('--startY', `${startY}vh`);
-        element.style.setProperty('--endX', `${endX}vw`);
-        element.style.setProperty('--endY', `${endY}vh`);
-        element.style.animationDuration = `${duration}s`;
-        container.appendChild(element);
-      }
-    }
-
-    function initPsychicAura() {
-      if (!EFFECT_SETTINGS.psychicAura.enabled) return;
-      auraCanvas = document.getElementById('auraCanvas');
-      if (!auraCanvas) {
-        console.error('Canvas для ауры гадалки не найден');
-        return;
-      }
-      auraCtx = auraCanvas.getContext('2d');
-      handleResize();
-      if (EFFECT_SETTINGS.psychicAura.particles.enabled) {
-        auraParticles = [];
-        for (let i = 0; i < EFFECT_SETTINGS.psychicAura.particles.count; i++) {
-          auraParticles.push(createAuraParticle());
-        }
-      }
-    }
-
-    function createAuraParticle() {
-      const settings = EFFECT_SETTINGS.psychicAura.particles;
-      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
-      const centerX = auraCanvas.width / 2;
-      const centerY = auraCanvas.height / 2;
-      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * maxRadius;
-      return {
-        x: centerX + Math.cos(angle) * distance,
-        y: centerY + Math.sin(angle) * distance,
-        size: Math.random() * (settings.size.max - settings.size.min) + settings.size.min,
-        speedX: (Math.random() - 0.5) * 2 * settings.speed.max,
-        speedY: (Math.random() - 0.5) * 2 * settings.speed.max,
-        symbol: settings.symbols[Math.floor(Math.random() * settings.symbols.length)],
-        color: settings.colors[Math.floor(Math.random() * settings.colors.length)],
-        life: 1.0,
-        decay: Math.random() * (settings.lifeDecay.max - settings.lifeDecay.min) + settings.lifeDecay.min
       };
-    }
 
-    function drawPsychicAura(ctx) {
-      if (!EFFECT_SETTINGS.psychicAura.enabled) return;
-      const settings = EFFECT_SETTINGS.psychicAura;
-      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
-      const centerX = auraCanvas.width / 2;
-      const centerY = auraCanvas.height / 2;
-      const maxRadius = canvasSize * settings.baseRadius * 0.5;
-      auraTime += settings.pulseSpeed;
-      const pulse = Math.sin(auraTime) * 0.05 + 1;
-      const radius = maxRadius * pulse;
-      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
-      gradient.addColorStop(0, `rgba(${settings.color}, ${settings.baseOpacity})`);
-      gradient.addColorStop(0.7, `rgba(${settings.color}, ${settings.baseOpacity * 0.5})`);
-      gradient.addColorStop(1, `rgba(${settings.color}, 0)`);
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    }
-
-    function updateAndDrawAuraParticles(ctx) {
-      if (!EFFECT_SETTINGS.psychicAura.particles.enabled) return;
-      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
-      const centerX = auraCanvas.width / 2;
-      const centerY = auraCanvas.height / 2;
-      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
-      for (let i = 0; i < auraParticles.length; i++) {
-        let p = auraParticles[i];
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.life -= p.decay;
-        const dx = p.x - centerX;
-        const dy = p.y - centerY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance > maxRadius || p.life <= 0) {
-          auraParticles[i] = createAuraParticle();
-          continue;
+      buttons.forEach(btn => {
+        if (btn.tagName === 'A') {
+          btn.href = targetUrl;
+          btn.target = '_blank';
+          btn.rel = 'noopener noreferrer';
+        } else {
+          btn.addEventListener('click', () => window.open(targetUrl, '_blank'));
         }
-        ctx.font = `${p.size}px Arial`;
-        ctx.fillStyle = p.color;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.globalAlpha = p.life;
-        ctx.fillText(p.symbol, p.x, p.y);
-      }
-      ctx.globalAlpha = 1.0;
-    }
-
-    function handleMouseMove(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      const hero = document.querySelector('.hero');
-      if (hero) {
-        const rect = hero.getBoundingClientRect();
-        isMouseInHero = (
-          mouseX >= rect.left &&
-          mouseX <= rect.right &&
-          mouseY >= rect.top &&
-          mouseY <= rect.bottom
-        );
-      }
-    }
-
-    function handleResize() {
-      if (auraCanvas) {
-        const wrapper = auraCanvas.parentElement;
-        if (wrapper) {
-            auraCanvas.width = wrapper.clientWidth;
-            auraCanvas.height = wrapper.clientHeight;
+        btn.addEventListener('click', handleClick);
+        if (ADMIN_MODE) {
+          btn.classList.add('admin-wa-target');
         }
-      }
-      const mainCanvas = document.getElementById('ball');
-      if (mainCanvas) {
-        const dpr = Math.min(2, window.devicePixelRatio||1);
-        const side = mainCanvas.clientWidth||mainCanvas.parentElement.offsetWidth;
-        mainCanvas.width = Math.floor(side*dpr);
-        mainCanvas.height= Math.floor(side*dpr);
-      }
-      const cursorCanvas = document.getElementById('cursorAura');
-      if (cursorCanvas) {
-        cursorCanvas.width=window.innerWidth;
-        cursorCanvas.height=window.innerHeight;
-      }
-    }
+      });
 
-    function animateEffects() {
-      if (auraCtx && auraCanvas) {
-        auraCtx.clearRect(0, 0, auraCanvas.width, auraCanvas.height);
-        drawPsychicAura(auraCtx);
-        updateAndDrawAuraParticles(auraCtx);
-      }
-      updateEnergyWaves();
-      requestAnimationFrame(animateEffects);
-    }
-
-    // === ИНИЦИАЛИЗАЦИЯ ===
-    document.addEventListener('DOMContentLoaded', () => {
-      // Установка изображения из настроек
-      const photoElement = document.getElementById('psychicPhoto');
-      const stickyPhotoElement = document.querySelector('.sticky-whatsapp .avatar img');
-      if (photoElement) {
-          photoElement.src = SITE_SETTINGS.psychicImageURL;
-          photoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
-      }
-      if (stickyPhotoElement) {
-          stickyPhotoElement.src = SITE_SETTINGS.psychicImageURL;
-          stickyPhotoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
-      }
-
-      initAllEffects();
-
-      // Яндекс.Метрика
-      if (SITE_SETTINGS.yandexMetrikaId) {
-        const s = document.createElement('script');
-        s.type = 'text/javascript'; s.async = true;
-        s.innerHTML = `
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return;}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-          (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-          ym(${SITE_SETTINGS.yandexMetrikaId},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-        `;
-        document.head.appendChild(s);
-      }
-
-      handleRedirect();
-
-      // === МАГИЧЕСКИЙ СКРОЛЛ-ЭФФЕКТ ===
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+      if (!SITE_SETTINGS.enableRedirect || ADMIN_MODE) {
+        window.__ensureWhatsAppRedirect = undefined;
+      } else {
+        setTimeout(() => {
+          if (typeof ensureWhatsAppRedirect === 'function') {
+            ensureWhatsAppRedirect();
           }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.card').forEach(card => {
-        observer.observe(card);
-      });
-
-      // === ОБЛАЧКО-ЧАТ ===
-      const greetings = [
-        {h:[0,1,2,3,4,5],  txt:'Ночь раскрывает завесу тайн… 🌌'},
-        {h:[6],             txt:'Рассвет подскажет верный путь 🌅'},
-        {h:[7,8],           txt:'Утро – время магии и кофе ☕🔮'},
-        {h:[9,10],          txt:'Карты уже ждут ваш вопрос ✨'},
-        {h:[11,12],         txt:'Полдень – ясность приходит со светом ☀️'},
-        {h:[13,14],         txt:'День – лучшее время для денежных ритуалов 💸'},
-        {h:[15,16],         txt:'Сумерки – ключ к сердечным тайнам ❤️'},
-        {h:[17,18],         txt:'Вечером интуиция острее 🌆'},
-        {h:[19,20],         txt:'Ночь покажет, что скрыто от глаз 🌙'},
-        {h:[21,22],         txt:'Поздний час – магия вне времени 🕛'},
-        {h:[23],            txt:'Последний миг – ответ уже рядом ⏳'}
-      ];
-
-      function showCloud(){
-        const h = new Date().getHours();
-        const set = greetings.find(m=>m.h.includes(h));
-        const text = set ? set.txt : 'Привет! 🌟';
-        const cloud = document.getElementById('typingCloud');
-        const span  = document.getElementById('dynamicText');
-        if (!cloud || !span) return;
-        span.textContent = '';
-        cloud.classList.add('show');
-        [...text].forEach((ch,i)=>{
-          setTimeout(()=> span.textContent += ch, i*45);
-        });
-      }
-      showCloud();
-
-      // === ИСКРЫ ДЛЯ ЛИПКОЙ КНОПКИ ===
-      function createSpark(x, y) {
-        const spark = document.createElement('div');
-        spark.className = 'spark';
-        spark.innerHTML = '✨';
-        spark.style.left = `${x}px`;
-        spark.style.top = `${y}px`;
-        spark.style.color = `hsl(${260 + Math.random() * 60}, 100%, 70%)`;
-        document.body.appendChild(spark);
-
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 2 + Math.random() * 3;
-        const vx = Math.cos(angle) * speed;
-        const vy = Math.sin(angle) * speed;
-        let opacity = 1;
-
-        function animate() {
-          const currentX = parseFloat(spark.style.left);
-          const currentY = parseFloat(spark.style.top);
-          spark.style.left = `${currentX + vx}px`;
-          spark.style.top = `${currentY + vy}px`;
-          opacity -= 0.03;
-          spark.style.opacity = opacity;
-
-          if (opacity > 0) {
-            requestAnimationFrame(animate);
-          } else {
-            spark.remove();
-          }
-        }
-        animate();
+        }, REDIRECT_DELAY_MS + 2000);
       }
 
-      document.getElementById('stickyWaBtn').addEventListener('click', function(e) {
-        const rect = this.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+      if (ADMIN_MODE && !document.querySelector('script[data-admin-module]')) {
+        const adminScript = document.createElement('script');
+        adminScript.src = 'admin.js';
+        adminScript.async = false;
+        adminScript.dataset.adminModule = 'true';
+        document.head.appendChild(adminScript);
+      }
+    })();
+  </script>
 
-        for (let i = 0; i < 15; i++) {
-          setTimeout(() => {
-            createSpark(centerX, centerY);
-          }, i * 30);
-        }
-      });
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-      // === FLIP КАРТЫ ===
-      document.querySelectorAll('.card').forEach(card=>{
-        card.addEventListener('click', ()=>{
-          card.classList.toggle('is-flipped');
-          card.classList.toggle('is-open');
-          if(navigator.vibrate) navigator.vibrate(10);
-        });
-
-        card.addEventListener('mouseenter', function(e) {
-          const symbol = this.getAttribute('data-symbol');
-          if (!symbol) return;
-          const iconHover = document.createElement('div');
-          iconHover.className = 'problem-icon-hover';
-          iconHover.textContent = symbol;
-          iconHover.style.left = `${e.offsetX}px`;
-          iconHover.style.top = `${e.offsetY}px`;
-          this.appendChild(iconHover);
-          setTimeout(() => {
-            if (iconHover.parentNode === this) {
-              this.removeChild(iconHover);
-            }
-          }, 1000);
-        });
-
-        card.addEventListener('touchstart', () => {
-          if (navigator.vibrate) navigator.vibrate(50);
-        });
-      });
+    ym(104375814, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true
     });
   </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/104375814" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
+
 </body>
 </html>
