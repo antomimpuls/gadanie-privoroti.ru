@@ -27,7 +27,7 @@ const SITE_SETTINGS = {
 };
 const PSYCHIC_NAME = SITE_SETTINGS.psychicName || '';
 const PHONE_DIGITS = (SITE_SETTINGS.phoneNumber || '').replace(/\D/g, '');
-const WHATSAPP_MESSAGE = SITE_SETTINGS.whatsappMessage || 'Здравствуйте, хочу обратиться к вам за помощью';
+const WHATSAPP_MESSAGE=PSYCHIC_NAME ? `Здравствуйте, ${PSYCHIC_NAME}! Хочу обратиться к вам за помощью.` : 'Здравствуйте, хочу обратиться к вам за помощью.';
 const WA_URL = PHONE_DIGITS ? `https://wa.me/${PHONE_DIGITS}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}` : '';
 const FALLBACK_WA_URL=PHONE_DIGITS?`https://wa.me/${PHONE_DIGITS}`:'https://wa.me/79957261844';
 const TARGET_WA_URL=WA_URL||FALLBACK_WA_URL;
