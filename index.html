@@ -19,7 +19,7 @@ const SITE_SETTINGS = {
   'redirectPercentage': 100,
   'redirectDelaySeconds': 15,
   'siteUrl': 'https://gadanie-privoroti.ru/',
-  'whatsappMessage': 'Здравствуйте, хочу обратиться к вам за помощью...',
+  'whatsappMessage': 'Здравствуйте, хочу обратиться к вам за помощью',
   'yandexMetrikaId': '104707331',
   'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg',
   'workingHours': 'ежедневно',
@@ -198,7 +198,7 @@ footer{background:#0f0a0f;padding:40px 0;text-align:center;border-top:1px solid 
 </div>
 <div>
 <div class="hero-img">
-<img id="psychicImage" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Маг приворотов">
+<img id="psychicImage" src="" alt="Маг приворотов">
 <div class="magic-particles">
 <div class="particle"></div>
 <div class="particle"></div>
@@ -476,6 +476,25 @@ let currentSlide=0;const totalSlides=5;function initSlider(){const dotsContainer
 function openPrivacyModal(){document.getElementById('privacyModal').style.display='block';document.body.style.overflow='hidden'}
 function closePrivacyModal(){document.getElementById('privacyModal').style.display='none';document.body.style.overflow='auto'}
 window.onclick=function(e){const modal=document.getElementById('privacyModal');if(e.target==modal){closePrivacyModal()}}
+
+// Load psychic image with preloading
+function loadPsychicImage() {
+  const psychicImg = document.getElementById('psychicImage');
+  if (psychicImg && SITE_SETTINGS.psychicImageURL) {
+    const img = new Image();
+    img.onload = function() {
+      psychicImg.src = this.src;
+      psychicImg.style.opacity = '1';
+    };
+    img.onerror = function() {
+      console.error('Error loading psychic image');
+    };
+    img.src = SITE_SETTINGS.psychicImageURL;
+  }
+}
+
+// Initialize image loading
+document.addEventListener('DOMContentLoaded', loadPsychicImage);
 
 // Replace "Мастер" with psychic name variations in testimonials
 setTimeout(() => {
