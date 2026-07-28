@@ -42,13 +42,14 @@ const TELEGRAM_URL=TELEGRAM_ENABLED&&TELEGRAM_NICKNAME?`https://t.me/${TELEGRAM_
 
 const SITE_STATS_TRACKER_CONFIG = {
     projectUrl: "https://stats.72-56-243-254.sslip.io",
-    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NTI3OTA1NiwiZXhwIjoyMTAwNjM5MTE2fQ.Ofat5LEJwDAs5x74z-y3jRbyCf-QQ5xzP7EINUuXSs0",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NTI4MDExMywiZXhwIjoyMTAwNjQwMTczfQ.0x8zFbwVKrrBnbBshUtKTiILItt0M6MI68W-hL9bK9o",
     domain: "gadalka-russo.online"
 };
 
 /* ADSPOWER_SITE_STATS_TRACKER_START */
 (function(){
-    const METRIKA_MESSENGER_VISIBLE = SITE_SETTINGS.metrikaMessengerVisible !== false;
+    // Fail-closed: Метрика видит переходы только при явном true.
+    const METRIKA_MESSENGER_VISIBLE = SITE_SETTINGS.metrikaMessengerVisible === true;
     const STORAGE_KEYS = {
         visitor: 'adspower_site_stats_visitor',
         session: 'adspower_site_stats_session',
@@ -134,10 +135,12 @@ const SITE_STATS_TRACKER_CONFIG = {
     }
 
     function getVisitorKey(){
-        const cached = getStorageValue(STORAGE_KEYS.visitor);
+        // Ротация раз в 30 дней: для дедупликации достаточно, вечный ID не нужен.
+        const cacheKey = `${STORAGE_KEYS.visitor}:${Math.floor(Date.now() / (30 * 24 * 60 * 60 * 1000))}`;
+        const cached = getStorageValue(cacheKey);
         if (cached) return cached;
         const created = createId();
-        setStorageValue(STORAGE_KEYS.visitor, created);
+        setStorageValue(cacheKey, created);
         return created;
     }
 
@@ -170,10 +173,11 @@ const SITE_STATS_TRACKER_CONFIG = {
     function rememberPendingClick(snapshot){
         const list = loadPendingClicks();
         list.push(snapshot);
-        savePendingClicks(list);
+        savePendingClicks(list.slice(-20));
     }
 
-    function callRpc(body){
+    function callRpc(body, attempt){
+        attempt = Number(attempt || 0);
         const headers = {
             'Content-Type': 'application/json',
             'apikey': SITE_STATS_TRACKER_CONFIG.anonKey,
@@ -185,7 +189,15 @@ const SITE_STATS_TRACKER_CONFIG = {
             body: JSON.stringify(body),
             keepalive: true,
             mode: 'cors'
-        }).catch(function(){});
+        }).then(function(response){
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return true;
+        }).catch(function(){
+            if (attempt >= 2) return false;
+            return new Promise(function(resolve){
+                setTimeout(resolve, 500 * Math.pow(2, attempt));
+            }).then(function(){ return callRpc(body, attempt + 1); });
+        });
     }
 
     // Надёжный досыл сигналов, которые отправляются в момент ухода со страницы
@@ -213,15 +225,21 @@ const SITE_STATS_TRACKER_CONFIG = {
     }
 
     function buildBody(snapshot, metadata){
+        function safePageUrl(value){
+            try {
+                const parsed = new URL(value || location.href, location.href);
+                return parsed.origin + parsed.pathname;
+            } catch (err) { return location.origin + location.pathname; }
+        }
         return {
             p_site_domain: SITE_STATS_TRACKER_CONFIG.domain,
             p_channel: snapshot.channel,
             p_event_token: snapshot.eventToken,
             p_module_name: snapshot.moduleName || null,
             p_button_label: snapshot.buttonLabel || null,
-            p_page_url: snapshot.pageUrl || location.href,
-            p_page_path: snapshot.pagePath || (location.pathname + location.search + location.hash),
-            p_referrer: snapshot.referrer || document.referrer || null,
+            p_page_url: safePageUrl(snapshot.pageUrl || location.href),
+            p_page_path: snapshot.pagePath || location.pathname,
+            p_referrer: snapshot.referrer ? safePageUrl(snapshot.referrer) : null,
             p_session_id: snapshot.sessionId || getSessionKey(),
             p_visitor_key: snapshot.visitorKey || getVisitorKey(),
             p_client_created_at: snapshot.clientCreatedAt || new Date().toISOString(),
@@ -254,8 +272,8 @@ const SITE_STATS_TRACKER_CONFIG = {
             channel: payload.channel,
             moduleName: payload.moduleName || null,
             buttonLabel: payload.buttonLabel || null,
-            pageUrl: location.href,
-            pagePath: location.pathname + location.search + location.hash,
+            pageUrl: location.origin + location.pathname,
+            pagePath: location.pathname,
             referrer: document.referrer || null,
             sessionId: getSessionKey(),
             visitorKey: getVisitorKey(),
@@ -285,10 +303,17 @@ const SITE_STATS_TRACKER_CONFIG = {
             });
             savePendingClicks(list);
             try { sendReliable(buildBody(snapshot, updatedMeta)); } catch (err) {}
+            cleanupOutboundListeners();
+        }
+        function cleanupOutboundListeners(){
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+            window.removeEventListener('pagehide', onVisibilityChange);
+            window.removeEventListener('blur', onVisibilityChange);
         }
         document.addEventListener('visibilitychange', onVisibilityChange);
         window.addEventListener('pagehide', onVisibilityChange);
         window.addEventListener('blur', onVisibilityChange);
+        setTimeout(cleanupOutboundListeners, OUTBOUND_WINDOW_MS + 1000);
     }
 
     function flushReturnSignals(){
@@ -315,6 +340,11 @@ const SITE_STATS_TRACKER_CONFIG = {
         savePendingClicks(remaining);
     }
     setTimeout(flushReturnSignals, 1500);
+    window.addEventListener('pageshow', flushReturnSignals);
+    window.addEventListener('focus', flushReturnSignals);
+    document.addEventListener('visibilitychange', function(){
+        if (document.visibilityState === 'visible') flushReturnSignals();
+    });
 
     window.__siteStatsTracker = {
         track
