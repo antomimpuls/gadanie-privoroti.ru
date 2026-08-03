@@ -1390,7 +1390,7 @@ ym(SITE_SETTINGS.yandexMetrikaId,"init",{clickmap:true,trackLinks:true,accurateT
 })();
 </script>
 <script>
-/* EXACT_PSYCHIC_NAME_V1 */
+/* EXACT_PSYCHIC_NAME_V2 */
 (function(){
   function exactPsychicName(){
     var source = window.SITE_SETTINGS || (typeof SITE_SETTINGS !== 'undefined' ? SITE_SETTINGS : {});
@@ -1409,15 +1409,24 @@ ym(SITE_SETTINGS.yandexMetrikaId,"init",{clickmap:true,trackLinks:true,accurateT
       }
     });
   }
+  function setDirectName(el, name){
+    if (!el) return;
+    var textNode = Array.prototype.find.call(el.childNodes, function(node){
+      return node.nodeType === 3 && String(node.nodeValue || '').trim();
+    });
+    if (textNode) textNode.nodeValue = name + ' ';
+    else el.insertBefore(document.createTextNode(name + ' '), el.firstChild);
+  }
   function applyExactPsychicName(){
     var name = exactPsychicName();
     if (!name) return;
     replaceText(document.body, name);
-    document.querySelectorAll('#heroName .psychic-name-title,.psychic-name-title').forEach(function(el){
+    document.querySelectorAll('#heroName .psychic-name-title,.psychic-name-title,[data-psychic-name],.brand-name,.logo-name').forEach(function(el){
       el.textContent = name;
     });
     var heroName = document.getElementById('heroName');
     if (heroName && !heroName.querySelector('.psychic-name-title')) heroName.textContent = name;
+    setDirectName(document.getElementById('brandName'), name);
   }
   function run(){
     applyExactPsychicName();
