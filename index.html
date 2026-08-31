@@ -98,8 +98,8 @@ const SITE_STATS_TRACKER_CONFIG = {
     // элементы вслепую (типичное скликивание по рекламе).
     (function installHoneypot(){
         try {
-            const hp = document.createElement('a');
-            hp.href = 'https://wa.me/79000000000';
+            const hp = document.createElement('button');
+            hp.type = 'button';
             hp.textContent = 'WhatsApp';
             hp.setAttribute('aria-hidden', 'true');
             hp.tabIndex = -1;
